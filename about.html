@@ -34,52 +34,42 @@ gtag('config', 'G-5K5K3SK7DP');
 -->
 <body>
 	<div class="loading-container">
-		<div class="loading-screen"></div>
+		<div class="loading-screen">about</div>
 	</div>
 	
 	
   <!-- Better to wrap barba container as close as possible -->
-  <div data-barba="wrapper">
-	<header id="header">
-		<nav class="main-navigation">
-			<button type="button" class="menu">
-				<svg width="38" height="54" viewBox="0 0 38 54" fill="none" xmlns="http://www.w3.org/2000/svg">
-					<mask id="mask0_3848_11188" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="38" height="54">
-					<rect width="38" height="54" fill="white"/>
-					</mask>
-					<g mask="url(#mask0_3848_11188)">
-						<rect y="12" width="38" height="4" fill="white"/>
-						<rect y="25" width="38" height="4" fill="white"/>
-						<rect y="38" width="38" height="4" fill="white"/>
-					</g>
-				</svg>
-			</button>
-			<ul>
-				<li><a href="work.html">work,</a></li>
-				<li><a href="about.html">about,</a></li>
-				<li><a href="contact.html">contact</a></li>
-			</ul>
-			<h1><a href="index.html">m&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;p&nbsp;x</a></h1>
-		</nav>
-	</header>
+  <div id="wrapper"  class="about-secton" data-barba="wrapper">
+    <header id="header">
+      <nav class="main-navigation nav-default">
+        <button type="button" class="menu">
+          <svg width="38" height="54" viewBox="0 0 38 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_3848_11188" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="38" height="54">
+            <rect width="38" height="54" fill="white"/>
+            </mask>
+            <g mask="url(#mask0_3848_11188)">
+              <rect y="12" width="38" height="4" fill="white"/>
+              <rect y="25" width="38" height="4" fill="white"/>
+              <rect y="38" width="38" height="4" fill="white"/>
+            </g>
+          </svg>
+        </button>
+        <ul>
+          <li><a href="work.html">work,</a></li>
+          <li class="active"><a href="about.html">about,</a></li>
+          <li><a href="contact.html">contact</a></li>
+        </ul>
+        <h1><a href="index.html">m&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;p&nbsp;x</a></h1>
+      </nav>
+    </header>
     <!-- Only this section changes on link navigation -->
-    <main data-barba="container" data-barba-namespace="home">
-		
+    <section class="contents-wrap" data-barba="container" data-barba-namespace="about">
+      
       <div class="heading-container">
         <h1 class="main-heading is-animated">This is<br><span class="green-heading-bg">the about</span><br>screen.<br></h1>
       </div>
-    </main>
+    </section>
   </div>
-
-  <footer>
-    <ul>
-      <li><a href="http://karanmhatre.com">Karan Mhatre</a></li>
-      <li>•</li>
-      <li><a href="https://github.com/karanmhatre1/barba-page-transition-example" target="_blank">Find on Github</a></li>
-    </ul>
-
-  </footer>
-
 </body>
 <script src="js/jquery-3.3.1.min.js"></script>
     <script src="https://unpkg.com/@barba/core"></script>

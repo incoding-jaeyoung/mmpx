@@ -15,10 +15,10 @@ body,html {font-size: 0.5208333333333334vw;}
 
 /* common */
 *{font-family:'mmpx','Pretendard', sans-serif;  box-sizing: border-box; font-weight:400; -webkit-font-smoothing: antialiased; -webkit-overflow-scrolling: touch; word-break: keep-all;}
-html, body {color: #000; } 
+html, body {color: #000;  min-height: 100%;} 
 body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease;}
 body.load{opacity: 1;}
-#wrapper{width: 100%; }
+#wrapper{width: 100%; min-height: 100vh; }
 .mob-view {display:none;}
 .pc-view{display: block;}
 .row{max-width: 192rem; margin: auto;}
@@ -182,7 +182,11 @@ a:hover{color:inherit;}
     top: 0px;
     transform: translateY(0);
     opacity: 1;}
-#header {padding-bottom: 4rem; background-color: #28ca9f;}
+#header {padding-bottom: 4rem;}
+#header.nav-down {}
+#header.nav-up{}
+#header.nav-default{}
+
 #header nav.main-navigation{display: flex; justify-content: space-between; height: 7.4rem;  font-size: 4.2rem; align-items: center; padding: 0 2rem 0 0; box-sizing: content-box; overflow: hidden;}
 #header nav.main-navigation .menu{height: 7.4rem; width: 7.8rem; display: flex; align-items: center; justify-content: center; transition: all 0.1s linear; overflow: hidden; margin-left: -7.8rem; opacity: 0;}
 #header nav.main-navigation .menu svg {width: 3.8rem;}
@@ -201,102 +205,65 @@ a:hover{color:inherit;}
 #header nav.main-navigation.nav-hide h1{transform: translateY(100%);}
 #header nav.main-navigation.nav-hide .menu{width: 7.8rem; opacity: 1; margin-left: 0;}
 #header nav.main-navigation.nav-hide ul{opacity: 0;}
-
+#header.nav-default nav.main-navigation{transform: translateY(0) !important;}
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 10;
+  pointer-events: none;
+}
 .loading-screen {
     position: relative;
     padding-left: 0;
     padding-right: 0;
     padding-top: 0;
-    background-color: #4BEDC2;
+    background-color: #fff;
     width: 100%;
     height: 100%;
-    transform: scaleY(0) skewX(0);
+    transform: scaleY(1) skewX(0) translateY(100%);
     transform-origin: top left;
+    font-size: 60rem;
+    line-height: 80%;
+    padding-top: 2rem;
+    display: flex;
   }
   
-  .loading-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    z-index: 10;
-    pointer-events: none;
-  }
-  .heading-container {
-    max-width: 800px;
-    margin:auto;
-    position: relative;
-    padding-top: 40px;
-  }
+ 
   
-  footer {
-    max-width: 800px;
-    margin:auto;
-    border-top: 1px dashed #28ca9f;
-    margin-top: 40px;
-  }
+  .contents{padding-top: 11.4rem; padding-left: 2rem; padding-right: 2rem; }
+  .project-type{display: flex; justify-content: flex-end;}
+  .project-type ul{font-size: 4.2rem; display: flex; justify-self: flex-end;}
+  .project-type ul li{position: relative; margin-left:1rem;}
+  .project-type ul li a{ opacity: 0.4;}
+  .project-type ul li a:hover{ opacity:1;}
+  .project-type ul li span{font-size: 1.8rem; vertical-align: top;}
+  .project-type ul li:first-of-type span{margin-left: -0.8rem;}
+  .project-type ul li.active a{opacity: 1;}
+
+  .filter-block {display: flex; flex-direction: column;}
+  .filter-block .title{}
+  .filter-block .title p{display: flex; flex-direction: column; overflow: hidden; transition: all 0.4s ease; margin-top: 3.2rem;}
+  .filter-block .title p span{display: flex; height: 3.2rem;}
+  .filter-block .title button{font-size: 2.4rem; display: flex; align-items: center; height: 3.2rem;  overflow: hidden;}
+  .filter-block .title button img{margin-right: 1rem; transition: all 0.4s ease; width: 1.8rem;}
+  .filter-block .title button.active img{transform: rotateZ(135deg);}
+  .filter-block .title button.active p{margin-top: -3.2rem;}
+  .filter-list{margin-top: 2rem; transition: all 0.4s ease; transform: translateY(0px); overflow: hidden; height: 0; }
+  .filter-list ul{display: flex; flex-wrap: wrap; transition: all 0.4s ease; transform: translateY(100%);}
+  .filter-list ul li{width: 45.5rem; margin-right: 2rem;}
+  .filter-list ul li button{font-size: 2rem; display: flex; align-items: center; position: relative;}
+  .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover;  transition: all 0.4s ease; border-radius: 50%; background-color: #000;}
+  .filter-list ul li button:after{content: ""; width: 0rem; height: 0rem; background-size: cover;transition: all 0.4s ease; background-color: #fff; position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;}
+  .filter-list ul li button.active::before{display: flex; width: 1.8rem; height: 1.8rem; margin-right: 0.6rem;}
+  .filter-list ul li button:hover::before{display: flex; width: 1.8rem; height: 1.8rem; margin-right: 0.6rem;}
+  .filter-list ul li button.active::after{width: 1.8rem; height: 0.2rem;}
+  .filter-list.active{transform: translateY(0); opacity: 1; height: 16.5rem; padding-bottom: 8rem; box-sizing: content-box;}
+  .filter-list.active ul{transform: translateY(0);}
   
-  footer ul {
-    list-style:  none;
-    text-align: center;
-  }
-  
-  footer ul li {
-    display: inline-block;
-    margin-right: 20px;
-  }
-  
-  footer ul li a {
-    color: #28ca9f;
-  }
-  
-  footer ul li a:hover {
-    text-decoration: underline;
-  }
-  
-  .heading-container img.main-img {
-    position: absolute;
-    right: -140px;
-    top: 80px;
-    width: 60%;
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  .heading-container h1 {
-    font-size: 100px;
-    line-height: 100px;
-    padding: 50px;
-    top: 50px;
-    margin-top: 20px;
-    transform: translateY(0);
-    opacity: 1;
-    position: relative;
-    z-index: 9;
-  }
-  
-  /* Cool green stripe Styling */
-  
-  .heading-container h1 span.green-heading-bg {
-    display: inline;
-    z-index: -1;
-    background-image: linear-gradient(#4BEDC2, #4BEDC2);
-    background-position: 0 80%;
-    background-repeat: no-repeat;
-    background-size: 0 40%;
-    margin-left: -0.55rem;
-    margin-right: -0.55rem;
-    padding-left: 0.55rem;
-    padding-right: 0.55rem;
-    transition: background-size 1s 1.5s ease;
-  }
-  
-  .heading-container h1 span.green-heading-bg.show {
-    background-size: 100% 40%;
-  }
-  
-  .heading-container h1 i {
-    font-size: 100px;
-  }
+  #wrapper.about-secton{background-color: #081EC9;}
+  #wrapper.about-secton nav.main-navigation a{color: #fff;}
+  #wrapper.about-secton nav.main-navigation a::after{background-color: #fff;}

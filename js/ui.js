@@ -7,8 +7,9 @@
 window.onload = function () {
     // $('body').imagesLoaded().done(function (instance) {
         // $('body').addClass('load')
+        headerScroll()
         init();
-        
+        navActive()
     // });
 }
 function delay(n) {
@@ -31,7 +32,7 @@ function pageTransitionIn() {
     // .timeline()
     // .set(loadingScreen, { transformOrigin: 'bottom left'})
     // .to(loadingScreen, { duration: .5, scaleY: 1 })
-    .to(loadingScreen, { duration: .5, scaleY: 1, transformOrigin: 'bottom left'})
+    .to(loadingScreen, { duration: .5, scaleY: 1, transformOrigin: 'bottom left', y:0})
 }
 
 
@@ -42,33 +43,58 @@ function pageTransitionOut(container) {
   return gsap
     .timeline({ delay: 1}) // More readable to put it here
     .add('start') // Use a label to sync screen and content animation
+    .set(container.querySelector('.contents'), {
+        duration: 0,
+        translateY: '100vh',
+        opacity: 0,
+      })
     .to(loadingScreen, {
       duration: 0.5,
-      scaleY: 0,
+      y: '-100%',
       skewX: 0,
       transformOrigin: 'top left',
       ease: 'power1.out',
-      onComplete:navHide
     }, 'start')
+    .to(container.querySelector('.contents'), {
+      duration: 0.5,
+      translateY: '0%',
+      opacity: 1,
+    }, 'start')
+    .to(loadingScreen, {
+        duration: 0,
+        y: '100%',
+        transformOrigin: 'top left',
+      })
     .call(contentAnimation, [container], 'start')
+
+
+
 }
 
 // Function to animate the content of each page
 function contentAnimation(container) {
   // Query from container
-  $(container.querySelector('.green-heading-bg')).addClass('show')
-  // GSAP methods can be chained and return directly a promise
-  return gsap
-    .timeline({})
-    .from(container.querySelector('.is-animated'), {
-      duration: 0.5,
-      translateY: 10,
-      opacity: 0,
-      stagger: 0.4
-    })
-    .from(mainNavigation, { duration: .5, translateY: -10, opacity: 0,})
-    
+//  $(container.querySelector('.contents')).addClass('show')
+//  // GSAP methods can be chained and return directly a promise
+//  return gsap
+//    .timeline({})
+//    .from(container.querySelector('.contents'), {
+//      duration: 0.5,
+//      translateY: '0',
+//      opacity: 0,
+//      stagger: 0.4
+//    })
+//    .from(mainNavigation, { duration: .5, translateY: -10, opacity: 0,})
+    $('.filter-block .title button').on('click',function(){
+        alert('asdasd')
+        $(this).toggleClass('active')
+        $(this).parents('.title').next().toggleClass('active')
+    })  
+    $('.filter-list button').on('click',function(){
+        $(this).toggleClass('active')
+    })  
 }
+
 
 function navshow(){
     $(mainNavigation).removeClass('nav-hide')
@@ -77,19 +103,9 @@ function navshow(){
 function navHide(){
     
     setTimeout(() => {
-        $(mainNavigation).addClass('nav-default')
+        $(mainNavigation).addClass('nav-hide')
     }, 1000);
-    $('#header').on('mouseover',function(){
-        setTimeout(() => {
-            $(mainNavigation).removeClass('nav-hide')
-        }, 100);
-    })
-    $('#header').on('mouseleave',function(){
-        setTimeout(() => {
-            $(mainNavigation).addClass('nav-hide')
-        }, 300);
-        
-    })
+    
 }
 $(function() {
   barba.init({
@@ -107,6 +123,7 @@ $(function() {
         // const done = this.async();
 
         await pageTransitionIn()
+        
         // No more needed as we "await" for pageTransition
         // And i we change the transition duration, no need to update the delay…
         // await delay(1000)
@@ -120,6 +137,7 @@ $(function() {
 
       async enter(data) {
         await pageTransitionOut(data.next.container)
+        
       },
       // Variations for didactical purpose…
       // Better browser support than async/await
@@ -131,27 +149,101 @@ $(function() {
 
       async once(data) {
         await contentAnimation(data.next.container);
+       
       }
     }]
   });
 
 });
-function init() {
+function headerScroll() {
+    
+    var didScroll;
+    var lastScrollTop = 0;
+    var delta = 5;
+    var navbarHeight = $('#header').outerHeight();
+    $(window).scroll(function (event) {
+        didScroll = true;
+    });
+
+    setInterval(function () {
+        if (didScroll) {
+            hasScrolled();
+            didScroll = false;
+        }
+    }, 0);
+
+    function hasScrolled() {
+        var st = $(window).scrollTop();
+        
+        // Make sure they scroll more than delta
+        if (Math.abs(lastScrollTop - st) <= delta)
+            return;
+        if (st > lastScrollTop && st > navbarHeight) {
+            // Scroll Down
+            console.log(st)
+            setTimeout(() => {
+                $(mainNavigation).addClass('nav-hide')
+            }, 0);
+        } else {
+            // Scroll Up
+            if (st + $(window).height() < $(document).height()) {
+                setTimeout(() => {
+                    // $(mainNavigation).removeClass('nav-hide')
+                }, 0);
+            }
+        }
+        lastScrollTop = st;
+        if (st <= 10) {
+            
+            $(mainNavigation).addClass('nav-default')
+            $(mainNavigation).removeClass('nav-hide')
+        } else {
+            $(mainNavigation).removeClass('nav-default')
+        }
+    }
+}
+function navActive(){
     $('.main-navigation li a').on('click',function(){
         if($(this).parent().hasClass('active')){
             return false;
         }else{
             const indexNum = $('.main-navigation li a').index(this)
-            $('.main-navigation li').removeClass('active')
-            $('.main-navigation li').eq(indexNum).addClass('active')
+            setTimeout(() => {
+                if($(this).parent().hasClass('active')){
+                    return false;
+                }
+                else{
+                    $('.main-navigation li').removeClass('active')
+                    $('.main-navigation li').eq(indexNum).addClass('active')
+                }
+                if(indexNum == 1){
+                    $('#wrapper').addClass('about-secton')
+                }else{
+                    $('#wrapper').removeClass('about-secton')
+                }
+            }, 1000);
         }
+    })
+}
 
+function init() {
+    
+    $('#header').on('mouseover',function(){
+        setTimeout(() => {
+            $(mainNavigation).removeClass('nav-hide')
+        }, 100);
+    })
+    $('#header').on('mouseleave',function(){
+        if($(mainNavigation).hasClass('nav-default')){return false;}
+        setTimeout(() => {
+            $(mainNavigation).addClass('nav-hide')
+        }, 300);
         
     })
     $('.main-navigation h1 a').on('click',function(){
         $('.main-navigation li').removeClass('active')
     })  
-    
+   
     
     var winw = $(window).width();
     if (winw > 768) {
