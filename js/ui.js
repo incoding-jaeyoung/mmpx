@@ -10,6 +10,7 @@ window.onload = function () {
         headerScroll()
         init();
         navActive()
+        commonTween()
     // });
 }
 function delay(n) {
@@ -20,25 +21,26 @@ function delay(n) {
       setTimeout(resolve, n)
     })
   }
-  
+
+// const screenNum = '';
 const loadingScreen = document.querySelector('.loading-screen')
+const loadingIndex = document.querySelector('.loading-screen.index')
+const loadingWork = document.querySelector('.loading-screen.work')
 const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
-function pageTransitionIn() {
-  // GSAP methods can be chained and return directly a promise
-  // but here, a simple tween is enough
-  return gsap
-    // .timeline()
-    // .set(loadingScreen, { transformOrigin: 'bottom left'})
-    // .to(loadingScreen, { duration: .5, scaleY: 1 })
-    .to(loadingScreen, { duration: .5, scaleY: 1, transformOrigin: 'bottom left', y:0})
+function pageTransitionIn(pageName) {
+    $('html').addClass('fixed')
+    const screenNum = document.querySelector('.loading-screen.' + pageName)
+    
+    return gsap
+    .to(screenNum, { duration: .5, scaleY: 1, transformOrigin: 'bottom left', y:0})
 }
 
-
-
 // Function to add and remove the page transition screen
-function pageTransitionOut(container) {
+function pageTransitionOut(container, pageName) {
+    //    $('html').removeClass('fixed')
+    const screenNum = document.querySelector('.loading-screen.' + pageName)
   // GSAP methods can be chained and return directly a promise
   return gsap
     .timeline({ delay: 1}) // More readable to put it here
@@ -48,7 +50,7 @@ function pageTransitionOut(container) {
         translateY: '100vh',
         opacity: 0,
       })
-    .to(loadingScreen, {
+    .to(screenNum, {
       duration: 0.5,
       y: '-100%',
       skewX: 0,
@@ -60,7 +62,7 @@ function pageTransitionOut(container) {
       translateY: '0%',
       opacity: 1,
     }, 'start')
-    .to(loadingScreen, {
+    .to(screenNum, {
         duration: 0,
         y: '100%',
         transformOrigin: 'top left',
@@ -73,6 +75,7 @@ function pageTransitionOut(container) {
 
 // Function to animate the content of each page
 function contentAnimation(container) {
+    $('html').removeClass('fixed')
   // Query from container
 //  $(container.querySelector('.contents')).addClass('show')
 //  // GSAP methods can be chained and return directly a promise
@@ -86,7 +89,6 @@ function contentAnimation(container) {
 //    })
 //    .from(mainNavigation, { duration: .5, translateY: -10, opacity: 0,})
     $('.filter-block .title button').on('click',function(){
-        alert('asdasd')
         $(this).toggleClass('active')
         $(this).parents('.title').next().toggleClass('active')
     })  
@@ -108,51 +110,86 @@ function navHide(){
     
 }
 $(function() {
-  barba.init({
-    // We don't want "synced transition"
-    // because both content are not visible at the same time
-    // and we don't need next content is available to start the page transition
-    // sync: true,
-    transitions: [{
-      // NB: `data` was not used.
-      // But usually, it's safer (and more efficient)
-      // to pass the right container as a paramater to the function
-      // and get DOM elements directly from it
-      async leave(data) {
-        // Not needed with async/await or promises
-        // const done = this.async();
-
-        await pageTransitionIn()
+    barba.init({
+        transitions: [
+          {
+            name: 'index',
+            to: { namespace: ['index'] },
+            async leave(data) {
+                const pageName = data.next.namespace
+                await pageTransitionIn(pageName)
+                data.current.container.remove()
+                
+                
+            },
+            async enter(data) {
+                const pageName = data.next.namespace
+                await pageTransitionOut(data.next.container, pageName)
+                
+            },
+          }, {
+            name: 'work',
+            to: { namespace: ['work'] },
+            async leave(data) {
+                const  pageName = data.next.namespace
+                await pageTransitionIn(pageName)
+                data.current.container.remove()
+            },
+            async enter(data) {
+                const pageName = data.next.namespace
+                await pageTransitionOut(data.next.container, pageName)
+            
+            },
+          }
+          , {
+            name: 'about',
+            to: { namespace: ['about'] },
+            async leave(data) {
+                const  pageName = data.next.namespace
+                await pageTransitionIn(pageName)
+                data.current.container.remove()
+                
+            },
+            async enter(data) {
+                const pageName = data.next.namespace
+                await pageTransitionOut(data.next.container, pageName)
+            
+            },
+          }
+          , {
+            name: 'contact',
+            to: { namespace: ['contact'] },
+            async leave(data) {
+                const  pageName = data.next.namespace
+                await pageTransitionIn(pageName)
+                data.current.container.remove()
+                
+            },
+            async enter(data) {
+                const pageName = data.next.namespace
+                await pageTransitionOut(data.next.container, pageName)
+            
+            },
+          }
+          
+        ],
+      });
+//   barba.init({
+//     transitions: [{
+//       async leave(data) {
+//         await pageTransitionIn()
+//         data.current.container.remove()
+//       },
+//       async enter(data) {
+//         await pageTransitionOut(data.next.container)
         
-        // No more needed as we "await" for pageTransition
-        // And i we change the transition duration, no need to update the delay…
-        // await delay(1000)
-
-        // Not needed with async/await or promises
-        // done()
-
-        // Loading screen is hiding everything, time to remove old content!
-        data.current.container.remove()
-      },
-
-      async enter(data) {
-        await pageTransitionOut(data.next.container)
-        
-      },
-      // Variations for didactical purpose…
-      // Better browser support than async/await
-      // enter({ next }) {
-      //   return pageTransitionOut(next.container);
-      // },
-      // More concise way
-      // enter: ({ next }) => pageTransitionOut(next.container),
-
-      async once(data) {
-        await contentAnimation(data.next.container);
+//       },
+//       async once(data) {
+//         await contentAnimation(data.next.container);
        
-      }
-    }]
-  });
+//       }
+//     }]
+//   });
 
 });
 function headerScroll() {
@@ -227,7 +264,13 @@ function navActive(){
 }
 
 function init() {
-    
+    $('.filter-block .title button').on('click',function(){
+        $(this).toggleClass('active')
+        $(this).parents('.title').next().toggleClass('active')
+    })  
+    $('.filter-list button').on('click',function(){
+        $(this).toggleClass('active')
+    })
     $('#header').on('mouseover',function(){
         setTimeout(() => {
             $(mainNavigation).removeClass('nav-hide')
@@ -383,7 +426,7 @@ function commonTween() {
         })
 
     })
-    $('.slide-up, .art-list li').each(function (e) {
+    $('.slide-up, .work-list dl').each(function (e) {
         let text = $(this).wrapInner('<div class="over-text-con"></div>')
         let target = text.find('.over-text-con')
         gsap.set(target, {
