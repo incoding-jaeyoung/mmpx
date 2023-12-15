@@ -8,9 +8,9 @@ window.onload = function () {
     // $('body').imagesLoaded().done(function (instance) {
         // $('body').addClass('load')
         headerScroll()
-        init();
         navActive()
-        commonTween()
+        // commonTween()
+        
     // });
 }
 function delay(n) {
@@ -30,7 +30,7 @@ const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
 function pageTransitionIn(pageName) {
-    $('html').addClass('fixed')
+    $('body').addClass('fixed')
     const screenNum = document.querySelector('.loading-screen.' + pageName)
     
     return gsap
@@ -45,10 +45,11 @@ function pageTransitionOut(container, pageName) {
   return gsap
     .timeline({ delay: 1}) // More readable to put it here
     .add('start') // Use a label to sync screen and content animation
+    .call(contentReset, [container])
     .set(container.querySelector('.contents'), {
         duration: 0,
         translateY: '100vh',
-        opacity: 0,
+        opacity: 1,
       })
     .to(screenNum, {
       duration: 0.5,
@@ -67,34 +68,34 @@ function pageTransitionOut(container, pageName) {
         y: '100%',
         transformOrigin: 'top left',
       })
-    .call(contentAnimation, [container], 'start')
+    .call(contentAnimation, [container])
 
 
 
 }
 
 // Function to animate the content of each page
+
+function workfunction(container) {
+    console.log('work 스크립트')
+    init()
+}
+function contentReset(container) {
+    let triggers = ScrollTrigger.getAll();
+        triggers.forEach( trigger => {
+        trigger.kill();
+    });
+}
 function contentAnimation(container) {
-    $('html').removeClass('fixed')
-  // Query from container
-//  $(container.querySelector('.contents')).addClass('show')
-//  // GSAP methods can be chained and return directly a promise
-//  return gsap
-//    .timeline({})
-//    .from(container.querySelector('.contents'), {
-//      duration: 0.5,
-//      translateY: '0',
-//      opacity: 0,
-//      stagger: 0.4
-//    })
-//    .from(mainNavigation, { duration: .5, translateY: -10, opacity: 0,})
-    $('.filter-block .title button').on('click',function(){
-        $(this).toggleClass('active')
-        $(this).parents('.title').next().toggleClass('active')
-    })  
-    $('.filter-list button').on('click',function(){
-        $(this).toggleClass('active')
-    })  
+    // ScrollTrigger.kill();
+    setTimeout(() => {
+        // videoAutoPlay()
+    }, 1000);
+    //videoAutoPlay()
+    // ScrollTrigger.refresh();
+    headerScroll()
+    $('.main-navigation').removeClass('nav-hide')
+    init()
 }
 
 
@@ -119,13 +120,14 @@ $(function() {
                 const pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                
-                
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
             },
             async enter(data) {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-                
+                headerScroll()
             },
           }, {
             name: 'work',
@@ -134,12 +136,25 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
+                
             },
             async enter(data) {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-            
+                // await commonTween()
+                headerScroll()
             },
+            async afterEnter(data) {
+                await videoAutoPlay()
+            },
+            async once(data) {
+                await init()
+                await videoAutoPlay()
+                await commonTween()
+            }
           }
           , {
             name: 'about',
@@ -148,13 +163,18 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
             },
             async enter(data) {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-            
+                headerScroll()
             },
+            async once(data) {
+                await init()
+            }
           }
           , {
             name: 'contact',
@@ -163,13 +183,18 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
             },
             async enter(data) {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-            
+                headerScroll()
             },
+            async once(data) {
+                await init()
+            }
           }
           
         ],
@@ -217,7 +242,6 @@ function headerScroll() {
             return;
         if (st > lastScrollTop && st > navbarHeight) {
             // Scroll Down
-            console.log(st)
             setTimeout(() => {
                 $(mainNavigation).addClass('nav-hide')
             }, 0);
@@ -262,11 +286,42 @@ function navActive(){
         }
     })
 }
-
+function videoAutoPlay(){
+    setTimeout(() => {
+        console.log('video')
+        const videos = gsap.utils.toArray('.work-list video')
+        videos.forEach(function(video, i) {
+            ScrollTrigger.create({
+                trigger: video,
+                scroller: 'body',
+                start: '0 100%',
+                end: '100% 0%',
+                markers: true,
+                onEnter: () => video.play(),
+                onEnterBack: () => video.play(),
+                onLeave: () => video.pause(),
+                onLeaveBack: () => video.pause(),
+            });
+        })
+        
+    }, 500);
+        
+  }
 function init() {
+    console.log('init')
+    
+      
+    setTimeout(() => {
+        $('body').removeClass('fixed')
+    }, 500);
+    
     $('.filter-block .title button').on('click',function(){
+        console.log($(this))
         $(this).toggleClass('active')
         $(this).parents('.title').next().toggleClass('active')
+        setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 500);
     })  
     $('.filter-list button').on('click',function(){
         $(this).toggleClass('active')
@@ -321,20 +376,7 @@ function init() {
     //     },
     // })
     
-    const videos = gsap.utils.toArray('.video-block video')
-    videos.forEach(function(video, i) {
-        ScrollTrigger.create({
-            trigger: video,
-            scroller: 'body',
-            start: '30% center',
-            end: '120% 0%',
-            // markers: true,
-            onEnter: () => video.play(),
-            onEnterBack: () => video.play(),
-            onLeave: () => video.pause(),
-            onLeaveBack: () => video.pause(),
-        });
-    })
+    
 }
 
 
@@ -431,7 +473,7 @@ function commonTween() {
         let target = text.find('.over-text-con')
         gsap.set(target, {
             y:40,
-            opacity: 1,
+            opacity: 0,
         })
         const upmotion = gsap.timeline({
             scrollTrigger: {
@@ -446,7 +488,7 @@ function commonTween() {
         upmotion.to($(this), 0, {
             opacity: 1,
         })
-        upmotion.to(target, 1, {
+        upmotion.to(target, 0.5, {
             y:0,
             opacity: 1,
             ease: "power3.out",

@@ -20,6 +20,7 @@ html, body {color: #000;  min-height: 100%;}
 body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease;}
 body.load{opacity: 1;}
 html.fixed{overflow: hidden;}
+body.fixed{overflow: hidden;}
 #wrapper{width: 100%; min-height: 100vh; }
 .mob-view {display:none;}
 .pc-view{display: block;}
@@ -255,7 +256,7 @@ a:hover{color:inherit;}
   .filter-block .title{}
   .filter-block .title p{display: flex; flex-direction: column; overflow: hidden; transition: all 0.4s ease; margin-top: 3.2rem;}
   .filter-block .title p span{display: flex; height: 3.2rem;}
-  .filter-block .title button{font-size: 2.4rem; display: flex; align-items: center; height: 3.2rem;  overflow: hidden;}
+  .filter-block .title button{font-size: 2.4rem; display: flex; align-items: center; height: 3.2rem;  overflow: hidden; border: 1px solid #f00;}
   .filter-block .title button img{margin-right: 1rem; transition: all 0.4s ease; width: 1.8rem;}
   .filter-block .title button.active img{transform: rotateZ(135deg);}
   .filter-block .title button.active p{margin-top: -3.2rem;}
@@ -272,6 +273,8 @@ a:hover{color:inherit;}
   .filter-list.active ul{transform: translateY(0);}
   
   #wrapper.about-secton{background-color: #081EC9;}
+  #wrapper.about-secton{background-color: #081EC9;}
+  #wrapper.about-secton nav.main-navigation .menu svg rect{fill:#fff;}
   #wrapper.about-secton nav.main-navigation a{color: #fff;}
   #wrapper.about-secton nav.main-navigation a::after{background-color: #fff;}
 
