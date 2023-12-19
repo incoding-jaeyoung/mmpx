@@ -270,9 +270,9 @@ a:hover{color:inherit;}
   .project-type{display: flex; justify-content: flex-end;}
   .project-type ul{font-size: 4.2rem; display: flex; justify-self: flex-end;}
   .project-type ul li{position: relative; margin-left:1rem;}
-  .project-type ul li a{ opacity: 0.4;}
+  .project-type ul li a{ opacity: 0.4; display: flex;}
   .project-type ul li a:hover{ opacity:1;}
-  .project-type ul li span{font-size: 1.8rem; vertical-align: top;}
+  .project-type ul li span{font-size: 1.8rem; vertical-align: top; display:inline-flex; min-width: 2rem;}
   .project-type ul li:first-of-type span{margin-left: -0.8rem;}
   .project-type ul li.active a{opacity: 1;}
 

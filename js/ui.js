@@ -220,6 +220,8 @@ $(function() {
 
 });
 function datagrid(){
+    const projectNum = $('.work-list .thumb').length;
+    $('.project-type li').eq(1).find('span').text(projectNum)
     var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item'
       });
@@ -242,7 +244,6 @@ function datagrid(){
             y:50,
             onComplete:function(){
                 if(filters?.length) {
-                    console.log("Not Empty");
                     $('.work-list').addClass('sort')
                     $grid.isotope({ filter: filters.join(',') });
                     //$grid.isotope({ filter: filterValue });
@@ -251,6 +252,10 @@ function datagrid(){
                     setTimeout(() => {
                         ScrollTrigger.refresh();
                     }, 500);
+                    const filterCount =  $(".grid-item:visible").length;
+                    $('.project-type li').eq(0).find('span').text(filterCount)
+
+                    
                   } else {
                     console.log("Empty");
                     $('.work-list').removeClass('sort')
@@ -261,6 +266,7 @@ function datagrid(){
                     setTimeout(() => {
                         ScrollTrigger.refresh();
                     }, 500);
+                    $('.project-type li').eq(0).find('span').text('0')
                   }
             }
 
@@ -285,6 +291,9 @@ function datagrid(){
         }
       }
 
+
+
+      
 ////////////////////////////////////////////////////////////////////////////////
     var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item',
@@ -308,11 +317,13 @@ function datagrid(){
     
     $('.filter-block .title').on( 'click', 'button', function() {
         var filterValue = $( this ).attr('data-filter');
-        
+        var filters = [];
         $('.work-list').removeClass('sort')
         $('.button-group button').removeClass('is-checked')
-        $grid.isotope({ filter: filterValue });
+        $grid.isotope({ filter: filters.join(',') });
         $grid.isotope('updateSortData').isotope();
+        
+        $('.project-type li').eq(0).find('span').text('0')
     })
 //    $('.filters-button-group').on( 'click', 'button', function() {
 //        var filterValue = $( this ).attr('data-filter');
@@ -508,7 +519,6 @@ function init() {
     }, 500);
     
     $('.filter-block .title button').on('click',function(){
-        console.log($(this))
         $(this).toggleClass('active')
         $(this).parents('.title').next().toggleClass('active')
         setTimeout(() => {
