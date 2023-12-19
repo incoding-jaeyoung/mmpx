@@ -87,12 +87,6 @@ function contentReset(container) {
     });
 }
 function contentAnimation(container) {
-    // ScrollTrigger.kill();
-    setTimeout(() => {
-        // videoAutoPlay()
-    }, 1000);
-    //videoAutoPlay()
-    // ScrollTrigger.refresh();
     headerScroll()
     $('.main-navigation').removeClass('nav-hide')
     init()
@@ -270,7 +264,7 @@ function datagrid(){
                     }, 500);
                     const filterCount =  $(".grid-item:visible").length;
                     $('.project-type li').eq(0).find('span').text(filterCount)
-
+                    
                     
                   } else {
                     console.log("Empty");
@@ -396,7 +390,6 @@ function navActive(){
 }
 function videoAutoPlay(){
     setTimeout(() => {
-        console.log('video')
         const videos = gsap.utils.toArray('.work-list video')
         videos.forEach(function(video, i) {
             ScrollTrigger.create({
@@ -424,6 +417,7 @@ function init() {
         $('.project-type li').removeClass('active')
         $('.project-type li').eq(indexNum).addClass('active')
         var tl = gsap.timeline();
+        tl.call(contentReset())
         tl.to(".work-list",{
             duration: 0.5,
             opacity:0,
@@ -441,8 +435,11 @@ function init() {
             opacity:1,
             y:0,
         })
-        
-
+        tl.call(
+            setTimeout(() => {
+                videoAutoPlay()
+            }, 500)
+        );
     })
     $('.grid-item').each(function(){
         const itemName = $(this).find('.thumb .title').text()
