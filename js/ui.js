@@ -220,6 +220,22 @@ $(function() {
 
 });
 function datagrid(){
+    var $grid = $('.work-list').isotope({
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        transitionDuration: 0,
+        visibleStyle: {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
+          hiddenStyle: {
+            opacity: 0,
+            transform: 'translateY(100px)',
+          },
+          transformsEnabled: false,
+    });
+
+
     const projectNum = $('.work-list .thumb').length;
     $('.project-type li').eq(1).find('span').text(projectNum)
     var $grid = $('.work-list').isotope({
@@ -294,72 +310,20 @@ function datagrid(){
 
 
       
-////////////////////////////////////////////////////////////////////////////////
-    var $grid = $('.work-list').isotope({
-        itemSelector: '.grid-item',
-        percentPosition: true,
-        transitionDuration: 0,
-        visibleStyle: {
-            opacity: 1,
-            transform: 'translateY(0)',
-          },
-          hiddenStyle: {
-            opacity: 0,
-            transform: 'translateY(100px)',
-          },
-          transformsEnabled: false,
-    });
-    // $grid.imagesLoaded().progress( function() {
-    //     $grid.isotope('layout');
-    // });
-
-
     
+    
+
+
+    // 필터 초기화
     $('.filter-block .title').on( 'click', 'button', function() {
-        var filterValue = $( this ).attr('data-filter');
-        var filters = [];
         $('.work-list').removeClass('sort')
         $('.button-group button').removeClass('is-checked')
-        $grid.isotope({ filter: filters.join(',') });
+        filters = [];
+        $grid.isotope({ filter: '*' });
         $grid.isotope('updateSortData').isotope();
-        
         $('.project-type li').eq(0).find('span').text('0')
     })
-//    $('.filters-button-group').on( 'click', 'button', function() {
-//        var filterValue = $( this ).attr('data-filter');
-//        // use filterFn if matches value
-//        // filterValue = filterFns[ filterValue ] || filterValue;
-//        var tl = gsap.timeline();
-//        tl.to(".work-list",{
-//            duration: 0.5,
-//            opacity:0,
-//            y:50,
-//            onComplete:function(){
-//                $('.work-list').addClass('sort')
-//                $grid.isotope({ filter: filterValue });
-//                $grid.isotope('updateSortData').isotope();
-//                $grid.isotope('layout');
-//            }
-//
-//        })
-//        tl.to(".work-list",{
-//            duration: 0.4,
-//            opacity:1,
-//            y:0,
-//        })
-//      });
-//      // change is-checked class on buttons
-//      $('.button-group').each( function( i, buttonGroup ) {
-//        var $buttonGroup = $( buttonGroup );
-//        $buttonGroup.on( 'click', 'button', function() {
-//          $buttonGroup.find('.is-checked').removeClass('is-checked');
-//          $( this ).addClass('is-checked');
-//          
-//          //$grid.isotope( 'updateSortData', elements )
-//          //$grid.isotope('layout');
-//        });
-//        
-//      });
+
 }
 function headerScroll() {
     
