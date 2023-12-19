@@ -149,11 +149,13 @@ $(function() {
             },
             async afterEnter(data) {
                 await videoAutoPlay()
+                await datagrid()
             },
             async once(data) {
                 await init()
                 await videoAutoPlay()
                 await commonTween()
+                await datagrid()
             }
           }
           , {
@@ -217,6 +219,137 @@ $(function() {
 //   });
 
 });
+function datagrid(){
+    var $grid = $('.work-list').isotope({
+        itemSelector: '.grid-item'
+      });
+      var filters = [];
+      $('.filter-block .filters-button-group').on( 'click', 'button', function( event ) {
+        var $target = $( event.currentTarget );
+        $target.toggleClass('is-checked');
+        var isChecked = $target.hasClass('is-checked');
+        var filter = $target.attr('data-filter');
+        if ( isChecked ) {
+          addFilter( filter );
+        } else {
+          removeFilter( filter );
+        }
+        // $grid.isotope({ filter: filters.join(',') });
+        var tl = gsap.timeline();
+        tl.to(".work-list",{
+            duration: 0.5,
+            opacity:0,
+            y:50,
+            onComplete:function(){
+                if(filters?.length) {
+                    console.log("Not Empty");
+                    $('.work-list').addClass('sort')
+                    $grid.isotope({ filter: filters.join(',') });
+                    //$grid.isotope({ filter: filterValue });
+                    $grid.isotope('updateSortData').isotope();
+                    $grid.isotope('layout');
+                    setTimeout(() => {
+                        ScrollTrigger.refresh();
+                    }, 500);
+                  } else {
+                    console.log("Empty");
+                    $('.work-list').removeClass('sort')
+                    $grid.isotope({ filter: filters.join(',') });
+                    //$grid.isotope({ filter: filterValue });
+                    $grid.isotope('updateSortData').isotope();
+                    $grid.isotope('layout');
+                    setTimeout(() => {
+                        ScrollTrigger.refresh();
+                    }, 500);
+                  }
+            }
+
+        })
+        tl.to(".work-list",{
+            duration: 0.4,
+            opacity:1,
+            y:0,
+        })
+      });
+        
+      function addFilter( filter ) {
+        if ( filters.indexOf( filter ) == -1 ) {
+          filters.push( filter );
+        }
+      }
+      
+      function removeFilter( filter ) {
+        var index = filters.indexOf( filter);
+        if ( index != -1 ) {
+          filters.splice( index, 1 );
+        }
+      }
+
+////////////////////////////////////////////////////////////////////////////////
+    var $grid = $('.work-list').isotope({
+        itemSelector: '.grid-item',
+        percentPosition: true,
+        transitionDuration: 0,
+        visibleStyle: {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
+          hiddenStyle: {
+            opacity: 0,
+            transform: 'translateY(100px)',
+          },
+          transformsEnabled: false,
+    });
+    // $grid.imagesLoaded().progress( function() {
+    //     $grid.isotope('layout');
+    // });
+
+
+    
+    $('.filter-block .title').on( 'click', 'button', function() {
+        var filterValue = $( this ).attr('data-filter');
+        
+        $('.work-list').removeClass('sort')
+        $('.button-group button').removeClass('is-checked')
+        $grid.isotope({ filter: filterValue });
+        $grid.isotope('updateSortData').isotope();
+    })
+//    $('.filters-button-group').on( 'click', 'button', function() {
+//        var filterValue = $( this ).attr('data-filter');
+//        // use filterFn if matches value
+//        // filterValue = filterFns[ filterValue ] || filterValue;
+//        var tl = gsap.timeline();
+//        tl.to(".work-list",{
+//            duration: 0.5,
+//            opacity:0,
+//            y:50,
+//            onComplete:function(){
+//                $('.work-list').addClass('sort')
+//                $grid.isotope({ filter: filterValue });
+//                $grid.isotope('updateSortData').isotope();
+//                $grid.isotope('layout');
+//            }
+//
+//        })
+//        tl.to(".work-list",{
+//            duration: 0.4,
+//            opacity:1,
+//            y:0,
+//        })
+//      });
+//      // change is-checked class on buttons
+//      $('.button-group').each( function( i, buttonGroup ) {
+//        var $buttonGroup = $( buttonGroup );
+//        $buttonGroup.on( 'click', 'button', function() {
+//          $buttonGroup.find('.is-checked').removeClass('is-checked');
+//          $( this ).addClass('is-checked');
+//          
+//          //$grid.isotope( 'updateSortData', elements )
+//          //$grid.isotope('layout');
+//        });
+//        
+//      });
+}
 function headerScroll() {
     
     var didScroll;
@@ -309,7 +442,66 @@ function videoAutoPlay(){
   }
 function init() {
     console.log('init')
+
+    $('.project-type a').on('click',function(){
+        const indexNum = $('.project-type a').index(this)
+        console.log(indexNum)
+        $('.project-type li').removeClass('active')
+        $('.project-type li').eq(indexNum).addClass('active')
+        var tl = gsap.timeline();
+        tl.to(".work-list",{
+            duration: 0.5,
+            opacity:0,
+            y:50,
+            onComplete:function(){
+                if(indexNum == 0){
+                    $('.work-list').removeClass('all-item')
+                } else {
+                    $('.work-list').addClass('all-item')
+                }
+            }
+        })
+        tl.to(".work-list",{
+            duration: 0.4,
+            opacity:1,
+            y:0,
+        })
+        
+
+    })
+    $('.grid-item').each(function(){
+        const itemName = $(this).find('.thumb .title').text()
+        const itemCate = $(this).find('.thumb .cate').text()
+        $(this).find('.line .title dt').text(itemName)
+        $(this).find('.line .title dd').text(itemCate)
+        console.log(itemName)
+    })
+    $('.grid-item .line .title').on('click',function(){
+        $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
+        $(this).parents('.line').toggleClass('active')
+    })
     
+    var swiper = new Swiper(".work-slider", {
+        slidesPerView: "auto",
+        slideWidth:'auto',
+        spaceBetween:0,
+        loop: true,
+        observer : true,
+        observeParents : true,
+        pagination: {
+          el: ".swiper-pagination",
+          type: "fraction",
+          clickable: true,
+          type: 'custom',
+          renderCustom: function (swiper, current, total) {
+                return '0' + current + '/0' + (total); 
+            }
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
       
     setTimeout(() => {
         $('body').removeClass('fixed')
@@ -468,7 +660,7 @@ function commonTween() {
         })
 
     })
-    $('.slide-up, .work-list dl').each(function (e) {
+    $('.slide-up').each(function (e) {
         let text = $(this).wrapInner('<div class="over-text-con"></div>')
         let target = text.find('.over-text-con')
         gsap.set(target, {

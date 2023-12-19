@@ -266,7 +266,7 @@ a:hover{color:inherit;}
  .footer{display: flex; justify-content: space-between; padding: 24rem 2rem 2rem 2rem; font-size: 2.4rem; margin-top: auto;}
  .footer ul{display: flex; gap: 2rem;}
   
-  .contents{padding-top: 11.4rem; padding-left: 2rem; padding-right: 2rem; }
+  .contents{padding-top: 11.4rem; padding-left: 2rem; padding-right: 2rem;}
   .project-type{display: flex; justify-content: flex-end;}
   .project-type ul{font-size: 4.2rem; display: flex; justify-self: flex-end;}
   .project-type ul li{position: relative; margin-left:1rem;}
@@ -280,7 +280,7 @@ a:hover{color:inherit;}
   .filter-block .title{}
   .filter-block .title p{display: flex; flex-direction: column; overflow: hidden; transition: all 0.4s ease; margin-top: 3.2rem;}
   .filter-block .title p span{display: flex; height: 3.2rem;}
-  .filter-block .title button{font-size: 2.4rem; display: flex; align-items: center; height: 3.2rem;  overflow: hidden; border: 1px solid #f00;}
+  .filter-block .title button{font-size: 2.4rem; display: flex; align-items: center; height: 3.2rem;  overflow: hidden;}
   .filter-block .title button img{margin-right: 1rem; transition: all 0.4s ease; width: 1.8rem;}
   .filter-block .title button.active img{transform: rotateZ(135deg);}
   .filter-block .title button.active p{margin-top: -3.2rem;}
@@ -290,9 +290,9 @@ a:hover{color:inherit;}
   .filter-list ul li button{font-size: 2rem; display: flex; align-items: center; position: relative;}
   .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover;  transition: all 0.4s ease; border-radius: 50%; background-color: #000;}
   .filter-list ul li button:after{content: ""; width: 0rem; height: 0rem; background-size: cover;transition: all 0.4s ease; background-color: #fff; position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;}
-  .filter-list ul li button.active::before{display: flex; width: 1.8rem; height: 1.8rem; margin-right: 0.6rem;}
+  .filter-list ul li button.is-checked::before{display: flex; width: 1.8rem; height: 1.8rem; margin-right: 0.6rem;}
   .filter-list ul li button:hover::before{display: flex; width: 1.8rem; height: 1.8rem; margin-right: 0.6rem;}
-  .filter-list ul li button.active::after{width: 1.8rem; height: 0.2rem;}
+  .filter-list ul li button.is-checked::after{width: 1.8rem; height: 0.2rem;}
   .filter-list.active{transform: translateY(0); opacity: 1; height: 16.5rem; padding-bottom: 8rem; box-sizing: content-box;}
   .filter-list.active ul{transform: translateY(0);}
   
@@ -302,8 +302,59 @@ a:hover{color:inherit;}
   #wrapper.about-secton nav.main-navigation a{color: #fff;}
   #wrapper.about-secton nav.main-navigation a::after{background-color: #fff;}
 
-  .work-list {display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.85rem;}
-  .work-list dl dt{margin-bottom: 1.2rem;}
-  .work-list dl dd{font-size: 2rem; line-height: 2.6rem;}
-  .work-list dt a{display: flex;}
+  .work-list {display: grid !important; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.85rem; row-gap: 25rem; align-items: flex-end; height: auto !important;}
+  /* .work-list {margin-left: -0.9rem; margin-right: -0.9rem;} */
+  .work-list dl.thumb dt{margin-bottom: 1.2rem;}
+  .work-list dl.thumb dd{font-size: 2rem; line-height: 2.6rem;}
+  .work-list dl.thumb dt a{display: flex;}
   .work-list img{width: 100%;}
+
+  .grid-item { width: 100% !important; position: relative !important; left: 0 !important; top: 0 !important; transform: translate3d(0,0,0) !important;  }
+  .grid-item.large {grid-column: 1 / 3;}
+  .grid-item.sort{ width: 49.9%;}
+  .grid-item:nth-child(1) {
+    grid-column: 1 / 3;
+  }
+  .work-list.sort{ grid-template-columns: 1fr 1fr;} 
+  .work-list.sort .grid-item:nth-child(1) {grid-column: 1 / 2;}
+
+  .work-list.all-item{display: flex !important; flex-direction: column; row-gap: 0; border-top: 0.2rem solid #000;}
+  .work-list.all-item .grid-item{ height: auto;}
+  .work-list.all-item .grid-item .thumb{display: none;}
+  .work-list.all-item .grid-item .line{display:block;}
+  .work-list .grid-item .line{display: none;}
+
+  .work-list.all-item .line{border-bottom: 0.2rem solid #000; }
+  .work-list.all-item .line .slider{overflow: hidden; transition: all 0.2s ease; max-height: 0;}
+  .work-list.all-item .line.active .slider{overflow: hidden;  max-height:100rem;}
+  .work-list.all-item .line.active .open img{transform: rotateZ(0);}
+  .work-list.all-item .line .title .select{display:none;}
+  
+  .work-list.all-item .title{display: flex; height: 8.6rem;  align-items: center; font-size: 2rem; justify-content: space-between; cursor: pointer;}
+  .work-list.all-item .title dl{display: flex; align-items: center; gap: 8rem;}
+  .work-list.all-item .title dl dt{width: 76.5rem;}
+  .work-list.all-item .title .select{width: 16.4rem; margin-left: auto;}
+  .work-list.all-item .title .open img{width: 2.2rem; height: auto; transition: all 0.2s ease; transform: rotateZ(180deg);}
+  .work-list.all-item .more{padding-bottom: 3rem; display: flex; justify-content: flex-end; padding-top: 1rem;}
+  .work-list.all-item .more a{display: flex; align-items: center; font-size: 2rem;}
+  .work-list.all-item .more img{width: 2.2rem; height: auto; margin-left: 0.8rem; transition: all 0.2s ease;}
+  .work-list.all-item .title .select img{width: 2.2rem; height: auto; margin-left: 0.8rem; transition: all 0.2s ease;}
+  .work-list.all-item .grid-item.active .title .select img{transform: rotateZ(180deg);}
+  .slider .work-slider .swiper-wrapper{display: flex;}
+  .slider .work-slider .swiper-slide{max-width: 90rem; margin-right: 45rem;}
+  .slider .work-slider .swiper-slide img{width: 100%;}
+  .slider .work-slider .swiper-slide span{}
+  .slider .work-slider .work-type{font-size: 2rem; display: flex; height: 2.6rem; align-items: center; margin-top: 1.2rem;}
+  .slider .work-slider .work-type .type{width: 44rem;}
+  .slider .work-slider .swiper-pagination{position: static; width: auto; text-align: left;  display: flex; align-items: center; font-size: 2rem; height: 2.6rem; margin-left: 2rem; margin-top: -2.6rem; background-color: #fff; margin-top: auto; width: 44rem;}
+  .slider .work-slider .swiper-button-next {
+    position: static;
+    background: url(../img/ico-arrow.svg) no-repeat; background-size: 2.2rem auto;
+    background-position: center;
+    width: 2.2rem; height: 2.6rem; display: flex; align-items: center; justify-content: center; margin-top: auto; margin-left: 45rem;
+  }
+    
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    display: none;
+  }
