@@ -354,7 +354,6 @@ a:hover{color:inherit;}
     width: 2.2rem; height: 2.6rem; display: flex; align-items: center; justify-content: center; margin-top: auto; margin-left: 45rem;
   }
     
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
-    display: none;
-  }
+  .slider .work-slider .swiper-button-next::after,
+  .slider .work-slider .swiper-button-prev::after {display: none;}
+

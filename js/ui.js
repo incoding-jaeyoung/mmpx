@@ -107,7 +107,15 @@ function navHide(){
 $(function() {
     barba.init({
         transitions: [
-          {
+            {
+                async leave(data) {
+                    console.log('asdasd')
+                },
+                async enter(data) {
+                    $('.main-navigation li').removeClass('active')
+                },
+              },
+            {
             name: 'index',
             to: { namespace: ['index'] },
             async leave(data) {
@@ -136,6 +144,43 @@ $(function() {
                 
             },
             async enter(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(0).addClass('active')
+                const pageName = data.next.namespace
+                await pageTransitionOut(data.next.container, pageName)
+                // await commonTween()
+                headerScroll()
+                console.log(pageName)
+            },
+            async afterEnter(data) {
+                
+                await videoAutoPlay()
+                await datagrid()
+            },
+            async once(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(0).addClass('active')
+                await init()
+                await videoAutoPlay()
+                await commonTween()
+                await datagrid()
+                
+            }
+          }, {
+            name: 'detail',
+            to: { namespace: ['detail'] },
+            async leave(data) {
+                const  pageName = data.next.namespace
+                await pageTransitionIn(pageName)
+                data.current.container.remove()
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
+                
+            },
+            async enter(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(0).addClass('active')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 // await commonTween()
@@ -143,13 +188,13 @@ $(function() {
             },
             async afterEnter(data) {
                 await videoAutoPlay()
-                await datagrid()
             },
             async once(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(0).addClass('active')
                 await init()
                 await videoAutoPlay()
                 await commonTween()
-                await datagrid()
             }
           }
           , {
@@ -164,12 +209,17 @@ $(function() {
                 },300)
             },
             async enter(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(1).addClass('active')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 headerScroll()
             },
             async once(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(1).addClass('active')
                 await init()
+                await commonTween()
             }
           }
           , {
@@ -184,12 +234,17 @@ $(function() {
                 },300)
             },
             async enter(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(2).addClass('active')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 headerScroll()
             },
             async once(data) {
+                // $('.main-navigation li').removeClass('active')
+                // $('.main-navigation li').eq(2).addClass('active')
                 await init()
+                await commonTween()
             }
           }
           
@@ -367,7 +422,12 @@ function headerScroll() {
 }
 function navActive(){
     $('.main-navigation li a').on('click',function(){
-        if($(this).parent().hasClass('active')){
+        const navName = $('.contents-wrap').attr('data-barba-namespace')
+        console.log(navName)
+        if($(this).parent().hasClass('active') && navName == 'detail'){
+            console.log('일치')
+            return;
+        }else if($(this).parent().hasClass('active')){
             return false;
         }else{
             const indexNum = $('.main-navigation li a').index(this)
