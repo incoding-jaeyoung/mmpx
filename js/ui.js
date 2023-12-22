@@ -183,7 +183,7 @@ $(function() {
                 // $('.main-navigation li').eq(0).addClass('active')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-                // await commonTween()
+                await commonTween()
                 headerScroll()
             },
             async afterEnter(data) {
@@ -604,6 +604,7 @@ function init() {
 
 
 function commonTween() {
+    console.log('common twin')
     var ran = gsap.timeline ()
     .to('.move',{
         x: "random(-50, 50)", 
@@ -648,16 +649,16 @@ function commonTween() {
     $('.fade').each(function (e) {
         let text = $(this)
         gsap.set(text, {
-            opacity:1,
+            opacity:0,
         })
         const upmotion = gsap.timeline({
             scrollTrigger: {
                 trigger: $(this),
-                start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-                end: "0% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
-                // scrub: true, //스크롤에 반응 (없으면 자동재생)
+                start: "0% 100%", // 앞 : 객체 , 뒤 : 페이지 전체
+                end: "100% 80%%", // 앞 : 객체 , 뒤 : 페이지 전체
+                scrub: true, //스크롤에 반응 (없으면 자동재생)
                 // markers: true,
-                toggleActions: "play complete none none",
+                toggleActions: "play none none reverse",
             },
         });
         upmotion.to(text, 1, {
@@ -792,7 +793,7 @@ function commonTween() {
                 start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
                 end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 //                scrub: true, //스크롤에 반응 (없으면 자동재생)
-                //                markers: true,
+                // markers: true,
                 toggleActions: "play complete none none",
             },
         });
@@ -813,12 +814,14 @@ function commonTween() {
                 trigger: $(this),
                 start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 // scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
+                markers: true,
                 toggleActions: "play none none reverse",
             },
             y: 40,
             opacity:0,
-            stagger: 0.1,
+            
+            
+            stagger: 1,
             ease: 'Power1.easeOut'
         })
     })
