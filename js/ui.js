@@ -63,14 +63,14 @@ function pageTransitionOut(container, pageName) {
         translateY: '200vh',
       })
     .to(screenNum, {
-      duration: 2,
+      duration: 1.8,
       y: '-200vh',
       skewX: 0,
       transformOrigin: 'top left',
       ease:"power1.inOut",
     }, 'start')
     .to(container.querySelector('.contents'), {
-      duration: 2,
+      duration: 1.8,
       translateY: '0%',
       opacity: 1,
       ease: "power1.inOut",
