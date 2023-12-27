@@ -480,6 +480,7 @@ a:hover{color:inherit;}
   .project-type ul li.active a{opacity: 1;}
 
   .filter-block {display: flex; flex-direction: column;}
+  .filter-block  button{color: #000;}
   .filter-block .title{}
   .filter-block .title p{display: flex; flex-direction: column; overflow: hidden; transition: all 0.4s ease; margin-top: 3.2rem;}
   .filter-block .title p span{display: flex; height: 3.2rem;}
