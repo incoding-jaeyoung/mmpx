@@ -617,23 +617,27 @@ function init() {
         $(this).toggleClass('active')
     })
     $('#header').on('mouseover',function(){
-        setTimeout(() => {
-            $(mainNavigation).removeClass('nav-hide')
-        }, 100);
+        if (winw > 768) {
+            setTimeout(() => {
+                $(mainNavigation).removeClass('nav-hide')
+            }, 100);
+        }
     })
+    var winw = $(window).width();
     $('#header').on('mouseleave',function(){
-        if($(mainNavigation).hasClass('nav-default')){return false;}
-        setTimeout(() => {
-            $(mainNavigation).addClass('nav-hide')
-        }, 300);
-        
+        if (winw > 768) {
+            if($(mainNavigation).hasClass('nav-default')){return false;}
+            setTimeout(() => {
+                $(mainNavigation).addClass('nav-hide')
+            }, 300);
+        }
     })
     $('.main-navigation h1 a').on('click',function(){
         $('.main-navigation li').removeClass('active')
     })  
    
     
-    var winw = $(window).width();
+    
     if (winw > 768) {
         $(".artist .image img").each(function(){
             $(this).attr("src", $(this).attr("src").replace("-m.png", ".png"))
