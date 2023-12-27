@@ -4,6 +4,8 @@
 // }
 // gsap.registerPlugin(ScrollTrigger);
 // JavaScript Document
+
+
 window.onload = function () {
     // $('body').imagesLoaded().done(function (instance) {
         // $('body').addClass('load')
@@ -12,8 +14,15 @@ window.onload = function () {
         // commonTween()
         $('.main-navigation .menu').on('click',function(){
             console.log('m-menu')
+            $(this).find('.navTrigger').toggleClass('active')
             $('#header').toggleClass('m-menu')
         })        
+        
+        // $('.main-navigation ul li a').on('mouseover',function(){
+        //     var tl = gsap.timeline({defaults: {ease: "none"}});
+        //     const text = $(this).text()
+        //     tl.to($(this), {duration: 0.1,   scrambleText:{text:text, chars:"lowerCase", tweenLength:false,rightToLeft:true}})
+        // })
     // });
 }
 function delay(n) {
@@ -305,6 +314,7 @@ $(function() {
 
 function navClose(){
     $('#header').removeClass('m-menu')
+    $('.navTrigger').removeClass('active')
 }
 
 function datagrid(){
