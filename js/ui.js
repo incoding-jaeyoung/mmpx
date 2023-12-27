@@ -44,9 +44,9 @@ const mainNavigation = document.querySelector('.main-navigation')
 function pageTransitionIn(pageName) {
     $('body').addClass('fixed')
     const screenNum = document.querySelector('.loading-screen.' + pageName)
-    
+    navClose()
     return gsap
-    .to(screenNum, { duration: .5, scaleY: 1, transformOrigin: 'bottom left', y:0})
+    .to(screenNum, {delay:0, duration: .3, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,})
 }
 
 // Function to add and remove the page transition screen
@@ -55,30 +55,31 @@ function pageTransitionOut(container, pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
   // GSAP methods can be chained and return directly a promise
   return gsap
-    .timeline({ delay: 1}) // More readable to put it here
+    .timeline({ delay: 0.5}) // More readable to put it here
     .add('start') // Use a label to sync screen and content animation
     .call(contentReset, [container])
     .set(container.querySelector('.contents'), {
         duration: 0,
-        translateY: '100vh',
-        opacity: 1,
+        translateY: '200vh',
       })
     .to(screenNum, {
-      duration: 0.5,
-      y: '-100%',
+      duration: 2,
+      y: '-200vh',
       skewX: 0,
       transformOrigin: 'top left',
-      ease: 'power1.out',
+      ease:"power1.inOut",
     }, 'start')
     .to(container.querySelector('.contents'), {
-      duration: 0.5,
+      duration: 2,
       translateY: '0%',
       opacity: 1,
+      ease: "power1.inOut",
     }, 'start')
     .to(screenNum, {
         duration: 0,
-        y: '100%',
+        y: '0',
         transformOrigin: 'top left',
+        opacity:0,
       })
     .call(contentAnimation, [container])
 
@@ -138,9 +139,8 @@ $(function() {
                     scrollTop:0
                 },300)
                 setTimeout(() => {
-                    navClose()
+                   
                 }, 400);
-                
             },
             async enter(data) {
                 $('#wrapper').removeClass('work-secton')
@@ -168,7 +168,7 @@ $(function() {
                     scrollTop:0
                 },300)
                 setTimeout(() => {
-                    navClose()
+                    
                 }, 400);
             },
             async enter(data) {
@@ -205,7 +205,7 @@ $(function() {
                     scrollTop:0
                 },300)
                 setTimeout(() => {
-                    navClose()
+                    
                 }, 400);
             },
             async enter(data) {
@@ -238,7 +238,7 @@ $(function() {
                     scrollTop:0
                 },300)
                 setTimeout(() => {
-                    navClose()
+                    
                 }, 400);
             },
             async enter(data) {
@@ -269,7 +269,7 @@ $(function() {
                     scrollTop:0
                 },300)
                 setTimeout(() => {
-                    navClose()
+                    
                 }, 400);
             },
             async enter(data) {
@@ -293,23 +293,6 @@ $(function() {
           
         ],
       });
-//   barba.init({
-//     transitions: [{
-//       async leave(data) {
-//         await pageTransitionIn()
-//         data.current.container.remove()
-//       },
-//       async enter(data) {
-//         await pageTransitionOut(data.next.container)
-        
-//       },
-//       async once(data) {
-//         await contentAnimation(data.next.container);
-       
-//       }
-//     }]
-//   });
-
 });
 
 function navClose(){
@@ -475,9 +458,10 @@ function headerScroll() {
 function navActive(){
     
     $('.main-navigation h1 a').on('click',function(){
-        
+        navClose()
     })
     $('.main-navigation li a').on('click',function(){
+        
         const navName = $('.contents-wrap').attr('data-barba-namespace')
         console.log(navName)
         if($(this).parent().hasClass('active') && navName == 'detail'){
@@ -512,7 +496,7 @@ function navActive(){
                 }else{
                     $('#wrapper').removeClass('contact-secton')
                 }
-            }, 1000);
+            }, 600);
         }
     })
 }
