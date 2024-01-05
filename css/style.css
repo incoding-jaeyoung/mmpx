@@ -505,8 +505,8 @@ a:hover{color:inherit;}
   .filter-list.active ul{transform: translateY(0);}
   
   .work-wrap{display: flex; overflow: hidden; flex-wrap: nowrap; justify-content: space-between;}
-  .work-wrap .work-block{width:calc(200vw - 8rem); display: flex; justify-content: space-between; flex-grow: 0; flex-shrink: 0; flex: none;}
-  .work-list {display: grid !important; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.85rem; row-gap: 25rem; align-items: flex-end; height: auto !important; width:calc(100vw - 4rem); transition: none;}
+  .work-wrap .work-block{width:calc(200vw - 8rem); display: flex; justify-content: space-between; flex-grow: 0; flex-shrink: 0; flex: none; flex-wrap: nowrap;}
+  .work-list {display: grid !important; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.85rem; row-gap: 25rem; align-items: flex-end; height: auto !important; width:calc(100vw - 4rem); transition: none; flex: none; border: 1px solid #f00;  transition: all 0.4s ease;}
   .work-list.hide{height: 0 !important ; overflow: hidden;}
   .work-list dl.thumb dt{margin-bottom: 1.2rem;  overflow: hidden; position: relative;}
   .work-list dl.thumb dd{font-size: 2rem; line-height: 2.6rem;}

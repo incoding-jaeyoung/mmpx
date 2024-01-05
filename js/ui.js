@@ -569,7 +569,7 @@ function init() {
                 },
                 // delay:0.5,
                 duration:1.2,
-                x:'-50%',
+                x:'-50% ',
                 ease: "power2.inOut",
                 onComplete:function(){
                     $('.work-list').eq(1).removeClass('hide')
