@@ -197,7 +197,7 @@ $(function() {
                 // await smoothScroll()
                 await init()
                 await videoAutoPlay()
-                await commonTween()
+                // await commonTween()
                 await datagrid()
                 
                 
@@ -337,46 +337,57 @@ function datagrid(){
     });
 
     const projectNum = $('.work-list .thumb').length;
+    console.log(projectNum)
     $('.project-type li').eq(1).find('span').text(projectNum / 2)
         var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item'
     });
     var filterFns = {};
+    $('.work-list .grid-item').append('<span class="block"></span>')
+    $('.work-list.all-item').append('<span class="block"></span>')
     $('.filters-button-group').on( 'click', 'button', function(event) {
+        contentReset()
         var $target = $( event.currentTarget );
+        if($target.hasClass('is-checked')){
+            return false;
+        }
         $target.toggleClass('is-checked');
         var filterValue = $( this ).attr('data-filter');
         var filter = $target.attr('data-filter');
         filterValue = filterFns[ filterValue ] || filterValue;
         setTimeout(() => {
             $grid.isotope({ filter: filterValue });
-        }, 500);
-        
-        
+        }, 600);
         var tl = gsap.timeline();
-        tl.to(".work-list",{
-            duration: 0.3,
-            opacity:0,
-            y:50,
+        tl.set(".work-list .grid-item span.block, .work-list.all-item .block",{
+            delay:0,
+            duration: 0,
+            y:'100%',
+        })
+        tl.to(".work-list .grid-item span.block, .work-list.all-item .block",{
+            duration: 0.4,
+            y:'0%',
+            ease:"power1.in",
             onComplete:function(){
                 $('.work-list').addClass('sort')
                 $grid.isotope({ filter: filterValue });
                 $grid.isotope('updateSortData').isotope();
                 $grid.isotope('layout');
                 
-                console.log(filterCount)
             }
         })
-        tl.to(".work-list",{
+        tl.to(".work-list .grid-item span.block, .work-list.all-item .block",{
             delay:0.4,
-            opacity:1,
-            duration: 0.3,
-            y:0,
+            duration: 0.4,
+            y:'-200%',
+            ease:"power1.out",
             onComplete:function(){
                 const filterCount =  $(".grid-item:visible").length;
                 $('.project-type li').eq(0).find('span').text(filterCount / 2)
+                videoAutoPlay()
             }
         })
+        
       });
     $('.filters-button-group ').each( function( i, buttonGroup ) {
         var $buttonGroup = $( buttonGroup );
@@ -544,6 +555,7 @@ function init() {
                 },
                 duration: 1.2,
                 x:'0%',
+                marginLeft: 0,
                 ease: "power2.inOut",
                 onComplete:function(){
                     $('.work-list').eq(0).removeClass('hide')
@@ -561,6 +573,10 @@ function init() {
                 }, 500)
             );
         }else if(indexNum == 1){
+            const fullwidth = $(".contents").innerWidth()
+            const conwidth = $(".contents").width()
+            const padding = - (fullwidth - conwidth)
+            console.log(padding)
             var tl = gsap.timeline();
             tl.call()
             tl.to('.work-block',{
@@ -569,11 +585,13 @@ function init() {
                 },
                 // delay:0.5,
                 duration:1.2,
-                x:'-50% ',
+                x:"-50%",
+                marginLeft: padding,
                 ease: "power2.inOut",
                 onComplete:function(){
                     $('.work-list').eq(1).removeClass('hide')
                     $('.work-list').eq(0).addClass('hide')
+                    
                     contentReset()
                 }
             }),
