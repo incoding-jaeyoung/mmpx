@@ -9,11 +9,19 @@ window.onload = function () {
         $('body').addClass('load')
         headerScroll()
         navActive()
+        
         $('.main-navigation .menu').on('click',function(){
             console.log('m-menu')
             $(this).find('.navTrigger').toggleClass('active')
             $('#header').toggleClass('m-menu')
         })        
+        
+        //commonTween()
+        // $('.main-navigation ul li a').on('mouseover',function(){
+        //     var tl = gsap.timeline({defaults: {ease: "none"}});
+        //     const text = $(this).text()
+        //     tl.to($(this), {duration: 0.1,   scrambleText:{text:text, chars:"lowerCase", tweenLength:false,rightToLeft:true}})
+        // })
     });
 }
 function smoothScroll(){
@@ -49,40 +57,40 @@ function pageTransitionIn(pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
     navClose()
     return gsap
-    .to(screenNum, {delay:0, duration:1, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in",})
-    
+    .to(screenNum, {delay:0, duration: .3, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,})
 }
+
 // Function to add and remove the page transition screen
 function pageTransitionOut(container, pageName) {
-    console.log('2')
     //    $('html').removeClass('fixed')
     const screenNum = document.querySelector('.loading-screen.' + pageName)
   // GSAP methods can be chained and return directly a promise
   return gsap
-    .timeline({ delay: 0}) // More readable to put it here
+    .timeline({ delay: 0.5}) // More readable to put it here
     .add('start') // Use a label to sync screen and content animation
     .call(contentReset, [container])
     .set(container.querySelector('.contents'), {
         duration: 0,
-        translateY: '80vh',
+        translateY: '200vh',
       })
     .to(screenNum, {
-      duration: 1,
+      duration: 1.8,
       y: '-200vh',
       skewX: 0,
       transformOrigin: 'top left',
-      ease:"power1.out",
+      ease:"power1.inOut",
     }, 'start')
     .to(container.querySelector('.contents'), {
-      duration: 1,
+      duration: 1.8,
       translateY: '0%',
       opacity: 1,
-      ease: "power1.out",
+      ease: "power1.inOut",
     }, 'start')
     .to(screenNum, {
         duration: 0,
         y: '0',
         transformOrigin: 'top left',
+        opacity:0,
       })
     .call(contentAnimation, [container])
 
@@ -170,7 +178,9 @@ $(function() {
                 $('html,body').animate({
                     scrollTop:0
                 },300)
-                
+                setTimeout(() => {
+                    
+                }, 400);
             },
             async enter(data) {
                 // $('.main-navigation li').removeClass('active')
@@ -178,17 +188,12 @@ $(function() {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 // await commonTween()
-                setTimeout(() => {
-                    
-                }, 400);
                 headerScroll()
-                await commonTween()
                 console.log(pageName)
             },
             async afterEnter(data) {
                 
                 await videoAutoPlay()
-                
                 await datagrid()
             },
             async once(data) {
@@ -252,7 +257,6 @@ $(function() {
             async enter(data) {
                 // $('.main-navigation li').removeClass('active')
                 // $('.main-navigation li').eq(1).addClass('active')
-                
                 $('#wrapper').addClass('about-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
@@ -310,88 +314,92 @@ function navClose(){
 }
 
 function datagrid(){
-    $('.grid-item').each(function(){
-        const moreNum = $(this).find('.more').length
-        if(moreNum == 1){
-            $(this).find('.select').show();
-        }
-        const itemNum = $(this).find('.slider').length
-        if(itemNum == 0){
-            $(this).addClass('disabled')
-            $(this).find('.open').hide();
-        }
-    })
     var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item',
         percentPosition: true,
-        // transitionDuration: 1,
-        // visibleStyle: {
-        //     opacity: 1,
-        //     transform: 'translateY(0)',
-        //   },
-        //   hiddenStyle: {
-        //     opacity: 1,
-        //     transform: 'translateY(100px)',
-        //   },
-        //   transformsEnabled: false,
+        transitionDuration: 0,
+        visibleStyle: {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
+          hiddenStyle: {
+            opacity: 0,
+            transform: 'translateY(100px)',
+          },
+          transformsEnabled: false,
     });
+
 
     const projectNum = $('.work-list .thumb').length;
     $('.project-type li').eq(1).find('span').text(projectNum / 2)
         var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item'
-    });
-    var filterFns = {};
-    $('.filters-button-group').on( 'click', 'button', function(event) {
+      });
+      var filters = [];
+      $('.filter-block .filters-button-group').on( 'click', 'button', function( event ) {
         var $target = $( event.currentTarget );
         $target.toggleClass('is-checked');
-        var filterValue = $( this ).attr('data-filter');
+        var isChecked = $target.hasClass('is-checked');
         var filter = $target.attr('data-filter');
-        filterValue = filterFns[ filterValue ] || filterValue;
-        setTimeout(() => {
-            $grid.isotope({ filter: filterValue });
-        }, 500);
-        
-        
+        if ( isChecked ) {
+          addFilter( filter );
+        } else {
+          removeFilter( filter );
+        }
+        // $grid.isotope({ filter: filters.join(',') });
         var tl = gsap.timeline();
         tl.to(".work-list",{
-            duration: 0.3,
+            duration: 0.5,
             opacity:0,
             y:50,
             onComplete:function(){
-                $('.work-list').addClass('sort')
-                $grid.isotope({ filter: filterValue });
-                $grid.isotope('updateSortData').isotope();
-                $grid.isotope('layout');
-                
-                console.log(filterCount)
+                if(filters?.length) {
+                    $('.work-list').addClass('sort')
+                    $grid.isotope({ filter: filters.join(',') });
+                    //$grid.isotope({ filter: filterValue });
+                    $grid.isotope('updateSortData').isotope();
+                    $grid.isotope('layout');
+                    setTimeout(() => {
+                        ScrollTrigger.refresh();
+                    }, 500);
+                    const filterCount =  $(".grid-item:visible").length;
+                    $('.project-type li').eq(0).find('span').text(filterCount / 2)
+                    
+                    console.log(filter);
+                  } else {
+                    console.log("Empty");
+                    $('.work-list').removeClass('sort')
+                    $grid.isotope({ filter: filters.join(',') });
+                    //$grid.isotope({ filter: filterValue });
+                    $grid.isotope('updateSortData').isotope();
+                    $grid.isotope('layout');
+                    setTimeout(() => {
+                        ScrollTrigger.refresh();
+                    }, 500);
+                    $('.project-type li').eq(0).find('span').text('0')
+                  }
             }
+
         })
         tl.to(".work-list",{
-            delay:0.4,
+            duration: 0.4,
             opacity:1,
-            duration: 0.3,
             y:0,
-            onComplete:function(){
-                const filterCount =  $(".grid-item:visible").length;
-                $('.project-type li').eq(0).find('span').text(filterCount / 2)
-            }
         })
       });
-    $('.filters-button-group ').each( function( i, buttonGroup ) {
-        var $buttonGroup = $( buttonGroup );
-        $buttonGroup.on( 'click', 'button', function() {
-          $buttonGroup.find('.is-checked').removeClass('is-checked');
-          $( this ).addClass('is-checked');
-        });
-      });
-    $('.filter-block .title').on( 'click', 'button', function() {
-        $('.work-list').removeClass('sort')
-        $('.button-group button').removeClass('is-checked')
-        $grid.isotope({ filter: '*' });
-        $grid.isotope('updateSortData').isotope();
-        $('.project-type li').eq(0).find('span').text('0')
-    })
+        
+      function addFilter( filter ) {
+        if ( filters.indexOf( filter ) == -1 ) {
+          filters.push( filter );
+        }
+      }
+      
+      function removeFilter( filter ) {
+        var index = filters.indexOf( filter);
+        if ( index != -1 ) {
+          filters.splice( index, 1 );
+        }
+      }
 
 
 
@@ -404,6 +412,7 @@ function datagrid(){
     $('.filter-block .title').on( 'click', 'button', function() {
         $('.work-list').removeClass('sort')
         $('.button-group button').removeClass('is-checked')
+        filters = [];
         $grid.isotope({ filter: '*' });
         $grid.isotope('updateSortData').isotope();
         $('.project-type li').eq(0).find('span').text('0')
@@ -500,7 +509,7 @@ function navActive(){
                 }else{
                     $('#wrapper').removeClass('contact-secton')
                 }
-            }, 1000);
+            }, 600);
         }
     })
 }
@@ -549,7 +558,6 @@ function init() {
                     $('.work-list').eq(0).removeClass('hide')
                     $('.work-list').eq(1).addClass('hide')
                     contentReset()
-                    commonTween()
                 }
                 // delay:0.5,
                 
@@ -557,7 +565,6 @@ function init() {
             tl.call(
                 setTimeout(() => {
                     videoAutoPlay()
-                    
                 }, 500)
             );
         }else if(indexNum == 1){
@@ -583,7 +590,31 @@ function init() {
                 }, 500)
             );
         }
+        
 
+//        tl.call(contentReset())
+//        tl.to(".work-list",{
+//            duration: 0.5,
+//            opacity:0,
+//            y:50,
+//            onComplete:function(){
+//                if(indexNum == 0){
+//                    $('.work-list').removeClass('all-item')
+//                } else {
+//                    $('.work-list').addClass('all-item')
+//                }
+//            }
+//        })
+//        tl.to(".work-list",{
+//            duration: 0.4,
+//            opacity:1,
+//            y:0,
+//        })
+//        tl.call(
+//            setTimeout(() => {
+//                videoAutoPlay()
+//            }, 500)
+//        );
     })
     $('.grid-item').each(function(){
         const itemName = $(this).find('.thumb .title').text()
@@ -631,7 +662,7 @@ function init() {
         }, 500);
     })  
     $('.filter-list button').on('click',function(){
-        // $(this).toggleClass('active')
+        $(this).toggleClass('active')
     })
     $('#header').on('mouseover',function(){
         if (winw > 768) {
@@ -744,7 +775,7 @@ function commonTween() {
         })
 
     })
-    $('.work-list').eq(0).find('.grid-item').each(function (e) {
+    $('.grid-item').each(function (e) {
         let text = $(this).find('.thumb dt a')
         const upmotion = gsap.timeline({
             scrollTrigger: {
@@ -757,7 +788,7 @@ function commonTween() {
                 toggleActions: "play complete none reverse",
             },
         });
-        upmotion.to(text,0.1, {
+        upmotion.to(text,0.5, {
             y:'10%',
             ease: "power3.out",
             onComplete: function () {
