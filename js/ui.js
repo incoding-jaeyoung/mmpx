@@ -10,7 +10,6 @@ window.onload = function () {
         headerScroll()
         navActive()
         $('.main-navigation .menu').on('click',function(){
-            console.log('m-menu')
             $(this).find('.navTrigger').toggleClass('active')
             $('#header').toggleClass('m-menu')
         })        
@@ -790,7 +789,7 @@ function commonTween() {
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
                 markers: true,
-                scroller: ".contents-wrap",
+                // scroller: ".contents-wrap",
                 toggleActions: "play complete none reverse",
             },
         });
@@ -946,7 +945,7 @@ function commonTween() {
                 start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 // scrub: true, //스크롤에 반응 (없으면 자동재생)
                 // markers: true,
-                scroller: ".contents-wrap",
+                // scroller: ".contents-wrap",
                 toggleActions: "play none none reverse",
             },
             y: 40,
@@ -1006,7 +1005,7 @@ function work(){
                         end: "80% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
                         // markers: true,
-                        scroller: ".contents-wrap",
+                        // scroller: ".contents-wrap",
                         toggleActions: "play none none reverse",
                     },
                 });
