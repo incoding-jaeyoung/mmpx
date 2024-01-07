@@ -17,17 +17,24 @@ window.onload = function () {
     });
 }
 function smoothScroll(){
-    let bodyScrollBar = Scrollbar.init(document.body, { damping: 0.06, delegateTo: document });
-    ScrollTrigger.scrollerProxy(".scroller", {
-    scrollTop(value) {
-        if (arguments.length) {
-        bodyScrollBar.scrollTop = value;
-        }
-        return bodyScrollBar.scrollTop;
-    }
-    });
-    bodyScrollBar.addListener(ScrollTrigger.update);
+    // const locoScroll = new LocomotiveScroll({
+    //     el: document.querySelector(".contents-wrap"),
+    //     smooth: true
+    // });
+    // locoScroll.on('.contents-wrap', ScrollTrigger.update)
+    // ScrollTrigger.scrollerProxy(".contents-wrap", {
+    //     scrollTop(value) {
+    //       return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+    //     }, // we don't have to define a scrollLeft because we're only scrolling vertically.
+    //     getBoundingClientRect() {
+    //       return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
+    //     },
+    //     pinType: document.querySelector(".contents-wrap").style.transform ? "transform" : "fixed"
+    // });
+    // ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+    // ScrollTrigger.refresh();
 }
+
 function delay(n) {
     n = n || 2000
     // Keep official documentation wording, done -> resolve
@@ -49,7 +56,7 @@ function pageTransitionIn(pageName) {
     const screenNum = document.querySelector('.loading-screen.' + pageName)
     navClose()
     return gsap
-    .to(screenNum, {delay:0, duration:1, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in",})
+    .to(screenNum, {delay:0, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in",})
     
 }
 // Function to add and remove the page transition screen
@@ -67,14 +74,14 @@ function pageTransitionOut(container, pageName) {
         translateY: '80vh',
       })
     .to(screenNum, {
-      duration: 1,
+      duration:0.6,
       y: '-200vh',
       skewX: 0,
       transformOrigin: 'top left',
       ease:"power1.out",
     }, 'start')
     .to(container.querySelector('.contents'), {
-      duration: 1,
+      duration:0.6,
       translateY: '0%',
       opacity: 1,
       ease: "power1.out",
@@ -186,18 +193,17 @@ $(function() {
                 console.log(pageName)
             },
             async afterEnter(data) {
-                
+                await smoothScroll()
                 await videoAutoPlay()
-                
                 await datagrid()
             },
             async once(data) {
                 // $('.main-navigation li').removeClass('active')
                 // $('.main-navigation li').eq(0).addClass('active')
-                // await smoothScroll()
+                await smoothScroll()
                 await init()
                 await videoAutoPlay()
-                // await commonTween()
+                await commonTween()
                 await datagrid()
                 
                 
@@ -222,17 +228,21 @@ $(function() {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await commonTween()
-                headerScroll()
+                await headerScroll()
             },
             async afterEnter(data) {
+                await smoothScroll()
                 await videoAutoPlay()
+                await work()
             },
             async once(data) {
                 // $('.main-navigation li').removeClass('active')
                 // $('.main-navigation li').eq(0).addClass('active')
                 await init()
+                await smoothScroll()
                 await videoAutoPlay()
                 await commonTween()
+                await work()
             }
           }
           , {
@@ -256,15 +266,19 @@ $(function() {
                 $('#wrapper').addClass('about-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-                headerScroll()
+                await smoothScroll()
+                await headerScroll()
                 await commonTween()
+                
             },
             async once(data) {
                 // $('.main-navigation li').removeClass('active')
                 // $('.main-navigation li').eq(1).addClass('active')
                 $('#wrapper').addClass('about-secton')
+                await smoothScroll()
                 await init()
                 await commonTween()
+                
             }
           }
           , {
@@ -337,7 +351,6 @@ function datagrid(){
     });
 
     const projectNum = $('.work-list .thumb').length;
-    console.log(projectNum)
     $('.project-type li').eq(1).find('span').text(projectNum / 2)
         var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item'
@@ -442,7 +455,6 @@ function headerScroll() {
         var st = $(window).scrollTop();
         const winw = $(window).width()
         if(winw >= 769){
-            console.log(winw)
             // Make sure they scroll more than delta
             if (Math.abs(lastScrollTop - st) <= delta)
                 return;
@@ -511,7 +523,7 @@ function navActive(){
                 }else{
                     $('#wrapper').removeClass('contact-secton')
                 }
-            }, 1000);
+            }, 600);
         }
     })
 }
@@ -536,9 +548,15 @@ function videoAutoPlay(){
         
   }
 function init() {
+    $(".js-video-button").each(function(){
+        const urlAdress = $(this).attr('data-url')
+        console.log(urlAdress)
+        $(this).modalVideo({
+            url: urlAdress
+        });
+    })
     const work = $('.work-list').clone().appendTo('.work-block' )
     $('.work-list').eq(1).addClass('all-item').addClass('hide')
-    console.log(work)
     $('.project-type a').on('click',function(){
         const indexNum = $('.project-type a').index(this)
         console.log(indexNum)
@@ -608,13 +626,11 @@ function init() {
         const itemCate = $(this).find('.thumb .cate').text()
         $(this).find('.line .title dt').text(itemName)
         $(this).find('.line .title dd').text(itemCate)
-        console.log(itemName)
     })
     $('.grid-item .line .title').on('click',function(){
         $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
         $(this).parents('.line').toggleClass('active')
     })
-    
     var swiper = new Swiper(".work-slider", {
         slidesPerView: "auto",
         slideWidth:'auto',
@@ -635,11 +651,37 @@ function init() {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
+        on: {
+            afterInit:function(){
+                setTimeout(() => {
+                    $('.work-type .type').each(function(){
+                        const name = $(this).parents('.swiper').find('.swiper-slide.swiper-slide-active > *').prop('tagName')
+                        if(name == 'IMG'){
+                            $(this).text('image')
+                        }else if(name == 'VIDEO'){
+                            $(this).text('video')
+                            
+                        }
+                    })
+                }, 500);
+                
+            },
+            slideChangeTransitionEnd : function() {
+                $('.work-type .type').each(function(){
+                    const name = $(this).parents('.swiper').find('.swiper-slide.swiper-slide-active > *').prop('tagName')
+                    if(name == 'IMG'){
+                        $(this).text('image')
+                    }else if(name == 'VIDEO'){
+                        $(this).text('video')
+                    }
+                })
+            },
+        },
       });
-      
+    
     setTimeout(() => {
         $('body').removeClass('fixed')
-    }, 500);
+    }, 0);
     
     $('.filter-block .title button').on('click',function(){
         $(this).toggleClass('active')
@@ -683,29 +725,6 @@ function init() {
         })
         
     }
-
-    // ScrollTrigger.matchMedia({
-    //     "(min-width:601px)": function () {
-    //         gsap.to($(".float"),{
-    //             scrollTrigger: {
-    //                 trigger: $('footer'),
-    //                 start: "0% 100%", // 앞 : 객체 , 뒤 : 페이지 전체
-    //                 end: "0% 85%",
-    //                 // markers: true,
-    //                 toggleActions: "play pause  reverse pause",
-    //                 scrub: 1,
-    //                 invalidateOnRefresh: true,
-    //             },
-    //             css:{bottom: '30rem'},
-    //             ease:"none",
-    //         })
-    //     },
-    //     "(max-width:600px)": function () {
-            
-    //     },
-    // })
-    
-    
 }
 
 
@@ -771,13 +790,14 @@ function commonTween() {
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
                 markers: true,
-                // scroller: ".scroller",
+                scroller: ".contents-wrap",
                 toggleActions: "play complete none reverse",
             },
         });
-        upmotion.to(text,0.1, {
+        upmotion.to(text,0.4, {
+            delay:0,
             y:'10%',
-            ease: "power3.out",
+            ease: "none",
             onComplete: function () {
 
             }
@@ -926,6 +946,7 @@ function commonTween() {
                 start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 // scrub: true, //스크롤에 반응 (없으면 자동재생)
                 // markers: true,
+                scroller: ".contents-wrap",
                 toggleActions: "play none none reverse",
             },
             y: 40,
@@ -972,7 +993,64 @@ function closeLayer(no) {
 
 
 
+function work(){
+    
+    ScrollTrigger.matchMedia({
+        "(min-width:769px)": function () {
+            $('.work-preview .image').each(function (e) {
+                let text = $(this)
+                const upmotion = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: $(this),
+                        start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        end: "80% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        scrub: true, //스크롤에 반응 (없으면 자동재생)
+                        // markers: true,
+                        scroller: ".contents-wrap",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+                upmotion.to(text, 1, {
+                    marginLeft:'-2rem',
+                    marginRight:'-2rem',
+                    // scale:1,
+                    ease: "power1.out",
+                    onComplete: function () {
+        
+                    }
+                })
+            })
+        },
+        "(max-width:768px)": function () {
+            $('.work-preview .image img').each(function (e) {
+                let text = $(this)
+                const upmotion = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: $(this),
+                        start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        end: "100% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        scrub: true, //스크롤에 반응 (없으면 자동재생)
+                        markers: true,
+                        // scroller: ".contents-wrap",
+                        toggleActions: "play none none reverse",
+                    },
+                });
+                upmotion.to(text, 1.4, {
+                    scale:1.2,
+                    opacity: 1,
+                    ease: "power3.out",
+                    onComplete: function () {
+        
+                    }
+                })
+            })
+        },
+    })
 
+
+    
+    
+}
 
 
 
