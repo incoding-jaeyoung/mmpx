@@ -193,6 +193,7 @@ $(function() {
             },
             async afterEnter(data) {
                 await smoothScroll()
+                
                 await videoAutoPlay()
                 await datagrid()
             },
@@ -547,13 +548,13 @@ function videoAutoPlay(){
         
   }
 function init() {
-    $(".js-video-button").each(function(){
-        const urlAdress = $(this).attr('data-url')
-        console.log(urlAdress)
-        $(this).modalVideo({
-            url: urlAdress
-        });
-    })
+    // $(".js-video-button").each(function(){
+    //     const urlAdress = $(this).attr('data-url')
+    //     console.log(urlAdress)
+    //     $(this).modalVideo({
+    //         url: urlAdress
+    //     });
+    // })
     const work = $('.work-list').clone().appendTo('.work-block' )
     $('.work-list').eq(1).addClass('all-item').addClass('hide')
     $('.project-type a').on('click',function(){
