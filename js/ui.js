@@ -159,8 +159,8 @@ $(function() {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 headerScroll()
-                
                 commonTween()
+                window.initMain();
             },
             async once(data) {
                 $('#wrapper').addClass('index-secton')
@@ -189,6 +189,7 @@ $(function() {
                 }, 400);
                 headerScroll()
                 await commonTween()
+                window.removeMain();
                 console.log(pageName)
             },
             async afterEnter(data) {
@@ -229,6 +230,7 @@ $(function() {
                 await pageTransitionOut(data.next.container, pageName)
                 await commonTween()
                 await headerScroll()
+                window.removeMain();
             },
             async afterEnter(data) {
                 await smoothScroll()
@@ -269,7 +271,7 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
-                
+                window.removeMain();
             },
             async once(data) {
                 // $('.main-navigation li').removeClass('active')
@@ -304,6 +306,7 @@ $(function() {
                 await pageTransitionOut(data.next.container, pageName)
                 headerScroll()
                 await commonTween()
+                window.removeMain();
             },
             async once(data) {
                 // $('.main-navigation li').removeClass('active')
@@ -633,7 +636,7 @@ function init() {
     })
     var swiper = new Swiper(".work-slider", {
         slidesPerView: "auto",
-        autoHeight: true,
+        // autoHeight: true,
         slideWidth:'auto',
         spaceBetween:0,
         loop: true,
