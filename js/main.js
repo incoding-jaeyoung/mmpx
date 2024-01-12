@@ -3,12 +3,36 @@
    const isMobile = () => 'ontouchstart' in window;
 
    const videos = [
-      {video: 'video1.mp4', thumb: 'thumb1.png', title: '<span>KRX1.<span>Lobby media art'}, 
-      {video: 'video2.mp4', thumb: 'thumb2.png', title: '<span>KRX2.<span>Lobby media art'}, 
-      {video: 'video3.mp4', thumb: 'thumb3.png', title: '<span>KRX3.<span>Lobby media art'}, 
-      {video: 'video4.mp4', thumb: 'thumb4.png', title: '<span>KRX4.<span>Lobby media art'}, 
-      {video: 'video5.mp4', thumb: 'thumb5.png', title: '<span>KRX5.<span>Lobby media art'}, 
-      {video: 'video6.mp4', thumb: 'thumb6.png', title: '<span>KRX6.<span>Lobby media art'}, 
+      {
+         video: 'video1.mp4', thumb: 'thumb1.png', 
+         title: '<dt>KRX1.</dt><dd>Lobby media art</dd>',
+         path: 'detail.html'
+      }, 
+      {
+         video: 'video2.mp4', thumb: 'thumb2.png', 
+         title: '<dt>KRX2.</dt><dd>Lobby media art</dd>',
+         path: 'detail.html'
+      }, 
+      {
+         video: 'video3.mp4', thumb: 'thumb3.png', 
+         title: '<dt>KRX3.</dt><dd>Lobby media art</dd>',
+         path: 'detail.html'
+      }, 
+      {
+         video: 'video4.mp4', thumb: 'thumb4.png', 
+         title: '<dt>KRX4.</dt><dd>Lobby media art</dd>',
+         path: 'detail.html'
+      }, 
+      {
+         video: 'video5.mp4', thumb: 'thumb5.png', 
+         title: '<dt>KRX5.</dt><dd>Lobby media art</dd>',
+         path: 'detail.html'
+      }, 
+      {
+         video: 'video6.mp4', thumb: 'thumb6.png', 
+         title: '<dt>KRX6.</dt><dd>Lobby media art</dd>',
+         path: 'detail.html'
+      }, 
    ];
 
    let durations = [];
@@ -115,6 +139,8 @@
             
             setTime();
             $(".main-content .bar-con .title p").html(videos[videoIndex].title);
+            $(".main-content .video-title").html(videos[videoIndex].title);
+            $(".main-content .video-info a").attr('href', videos[videoIndex].path);
             setThumbPos();
 
             
@@ -203,6 +229,8 @@
                
                setTime();
                $(".main-content .bar-con .title p").html(videos[videoIndex].title);
+               $(".main-content .video-title").html(videos[videoIndex].title);
+               $(".main-content .video-info a").attr('href', videos[videoIndex].path);
                setThumbPos();
 
                
@@ -225,7 +253,7 @@
                });
             }
             clearTimeout(delayThumb);
-            delayThumb = setTimeout(() => hideThumb(), 1000);
+            delayThumb = setTimeout(() => hideThumb(), 1500);
          }
       });
 
@@ -244,6 +272,8 @@
    function playVideo ( start ) {
       $(".main-content .video-con > video").hide().eq(videoIndex).show();
       $(".main-content .bar-con .title p").html(videos[videoIndex].title);
+      $(".main-content .video-title").html(videos[videoIndex].title);
+      $(".main-content .video-info a").attr('href', videos[videoIndex].path);
       targetVideo = $(".main-content .video-con > video").eq(videoIndex)[0];
       targetVideo.currentTime = start;
       startTime = durations.reduce((acc, cur, i) => videoIndex > i ? acc + cur : acc, 0);
@@ -273,6 +303,7 @@
       const es = Math.floor( totalDurations % 60 );
       $(".main-content .time-con").text(`${sm}:${pad(ss, 2)} / ${em}:${pad(es, 2)}`);
       $(".main-content .bar-con .time").text(`${sm}:${pad(ss, 2)}`);
+      
    }
 
    function setThumbPos () {
