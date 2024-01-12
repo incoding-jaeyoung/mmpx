@@ -44,7 +44,7 @@
          });
          $(".main-content .video-con > video").hide().eq(0).show();
       }
-      $("body").css({overflow: "hidden"});
+      $("html,body").css({overflow: "hidden"});
    }
    
    window.initMain();
@@ -72,7 +72,7 @@
          isTouch = false;
          startPercent = 0;
       }catch(e) {}
-      $("body").css({overflow: ""});
+      $("html,body").css({overflow: ""});
    }
 
    function init() {
