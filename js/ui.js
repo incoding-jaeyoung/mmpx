@@ -225,8 +225,8 @@ $(function() {
                 }, 400);
             },
             async enter(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(0).addClass('active')
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(0).addClass('active')
                 const pageName = data.next.namespace
                 $('#wrapper').removeClass('index-secton')
                 await pageTransitionOut(data.next.container, pageName)
@@ -241,8 +241,7 @@ $(function() {
                 await work()
             },
             async once(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(0).addClass('active')
+                
                 await init()
                 await smoothScroll()
                 await videoAutoPlay()
