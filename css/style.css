@@ -352,7 +352,7 @@ a:hover{color:inherit;}
     .coming .com-msg{font-size: 20px; line-height: 30px; color: #fff; text-transform: uppercase; text-align: center; margin-top: 60px;}
     .coming .com-foot{color: #666666; font-size: 11px; text-transform: uppercase; position:static; bottom: 20px; left: 0; width: 100%; text-align: center; margin-top: auto;}    
 }
-#header{position: sticky; z-index: 1100; width: 100%;    top: 0px;    transform: translateY(0);     opacity: 1; padding-bottom: 4rem;}
+#header{position: fixed; z-index: 1100; width: 100%;    top: 0px;    transform: translateY(0);     opacity: 1; padding-bottom: 4rem;}
 #header.nav-down {}
 #header.nav-up{}
 #header.nav-default{}
@@ -496,8 +496,8 @@ a:hover{color:inherit;}
   .filter-block .title button.active img{transform: rotateZ(135deg);}
   .filter-block .title button.active p{margin-top: -3.2rem;}
   .filter-list{margin-top: 2rem; transition: all 0.4s ease; transform: translateY(0px); overflow: hidden; height: 0; }
-  .filter-list ul{display: flex; flex-wrap: wrap; transition: all 0.4s ease; transform: translateY(100%);}
-  .filter-list ul li{width: 45.5rem; margin-right: 2rem;}
+  .filter-list ul{display: flex; flex-wrap: wrap; transition: all 0.4s ease; transform: translateY(100%); width: 75%;}
+  .filter-list ul li{width: 33.33%;}
   .filter-list ul li button{font-size: 2rem; display: flex; align-items: center; position: relative;}
   .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover;  transition: all 0.4s ease; border-radius: 50%; background-color: #000;}
   .filter-list ul li button:after{content: ""; width: 0rem; height: 0rem; background-size: cover;transition: all 0.4s ease; background-color: #fff; position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;}
@@ -589,8 +589,8 @@ a:hover{color:inherit;}
     .filter-block .title button.active img{transform: rotateZ(135deg);}
     .filter-block .title button.active p{margin-top: -2rem;}
     .filter-list{margin-top:1rem; transition: all 0.4s ease; transform: translateY(0px); overflow: hidden; height: 0; }
-    .filter-list ul{display: flex; flex-wrap: wrap; transition: all 0.4s ease; transform: translateY(100%); justify-content: space-between; row-gap: 0.5rem;}
-    .filter-list ul li{width:45%; margin-right: 0rem;}
+    .filter-list ul{display: flex; flex-wrap: wrap; transition: all 0.4s ease; transform: translateY(100%); justify-content: space-between; row-gap: 0.5rem; width: 100%;}
+    .filter-list ul li{width:50%; margin-right: 0rem;}
     .filter-list ul li.blink{display: none;}
     .filter-list ul li button{font-size: 1.5rem; display: flex; align-items: center; position: relative;}
     .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover;  transition: all 0.4s ease; border-radius: 50%; background-color: #000;}
