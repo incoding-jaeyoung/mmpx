@@ -352,7 +352,7 @@ a:hover{color:inherit;}
     .coming .com-msg{font-size: 20px; line-height: 30px; color: #fff; text-transform: uppercase; text-align: center; margin-top: 60px;}
     .coming .com-foot{color: #666666; font-size: 11px; text-transform: uppercase; position:static; bottom: 20px; left: 0; width: 100%; text-align: center; margin-top: auto;}    
 }
-#header{position: sticky; z-index: 1100; width: 100%;    top: 0px;    transform: translateY(0);     opacity: 1; padding-bottom: 4rem;}
+#header{position: fixed; z-index: 1100; width: 100%;    top: 0px;    transform: translateY(0);     opacity: 1; padding-bottom: 4rem; mix-blend-mode:difference;}
 #header.nav-down {}
 #header.nav-up{}
 #header.nav-default{}
