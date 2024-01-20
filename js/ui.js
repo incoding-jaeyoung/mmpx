@@ -156,11 +156,12 @@ $(function() {
                 $('#wrapper').removeClass('about-secton')
                 $('#wrapper').removeClass('contact-secton')
                 $('#wrapper').addClass('index-secton')
+                window.initMain();
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 headerScroll()
                 commonTween()
-                window.initMain();
+                
             },
             async once(data) {
                 $('#wrapper').addClass('index-secton')
@@ -206,7 +207,7 @@ $(function() {
                 await videoAutoPlay()
                 await commonTween()
                 await datagrid()
-                
+                window.removeMain();
                 
             }
           }, {
@@ -224,13 +225,15 @@ $(function() {
                 }, 400);
             },
             async enter(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(0).addClass('active')
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(0).addClass('active')
                 const pageName = data.next.namespace
+                $('#wrapper').removeClass('index-secton')
                 await pageTransitionOut(data.next.container, pageName)
                 await commonTween()
                 await headerScroll()
                 window.removeMain();
+                
             },
             async afterEnter(data) {
                 await smoothScroll()
@@ -238,13 +241,13 @@ $(function() {
                 await work()
             },
             async once(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(0).addClass('active')
+                
                 await init()
                 await smoothScroll()
                 await videoAutoPlay()
                 await commonTween()
                 await work()
+                window.removeMain();
             }
           }
           , {
@@ -280,7 +283,7 @@ $(function() {
                 await smoothScroll()
                 await init()
                 await commonTween()
-                
+                window.removeMain();
             }
           }
           , {
@@ -314,6 +317,7 @@ $(function() {
                 $('#wrapper').addClass('contact-secton')
                 await init()
                 await commonTween()
+                window.removeMain();
             }
           }
           
