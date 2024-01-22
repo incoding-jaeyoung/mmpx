@@ -16,22 +16,25 @@ window.onload = function () {
     });
 }
 function smoothScroll(){
-    // const locoScroll = new LocomotiveScroll({
-    //     el: document.querySelector(".contents-wrap"),
-    //     smooth: true
-    // });
-    // locoScroll.on('.contents-wrap', ScrollTrigger.update)
-    // ScrollTrigger.scrollerProxy(".contents-wrap", {
-    //     scrollTop(value) {
-    //       return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
-    //     }, // we don't have to define a scrollLeft because we're only scrolling vertically.
-    //     getBoundingClientRect() {
-    //       return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
-    //     },
-    //     pinType: document.querySelector(".contents-wrap").style.transform ? "transform" : "fixed"
-    // });
-    // ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
-    // ScrollTrigger.refresh();
+    const locoScroll = new LocomotiveScroll({
+        el: document.querySelector(".contents-wrap"),
+        smooth: true,
+        smartphone: {
+            smooth: false
+        }
+    });
+    locoScroll.on('.contents-wrap', ScrollTrigger.update)
+    ScrollTrigger.scrollerProxy(".contents-wrap", {
+        scrollTop(value) {
+          return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+        }, // we don't have to define a scrollLeft because we're only scrolling vertically.
+        getBoundingClientRect() {
+          return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
+        },
+        // pinType: document.querySelector(".contents-wrap").style.transform ? "transform" : "fixed"
+    });
+    ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
+    ScrollTrigger.refresh();
 }
 
 function delay(n) {
@@ -737,34 +740,6 @@ function init() {
 
 
 function commonTween() {
-    
-    $('.tada').each(function (e) {
-        let tada = $(this)
-        gsap.set(tada, {
-            opacity: 0,
-            scale:0.5
-        })
-        const upmotion = gsap.timeline({
-            scrollTrigger: {
-                trigger: $(this),
-                start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-                end: "0% 50%%", // 앞 : 객체 , 뒤 : 페이지 전체
-                // scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
-                toggleActions: "play  none none none",
-            },
-        });
-        upmotion.to(tada, 0.5, {
-            opacity: 1,
-            scale:1,
-            ease: "power3.out",
-        })
-        .to(tada, 0.5, {
-            scale:0.9,
-            ease: "power3.out",
-        })
-
-    })
     $('.fade').each(function (e) {
         let text = $(this)
         gsap.set(text, {
@@ -798,7 +773,7 @@ function commonTween() {
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
                 // markers: true,
-                // scroller: ".contents-wrap",
+                scroller: ".contents-wrap",
                 toggleActions: "play complete none reverse",
             },
         });
@@ -1014,7 +989,7 @@ function work(){
                         end: "80% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
                         // markers: true,
-                        // scroller: ".contents-wrap",
+                        scroller: ".contents-wrap",
                         toggleActions: "play none none reverse",
                     },
                 });
@@ -1039,7 +1014,7 @@ function work(){
                         end: "100% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
                         markers: true,
-                        // scroller: ".contents-wrap",
+                        scroller: ".contents-wrap",
                         toggleActions: "play none none reverse",
                     },
                 });
