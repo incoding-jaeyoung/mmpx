@@ -52,7 +52,7 @@ video[poster]{object-fit:contain;}
 
   /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
-    /* width: 0px; */
+    width: 0px;
   }
 
   *::-webkit-scrollbar-track {

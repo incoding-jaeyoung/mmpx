@@ -19,6 +19,9 @@ function smoothScroll(){
     const locoScroll = new LocomotiveScroll({
         el: document.querySelector(".contents-wrap"),
         smooth: true,
+        lerp:0.1,
+        duration: 1.2,
+        autoResize: true,
         smartphone: {
             smooth: false
         }
@@ -772,12 +775,12 @@ function commonTween() {
                 start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
-                 markers: true,
+                // markers: true,
                 scroller: ".contents-wrap",
                 toggleActions: "play complete none reverse",
             },
         });
-        upmotion.to(text,0.4, {
+        upmotion.to(text,1, {
             delay:0,
             y:'10%',
             ease: "none",
