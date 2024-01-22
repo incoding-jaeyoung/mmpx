@@ -20,7 +20,7 @@ body,html {font-size: 0.5208333333333334vw;}
 
 /* common */
 *{font-family:'mmpx','Pretendard', sans-serif;  box-sizing: border-box; font-weight:400; -webkit-font-smoothing: antialiased; -webkit-overflow-scrolling: touch; word-break: keep-all;}
-html{overflow: hidden;}
+html{}
 html, body {color: #000; }
 
 body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease; opacity: 0; height: 100%;}
@@ -31,7 +31,7 @@ body.fixed{overflow: hidden;}
   height: 100vh;
 }
 
-#wrapper{width: 100%; height: 100vh;  overflow: hidden;}
+#wrapper{width: 100%; height: 100vh;}
 .mob-view {display:none;}
 .pc-view{display: block;}
 .row{max-width: 192rem; margin: auto;}
