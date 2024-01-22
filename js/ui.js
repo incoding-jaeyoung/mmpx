@@ -772,7 +772,7 @@ function commonTween() {
                 start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
+                 markers: true,
                 scroller: ".contents-wrap",
                 toggleActions: "play complete none reverse",
             },
