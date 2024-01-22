@@ -21,7 +21,7 @@ body,html {font-size: 0.5208333333333334vw;}
 /* common */
 *{font-family:'mmpx','Pretendard', sans-serif;  box-sizing: border-box; font-weight:400; -webkit-font-smoothing: antialiased; -webkit-overflow-scrolling: touch; word-break: keep-all;}
 html{}
-html, body {color: #000; }
+html, body {color: #000;  overflow: hidden;}
 
 body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease; opacity: 0; height: 100%;}
 body.load{opacity: 1;}
@@ -415,9 +415,9 @@ a:hover{color:inherit;}
     .loading-screen.contact{padding-right:2rem;}
   }
   #wrapper{}
-  .contents-wrap{display: flex; flex-direction: column; height: 100vh;}
- .footer{display: flex; justify-content: space-between; padding: 24rem 2rem 2rem 2rem; font-size: 2.4rem; margin-top: auto;}
- .footer ul{display: flex; gap: 2rem;}
+  .contents-wrap{display: flex; flex-direction: column;}
+  .footer{display: flex; justify-content: space-between; padding: 24rem 2rem 2rem 2rem; font-size: 2.4rem; margin-top: auto;}
+  .footer ul{display: flex; gap: 2rem;}
   
   .contents{padding-top: 11.4rem; padding-left: 2rem; padding-right: 2rem;}
 
