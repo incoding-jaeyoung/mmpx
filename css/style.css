@@ -716,6 +716,7 @@ a:hover{color:inherit;}
 }
 
 /* contact */
+#wrapper.contact-secton .contents-wrap{min-height: 100vh;}
 #wrapper.contact-secton .contents{display: flex; flex-grow:1; align-items: center;}
 .contact-contents{display: flex; justify-content: space-between; width: 100%;}
 .contact-contents .office {}
