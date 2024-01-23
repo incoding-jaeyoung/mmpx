@@ -15,8 +15,9 @@ window.onload = function () {
         })        
     });
 }
+var locoScroll = '';
 function smoothScroll(){
-    const locoScroll = new LocomotiveScroll({
+    locoScroll = new LocomotiveScroll({
         el: document.querySelector(".contents-wrap"),
         smooth: true,
         lerp:0.1,
@@ -38,6 +39,7 @@ function smoothScroll(){
     });
     ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
     ScrollTrigger.refresh();
+    
 }
 
 function delay(n) {
@@ -214,7 +216,6 @@ $(function() {
                 await commonTween()
                 await datagrid()
                 window.removeMain();
-                
             }
           }, {
             name: 'detail',
@@ -383,7 +384,7 @@ function datagrid(){
         filterValue = filterFns[ filterValue ] || filterValue;
         setTimeout(() => {
             $grid.isotope({ filter: filterValue });
-        }, 600);
+        }, 400);
         var tl = gsap.timeline();
         tl.set(".work-list .grid-item span.block, .work-list.all-item .block",{
             delay:0,
@@ -399,7 +400,6 @@ function datagrid(){
                 $grid.isotope({ filter: filterValue });
                 $grid.isotope('updateSortData').isotope();
                 $grid.isotope('layout');
-                
             }
         })
         tl.to(".work-list .grid-item span.block, .work-list.all-item .block",{
@@ -413,6 +413,11 @@ function datagrid(){
                 videoAutoPlay()
             }
         })
+        // 스크롤 리프레쉬
+        commonTween()
+        setTimeout(() => {
+             ScrollTrigger.refresh()
+        }, 800);
         
       });
     $('.filters-button-group ').each( function( i, buttonGroup ) {
@@ -428,6 +433,9 @@ function datagrid(){
         $grid.isotope({ filter: '*' });
         $grid.isotope('updateSortData').isotope();
         $('.project-type li').eq(0).find('span').text('0')
+        setTimeout(() => {
+            ScrollTrigger.refresh()
+       }, 400);
     })
 
 
@@ -593,6 +601,7 @@ function init() {
                     $('.work-list').eq(1).addClass('hide')
                     contentReset()
                     commonTween()
+                    ScrollTrigger.refresh()
                 }
                 // delay:0.5,
                 
@@ -600,14 +609,15 @@ function init() {
             tl.call(
                 setTimeout(() => {
                     videoAutoPlay()
-                    
                 }, 500)
             );
+            setTimeout(() => {
+                ScrollTrigger.refresh()
+           }, 800);
         }else if(indexNum == 1){
             const fullwidth = $(".contents").innerWidth()
             const conwidth = $(".contents").width()
             const padding = - (fullwidth - conwidth)
-            console.log(padding)
             var tl = gsap.timeline();
             tl.call()
             tl.to('.work-block',{
@@ -624,6 +634,7 @@ function init() {
                     $('.work-list').eq(0).addClass('hide')
                     
                     contentReset()
+                    ScrollTrigger.refresh()
                 }
             }),
             tl.call(
@@ -631,6 +642,7 @@ function init() {
                     videoAutoPlay()
                 }, 500)
             );
+            
         }
 
     })
@@ -775,7 +787,7 @@ function commonTween() {
                 start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
+                markers: true,
                 scroller: ".contents-wrap",
                 toggleActions: "play complete none reverse",
             },
