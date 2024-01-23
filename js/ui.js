@@ -51,26 +51,30 @@ function delay(n) {
     })
   }
 
-// const screenNum = '';
-const loadingScreen = document.querySelector('.loading-screen')
-const loadingIndex = document.querySelector('.loading-screen.index')
-const loadingWork = document.querySelector('.loading-screen.work')
+const screenNum = '';
+// const loadingScreen = document.querySelector('.loading-screen')
+// const loadingIndex = document.querySelector('.loading-screen.index')
+// const loadingWork = document.querySelector('.loading-screen.work')
 const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
 function pageTransitionIn(pageName) {
     $('body').addClass('fixed')
     const screenNum = document.querySelector('.loading-screen.' + pageName)
+    const screensImg = $(screenNum).find('img')
+    console.log(screensImg)
     navClose()
     return gsap
-    .to(screenNum, {delay:0, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in",})
-    
+    .timeline({ delay: 0})
+    .add('start')
+    .set(screensImg, {duration: 0,y: '60vh',})
+    .to(screenNum, {delay:0, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh'}, 'start')
+    .to(screensImg, {delay:0.1, duration:0.5, y: '0vh',ease:"none",}, 'start')
 }
 // Function to add and remove the page transition screen
 function pageTransitionOut(container, pageName) {
-    console.log('2')
-    //    $('html').removeClass('fixed')
     const screenNum = document.querySelector('.loading-screen.' + pageName)
+    const screensImg = $(screenNum).find('img')
   // GSAP methods can be chained and return directly a promise
   return gsap
     .timeline({ delay: 0}) // More readable to put it here
@@ -97,7 +101,7 @@ function pageTransitionOut(container, pageName) {
         duration: 0,
         y: '0',
         transformOrigin: 'top left',
-      })
+        })
     .call(contentAnimation, [container])
 
 
@@ -145,39 +149,40 @@ $(function() {
                     $('.main-navigation li').removeClass('active')
                 },
               },
-            {
+        //     {
+        //     name: 'index',
+        //     to: { namespace: ['index'] },
+        //     async leave(data) {
+        //         const pageName = data.next.namespace
+        //         await pageTransitionIn(pageName)
+        //         data.current.container.remove()
+        //         $('html,body').animate({
+        //             scrollTop:0
+        //         },300)
+        //         setTimeout(() => {
+                   
+        //         }, 400);
+        //     },
+        //     async enter(data) {
+        //         $('#wrapper').removeClass('work-secton')
+        //         $('#wrapper').removeClass('about-secton')
+        //         $('#wrapper').removeClass('contact-secton')
+        //         $('#wrapper').addClass('index-secton')
+        //         window.initMain();
+        //         const pageName = data.next.namespace
+        //         await pageTransitionOut(data.next.container, pageName)
+        //         headerScroll()
+        //         commonTween()
+                
+        //     },
+        //     async once(data) {
+        //         $('#wrapper').addClass('index-secton')
+        //         commonTween()
+        //     }
+        //   }, 
+        {
             name: 'index',
             to: { namespace: ['index'] },
-            async leave(data) {
-                const pageName = data.next.namespace
-                await pageTransitionIn(pageName)
-                data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },300)
-                setTimeout(() => {
-                   
-                }, 400);
-            },
-            async enter(data) {
-                $('#wrapper').removeClass('work-secton')
-                $('#wrapper').removeClass('about-secton')
-                $('#wrapper').removeClass('contact-secton')
-                $('#wrapper').addClass('index-secton')
-                window.initMain();
-                const pageName = data.next.namespace
-                await pageTransitionOut(data.next.container, pageName)
-                headerScroll()
-                commonTween()
-                
-            },
-            async once(data) {
-                $('#wrapper').addClass('index-secton')
-                commonTween()
-            }
-          }, {
-            name: 'work',
-            to: { namespace: ['work'] },
             async leave(data) {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
@@ -185,17 +190,16 @@ $(function() {
                 $('html,body').animate({
                     scrollTop:0
                 },300)
-                
             },
             async enter(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(0).addClass('active')
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(0).addClass('active')
+                $('#wrapper').removeClass('about-secton')
+                $('#wrapper').removeClass('contact-secton')
+                $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 // await commonTween()
-                setTimeout(() => {
-                    
-                }, 400);
                 headerScroll()
                 await commonTween()
                 window.removeMain();
@@ -203,13 +207,11 @@ $(function() {
             },
             async afterEnter(data) {
                 await smoothScroll()
-                
                 await videoAutoPlay()
                 await datagrid()
+                $('#header').removeClass('disabled')
             },
             async once(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(0).addClass('active')
                 await smoothScroll()
                 await init()
                 await videoAutoPlay()
@@ -227,28 +229,26 @@ $(function() {
                 $('html,body').animate({
                     scrollTop:0
                 },300)
-                setTimeout(() => {
-                    
-                }, 400);
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(0).addClass('active')
+                $('#wrapper').removeClass('about-secton')
+                $('#wrapper').removeClass('contact-secton')
+                $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
-                $('#wrapper').removeClass('index-secton')
                 await pageTransitionOut(data.next.container, pageName)
-                await commonTween()
                 await headerScroll()
                 window.removeMain();
-                
             },
             async afterEnter(data) {
                 await smoothScroll()
                 await videoAutoPlay()
+                await commonTween()
                 await work()
+                $('#header').removeClass('disabled')
             },
             async once(data) {
-                
                 await init()
                 await smoothScroll()
                 await videoAutoPlay()
@@ -267,14 +267,12 @@ $(function() {
                 $('html,body').animate({
                     scrollTop:0
                 },300)
-                setTimeout(() => {
-                    
-                }, 400);
             },
             async enter(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(1).addClass('active')
-                
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(1).addClass('active')
+                $('#wrapper').removeClass('index-secton')
+                $('#wrapper').removeClass('contact-secton')
                 $('#wrapper').addClass('about-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
@@ -282,15 +280,17 @@ $(function() {
                 await headerScroll()
                 await commonTween()
                 window.removeMain();
+                $('#header').removeClass('disabled')
             },
             async once(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(1).addClass('active')
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(1).addClass('active')
                 $('#wrapper').addClass('about-secton')
                 await smoothScroll()
                 await init()
                 await commonTween()
                 window.removeMain();
+                
             }
           }
           , {
@@ -308,19 +308,19 @@ $(function() {
                 }, 400);
             },
             async enter(data) {
-               
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(2).addClass('active')
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(2).addClass('active')
+                $('#wrapper').removeClass('index-secton')
+                $('#wrapper').removeClass('about-secton')
                 $('#wrapper').addClass('contact-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 headerScroll()
                 await commonTween()
                 window.removeMain();
+                $('#header').removeClass('disabled')
             },
             async once(data) {
-                // $('.main-navigation li').removeClass('active')
-                // $('.main-navigation li').eq(2).addClass('active')
                 $('#wrapper').addClass('contact-secton')
                 await init()
                 await commonTween()
@@ -456,6 +456,38 @@ function datagrid(){
 
 }
 function headerScroll() {
+    gsap.to($('#header'), {
+        scrollTrigger: {
+            trigger:'.contents-wrap',
+          start: "100px 200px",
+          end: "100px 0%",
+        //   scrub: true,
+    //      markers: true,
+          scroller: ".contents-wrap",
+          toggleActions: "play none none none",
+          onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+          onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+          onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+          onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+        }
+      });
+      gsap.to($('#header'), {
+        scrollTrigger: {
+          trigger:'.contents-wrap',
+          start: "95% 100%",
+          end: "95% 0%",
+        //   scrub: true,
+          // markers: true,
+          scroller: ".contents-wrap",
+          toggleActions: "play none none none",
+          onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+          onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+          onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+          onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+        }
+      });
+}
+function headerScrollBAK() {
     
     var didScroll;
     var lastScrollTop = 0;
@@ -506,46 +538,51 @@ function headerScroll() {
 function navActive(){
     
     $('.main-navigation h1 a').on('click',function(){
-        navClose()
+        $('#header').addClass('disabled')
+    //     navClose()
+    //     $('#wrapper').removeClass('about-secton')
+    //     $('#wrapper').removeClass('contact-secton')
+    //     $('#wrapper').addClass('work-secton')
     })
     $('.main-navigation li a').on('click',function(){
+        $('#header').addClass('disabled')
+    //     const navName = $('.contents-wrap').attr('data-barba-namespace')
         
-        const navName = $('.contents-wrap').attr('data-barba-namespace')
-        console.log(navName)
-        if($(this).parent().hasClass('active') && navName == 'detail'){
-            console.log('일치')
-            return;
-        }else if($(this).parent().hasClass('active')){
-            return false;
-        }else{
+    //     if($(this).parent().hasClass('active') && navName == 'detail'){
+    //         console.log('일치')
+    //         return;
+    //     }else if($(this).parent().hasClass('active')){
+    //         return false;
+    //     }else{
             
-            const indexNum = $('.main-navigation li a').index(this)
-            setTimeout(() => {
-                $('#wrapper').removeClass('index-secton')
-                if($(this).parent().hasClass('active')){
-                    return false;
-                }
-                else{
-                    $('.main-navigation li').removeClass('active')
-                    $('.main-navigation li').eq(indexNum).addClass('active')
-                }
-                if(indexNum == 0){
-                    $('#wrapper').addClass('work-secton')
-                }else{
-                    $('#wrapper').removeClass('work-secton')
-                }
-                if(indexNum == 1){
-                    $('#wrapper').addClass('about-secton')
-                }else{
-                    $('#wrapper').removeClass('about-secton')
-                }
-                if(indexNum == 2){
-                    $('#wrapper').addClass('contact-secton')
-                }else{
-                    $('#wrapper').removeClass('contact-secton')
-                }
-            }, 600);
-        }
+    //         const indexNum = $('.main-navigation li a').index(this)
+    //         console.log(indexNum)
+    //         setTimeout(() => {
+    //             $('#wrapper').removeClass('index-secton')
+    //             if($(this).parent().hasClass('active')){
+    //                 return false;
+    //             }
+    //             else{
+    //                 $('.main-navigation li').removeClass('active')
+    //                 $('.main-navigation li').eq(indexNum).addClass('active')
+    //             }
+    //             if(indexNum == 0){
+    //                 $('#wrapper').addClass('work-secton')
+    //             }else{
+    //                 $('#wrapper').removeClass('work-secton')
+    //             }
+    //             if(indexNum == 1){
+    //                 $('#wrapper').addClass('about-secton')
+    //             }else{
+    //                 $('#wrapper').removeClass('about-secton')
+    //             }
+    //             if(indexNum == 2){
+    //                 $('#wrapper').addClass('contact-secton')
+    //             }else{
+    //                 $('#wrapper').removeClass('contact-secton')
+    //             }
+    //         }, 600);
+    //     }
     })
 }
 function videoAutoPlay(){
@@ -613,7 +650,7 @@ function init() {
             );
             setTimeout(() => {
                 ScrollTrigger.refresh()
-           }, 800);
+           }, 500);
         }else if(indexNum == 1){
             const fullwidth = $(".contents").innerWidth()
             const conwidth = $(".contents").width()
@@ -632,9 +669,11 @@ function init() {
                 onComplete:function(){
                     $('.work-list').eq(1).removeClass('hide')
                     $('.work-list').eq(0).addClass('hide')
-                    
                     contentReset()
-                    ScrollTrigger.refresh()
+                    // commonTween()
+                    setTimeout(() => {
+                        locoScroll.update()
+                   }, 500);
                 }
             }),
             tl.call(
@@ -642,7 +681,9 @@ function init() {
                     videoAutoPlay()
                 }, 500)
             );
-            
+            setTimeout(() => {
+                locoScroll.update()
+           }, 500);
         }
 
     })
@@ -655,6 +696,10 @@ function init() {
     $('.grid-item .line .title').on('click',function(){
         $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
         $(this).parents('.line').toggleClass('active')
+        setTimeout(() => {
+            locoScroll.update()
+       }, 200);
+        
     })
     var swiper = new Swiper(".work-slider", {
         slidesPerView: "auto",
@@ -787,7 +832,7 @@ function commonTween() {
                 start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
-                markers: true,
+                // markers: true,
                 scroller: ".contents-wrap",
                 toggleActions: "play complete none reverse",
             },
@@ -943,14 +988,12 @@ function commonTween() {
                 trigger: $(this),
                 start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 // scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
-                // scroller: ".contents-wrap",
+                markers: true,
+                scroller: ".contents-wrap",
                 toggleActions: "play none none reverse",
             },
             y: 40,
             opacity:0,
-            
-            
             stagger: 1,
             ease: 'Power1.easeOut'
         })
@@ -992,7 +1035,7 @@ function closeLayer(no) {
 
 
 function work(){
-    
+    console.log('asdasdasdasd')
     ScrollTrigger.matchMedia({
         "(min-width:769px)": function () {
             $('.work-preview .image').each(function (e) {
@@ -1003,7 +1046,7 @@ function work(){
                         start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                         end: "80% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
-                        // markers: true,
+                        markers: true,
                         scroller: ".contents-wrap",
                         toggleActions: "play none none reverse",
                     },
