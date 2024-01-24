@@ -426,6 +426,7 @@ a:hover{color:inherit;}
   @media (max-width: 768px) {
     .contents{padding:5.4rem 1.2rem 0 1.2rem}
     #header {padding-bottom: 0rem;}
+    #header.m-menu{ mix-blend-mode: normal;}
     
     .navTrigger{transform: scale(0.7);}
 
@@ -771,7 +772,7 @@ a:hover{color:inherit;}
 .winner-block img{width: 10rem;}
 .winner-block dt{display: flex; flex-direction: column; row-gap: 2rem;}
 .winner-block .cate{display: flex; flex-direction: column; row-gap: 12rem;}
-.about-slider {padding-top: 24rem;}
+.about-slider {padding-top: 24rem; display: none;}
 .about-slider .work-type .swiper-pagination{background: none;}
 .about-slider .slider .work-slider .swiper-slide{max-width: 81.2rem; margin-right: 56.8rem;}
 .about-slider .slider .work-slider .swiper-button-next {

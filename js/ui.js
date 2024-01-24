@@ -24,7 +24,7 @@ function smoothScroll(){
         duration: 1.2,
         autoResize: true,
         smartphone: {
-            smooth: false
+            smooth:true,
         }
     });
     locoScroll.on('.contents-wrap', ScrollTrigger.update)
@@ -35,7 +35,7 @@ function smoothScroll(){
         getBoundingClientRect() {
           return {top: 0, left: 0, width: window.innerWidth, height: window.innerHeight};
         },
-        // pinType: document.querySelector(".contents-wrap").style.transform ? "transform" : "fixed"
+        pinType: document.querySelector(".contents-wrap").style.transform ? "transform" : "fixed"
     });
     ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
     ScrollTrigger.refresh();
@@ -52,9 +52,6 @@ function delay(n) {
   }
 
 const screenNum = '';
-// const loadingScreen = document.querySelector('.loading-screen')
-// const loadingIndex = document.querySelector('.loading-screen.index')
-// const loadingWork = document.querySelector('.loading-screen.work')
 const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
@@ -62,7 +59,6 @@ function pageTransitionIn(pageName) {
     $('body').addClass('fixed')
     const screenNum = document.querySelector('.loading-screen.' + pageName)
     const screensImg = $(screenNum).find('img')
-    console.log(screensImg)
     navClose()
     return gsap
     .timeline({ delay: 0})
@@ -110,10 +106,6 @@ function pageTransitionOut(container, pageName) {
 
 // Function to animate the content of each page
 
-function workfunction(container) {
-    console.log('work 스크립트')
-    init()
-}
 function contentReset(container) {
     let triggers = ScrollTrigger.getAll();
         triggers.forEach( trigger => {
@@ -121,23 +113,11 @@ function contentReset(container) {
     });
 }
 function contentAnimation(container) {
-    headerScroll()
+    // headerScroll()
     $('.main-navigation').removeClass('nav-hide')
     init()
 }
 
-
-function navshow(){
-    $(mainNavigation).removeClass('nav-hide')
-}
-
-function navHide(){
-    
-    setTimeout(() => {
-        $(mainNavigation).addClass('nav-hide')
-    }, 1000);
-    
-}
 $(function() {
     barba.init({
         transitions: [
@@ -199,17 +179,16 @@ $(function() {
                 $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-                // await commonTween()
-                headerScroll()
-                await commonTween()
-                window.removeMain();
-                console.log(pageName)
+                await headerScroll()
+                // window.removeMain();
             },
             async afterEnter(data) {
+                $('#header').removeClass('disabled')
                 await smoothScroll()
                 await videoAutoPlay()
+                await commonTween()
                 await datagrid()
-                $('#header').removeClass('disabled')
+                
             },
             async once(data) {
                 await smoothScroll()
@@ -217,7 +196,7 @@ $(function() {
                 await videoAutoPlay()
                 await commonTween()
                 await datagrid()
-                window.removeMain();
+                // window.removeMain();
             }
           }, {
             name: 'detail',
@@ -239,7 +218,7 @@ $(function() {
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await headerScroll()
-                window.removeMain();
+                // window.removeMain();
             },
             async afterEnter(data) {
                 await smoothScroll()
@@ -254,7 +233,7 @@ $(function() {
                 await videoAutoPlay()
                 await commonTween()
                 await work()
-                window.removeMain();
+                // window.removeMain();
             }
           }
           , {
@@ -279,7 +258,7 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
-                window.removeMain();
+                // window.removeMain();
                 $('#header').removeClass('disabled')
             },
             async once(data) {
@@ -289,7 +268,7 @@ $(function() {
                 await smoothScroll()
                 await init()
                 await commonTween()
-                window.removeMain();
+                // window.removeMain();
                 
             }
           }
@@ -303,9 +282,6 @@ $(function() {
                 $('html,body').animate({
                     scrollTop:0
                 },300)
-                setTimeout(() => {
-                    
-                }, 400);
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
@@ -315,16 +291,16 @@ $(function() {
                 $('#wrapper').addClass('contact-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
-                headerScroll()
+                await headerScroll()
                 await commonTween()
-                window.removeMain();
+                // window.removeMain();
                 $('#header').removeClass('disabled')
             },
             async once(data) {
                 $('#wrapper').addClass('contact-secton')
                 await init()
                 await commonTween()
-                window.removeMain();
+                // window.removeMain();
             }
           }
           
@@ -352,16 +328,6 @@ function datagrid(){
     var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item',
         percentPosition: true,
-        // transitionDuration: 1,
-        // visibleStyle: {
-        //     opacity: 1,
-        //     transform: 'translateY(0)',
-        //   },
-        //   hiddenStyle: {
-        //     opacity: 1,
-        //     transform: 'translateY(100px)',
-        //   },
-        //   transformsEnabled: false,
     });
 
     const projectNum = $('.work-list .thumb').length;
@@ -487,102 +453,13 @@ function headerScroll() {
         }
       });
 }
-function headerScrollBAK() {
-    
-    var didScroll;
-    var lastScrollTop = 0;
-    var delta = 5;
-    var navbarHeight = $('#header').outerHeight();
-    $(window).scroll(function (event) {
-        didScroll = true;
-    });
 
-    setInterval(function () {
-        if (didScroll) {
-            hasScrolled();
-            didScroll = false;
-        }
-    }, 0);
-
-    function hasScrolled() {
-        var st = $(window).scrollTop();
-        const winw = $(window).width()
-        if(winw >= 769){
-            // Make sure they scroll more than delta
-            if (Math.abs(lastScrollTop - st) <= delta)
-                return;
-            if (st > lastScrollTop && st > navbarHeight) {
-                // Scroll Down
-                setTimeout(() => {
-                    $(mainNavigation).addClass('nav-hide')
-                }, 0);
-            } else {
-                // Scroll Up
-                if (st + $(window).height() < $(document).height()) {
-                    setTimeout(() => {
-                        // $(mainNavigation).removeClass('nav-hide')
-                    }, 0);
-                }
-            }
-            lastScrollTop = st;
-            if (st <= 10) {
-                
-                $(mainNavigation).addClass('nav-default')
-                $(mainNavigation).removeClass('nav-hide')
-            } else {
-                $(mainNavigation).removeClass('nav-default')
-            }
-        }
-    }
-}
 function navActive(){
-    
     $('.main-navigation h1 a').on('click',function(){
         $('#header').addClass('disabled')
-    //     navClose()
-    //     $('#wrapper').removeClass('about-secton')
-    //     $('#wrapper').removeClass('contact-secton')
-    //     $('#wrapper').addClass('work-secton')
     })
     $('.main-navigation li a').on('click',function(){
         $('#header').addClass('disabled')
-    //     const navName = $('.contents-wrap').attr('data-barba-namespace')
-        
-    //     if($(this).parent().hasClass('active') && navName == 'detail'){
-    //         console.log('일치')
-    //         return;
-    //     }else if($(this).parent().hasClass('active')){
-    //         return false;
-    //     }else{
-            
-    //         const indexNum = $('.main-navigation li a').index(this)
-    //         console.log(indexNum)
-    //         setTimeout(() => {
-    //             $('#wrapper').removeClass('index-secton')
-    //             if($(this).parent().hasClass('active')){
-    //                 return false;
-    //             }
-    //             else{
-    //                 $('.main-navigation li').removeClass('active')
-    //                 $('.main-navigation li').eq(indexNum).addClass('active')
-    //             }
-    //             if(indexNum == 0){
-    //                 $('#wrapper').addClass('work-secton')
-    //             }else{
-    //                 $('#wrapper').removeClass('work-secton')
-    //             }
-    //             if(indexNum == 1){
-    //                 $('#wrapper').addClass('about-secton')
-    //             }else{
-    //                 $('#wrapper').removeClass('about-secton')
-    //             }
-    //             if(indexNum == 2){
-    //                 $('#wrapper').addClass('contact-secton')
-    //             }else{
-    //                 $('#wrapper').removeClass('contact-secton')
-    //             }
-    //         }, 600);
-    //     }
     })
 }
 function videoAutoPlay(){
@@ -594,6 +471,7 @@ function videoAutoPlay(){
                 scroller: '',
                 start: '0 100%',
                 end: '100% 0%',
+                scroller: ".contents-wrap",
                 // markers: true,
                 onEnter: () => video.play(),
                 onEnterBack: () => video.play(),
@@ -606,13 +484,7 @@ function videoAutoPlay(){
         
   }
 function init() {
-    // $(".js-video-button").each(function(){
-    //     const urlAdress = $(this).attr('data-url')
-    //     console.log(urlAdress)
-    //     $(this).modalVideo({
-    //         url: urlAdress
-    //     });
-    // })
+    
     const work = $('.work-list').clone().appendTo('.work-block' )
     $('.work-list').eq(1).addClass('all-item').addClass('hide')
     $('.project-type a').on('click',function(){
@@ -800,30 +672,32 @@ function init() {
 
 
 function commonTween() {
-    $('.fade').each(function (e) {
-        let text = $(this)
-        gsap.set(text, {
-            opacity:0,
-        })
-        const upmotion = gsap.timeline({
-            scrollTrigger: {
-                trigger: $(this),
-                start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-                end: "50% 50%%", // 앞 : 객체 , 뒤 : 페이지 전체
-                scrub: true, //스크롤에 반응 (없으면 자동재생)
-                markers: true,
-                toggleActions: "play none none reverse",
-            },
-        });
-        upmotion.to(text, 3, {
-            opacity: 1,
-            ease: "power3.out",
-            onComplete: function () {
+    console.log('eded')
+    //ScrollTrigger.refresh()
+    // $('.fade').each(function (e) {
+    //     let text = $(this)
+    //     gsap.set(text, {
+    //         opacity:0,
+    //     })
+    //     const upmotion = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: $(this),
+    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             end: "50% 50%%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             scrub: true, //스크롤에 반응 (없으면 자동재생)
+    //             markers: true,
+    //             toggleActions: "play none none reverse",
+    //         },
+    //     });
+    //     upmotion.to(text, 3, {
+    //         opacity: 1,
+    //         ease: "power3.out",
+    //         onComplete: function () {
 
-            }
-        })
+    //         }
+    //     })
 
-    })
+    // })
     $('.work-list').eq(0).find('.grid-item').each(function (e) {
         let text = $(this).find('.thumb dt a')
         const upmotion = gsap.timeline({
@@ -832,155 +706,92 @@ function commonTween() {
                 start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
+                markers: true,
                 scroller: ".contents-wrap",
+                invalidateOnRefresh: true,
                 toggleActions: "play complete none reverse",
             },
         });
         upmotion.to(text,1, {
-            delay:0,
             y:'10%',
             ease: "none",
             onComplete: function () {
-
+                console.log('scroller')
             }
         })
 
     })
-    $('.slide-down').each(function (e) {
-        let text = $(this)
-        const upmotion = gsap.timeline({
-            scrollTrigger: {
-                trigger: $(this),
-                start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-                end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-                //                scrub: true, //스크롤에 반응 (없으면 자동재생)
-                //                markers: true,
-                toggleActions: "play complete none none",
-            },
-        });
-        upmotion.from(text, 1, {
-            y: -50,
-            opacity: 0,
-            //            ease: "power3.out",
-            onComplete: function () {
+    // $('.slide-down').each(function (e) {
+    //     let text = $(this)
+    //     const upmotion = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: $(this),
+    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             //                scrub: true, //스크롤에 반응 (없으면 자동재생)
+    //             //                markers: true,
+    //             toggleActions: "play complete none none",
+    //         },
+    //     });
+    //     upmotion.from(text, 1, {
+    //         y: -50,
+    //         opacity: 0,
+    //         //            ease: "power3.out",
+    //         onComplete: function () {
 
-            }
-        })
+    //         }
+    //     })
 
-    })
-    $('.slide-up, .about-con > *').each(function (e) {
-        // let text = $(this).wrapInner('<div class="over-text-con"></div>')
-        // let target = text.find('.over-text-con')
-        gsap.set($(this), {
-            y:40,
-            opacity: 0,
-        })
-        const upmotion = gsap.timeline({
-            scrollTrigger: {
-                trigger: $(this),
-                start: "top 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-                end: "top 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-                //scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
-                toggleActions: "play none none reverse",
-            },
-        });
-        upmotion.to($(this), 1, {
-            y:0,
-            opacity: 1,
-            ease: "power1.out",
-        })
+    // })
+    // $('.slide-up, .about-con > *').each(function (e) {
+    //     // let text = $(this).wrapInner('<div class="over-text-con"></div>')
+    //     // let target = text.find('.over-text-con')
+    //     gsap.set($(this), {
+    //         y:40,
+    //         opacity: 0,
+    //     })
+    //     const upmotion = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: $(this),
+    //             start: "top 80%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             end: "top 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             //scrub: true, //스크롤에 반응 (없으면 자동재생)
+    //             // markers: true,
+    //             toggleActions: "play none none reverse",
+    //         },
+    //     });
+    //     upmotion.to($(this), 1, {
+    //         y:0,
+    //         opacity: 1,
+    //         ease: "power1.out",
+    //     })
 
-    })
+    // })
     
-    ScrollTrigger.matchMedia({
-        "(min-width:769px)": function () {
-            $('.right-slide .swiper-wrapper').each(function (e){
-                let slideWidth = $(this).innerWidth()
-                let slide = $('.right-slide .swiper-wrapper .swiper-slide').width()
-                let innerWidth = $('.right-slide .swiper-wrapper .swiper-slide').length
-                let full = slide * innerWidth
-                console.log(slideWidth, slide * innerWidth, full - slideWidth)
-                let text = $(this)
-                const leftMotion = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: $('.highlight'),
-                        start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        end: "100% 50%",
-                        pin:true,
-                        scrub: 1, //스크롤에 반응 (없으면 자동재생)
-                        // markers: true,
-                    },
-                });
-                gsap.set(text, {
-                    x: '0%'
-                })
-                leftMotion.to(text, 1, {
-                    x: - (full - slideWidth + 120),
-                    ease: "none",
-                })
-            })
-        },
-        "(max-width:768px)": function () {
-            $('.right-slide .swiper-slide').each(function (e) {
-                var stagger = $(this)
-                gsap.set($('.mySwiper'), {
-                    x: '0%',
-                    opacity: 1,
-                    onComplete: function () {
-        
-                    }
-                })
-                gsap.set(stagger, {
-                    y:'20px',
-                    x: '0%',
-                    opacity: 0,
-                    onComplete: function () {
-        
-                    }
-                })
-                gsap.to(stagger, {
-                    scrollTrigger: {
-                        trigger: $(this),
-                        start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        // scrub: true, //스크롤에 반응 (없으면 자동재생)
-                        // markers: true,
-                        toggleActions: "play none none reverse",
-                    },
-                    y:'0px',
-                    opacity:1,
-                    stagger: 0.1,
-                    ease: 'Power1.easeOut'
-                })
-                
-            })
-        },
-    })
     
-    $('.over-text-wrap').each(function (e) {
-        $(this).find(' > *').addClass('over-text').wrapInner('<span class="over-text-con"></span>')
-        let text = $(this).find('.over-text-con')
-        const textmotion = gsap.timeline({
-            scrollTrigger: {
-                trigger: $(this),
-                start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
-                end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-                //                scrub: true, //스크롤에 반응 (없으면 자동재생)
-                // markers: true,
-                toggleActions: "play complete none none",
-            },
-        });
-        textmotion.to(text, 0.5, {
-            y: 0,
-            stagger: 0.3,
-            opacity: 1,
-            //            ease: "power2.inOut",
-            onComplete: function () {
+    // $('.over-text-wrap').each(function (e) {
+    //     $(this).find(' > *').addClass('over-text').wrapInner('<span class="over-text-con"></span>')
+    //     let text = $(this).find('.over-text-con')
+    //     const textmotion = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: $(this),
+    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             //                scrub: true, //스크롤에 반응 (없으면 자동재생)
+    //             // markers: true,
+    //             toggleActions: "play complete none none",
+    //         },
+    //     });
+    //     textmotion.to(text, 0.5, {
+    //         y: 0,
+    //         stagger: 0.3,
+    //         opacity: 1,
+    //         //            ease: "power2.inOut",
+    //         onComplete: function () {
 
-            }
-        })
-    })
+    //         }
+    //     })
+    // })
     $('.up-slide-stagger > *').each(function (e) {
         var stagger = $(this)
         gsap.from(stagger, {
@@ -1035,7 +846,6 @@ function closeLayer(no) {
 
 
 function work(){
-    console.log('asdasdasdasd')
     ScrollTrigger.matchMedia({
         "(min-width:769px)": function () {
             $('.work-preview .image').each(function (e) {
@@ -1087,10 +897,6 @@ function work(){
             })
         },
     })
-
-
-    
-    
 }
 
 
