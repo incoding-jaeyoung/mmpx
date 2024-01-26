@@ -203,7 +203,7 @@ a:hover{color:inherit;}
 .navTrigger.active i:nth-child(3) {
   -webkit-animation: inBtm 0.4s forwards;
   animation: inBtm 0.4s forwards;
-  bottom: 0.5rem;
+  bottom: 0.5rem; 
 }
 
 @-webkit-keyframes inM {
@@ -349,7 +349,7 @@ a:hover{color:inherit;}
     .coming .com-msg{font-size: 20px; line-height: 30px; color: #fff; text-transform: uppercase; text-align: center; margin-top: 60px;}
     .coming .com-foot{color: #666666; font-size: 11px; text-transform: uppercase; position:static; bottom: 20px; left: 0; width: 100%; text-align: center; margin-top: auto;}    
 }
-#header{position: fixed; z-index: 1100; width: 100%;    top: 0px;    transform: translateY(0);     opacity: 1; padding-bottom: 4rem; mix-blend-mode:difference;}
+#header{position: fixed; z-index: 1100; width: 100%;    top: 0px;    transform: translateY(0);     opacity: 1; padding-bottom: 4rem; mix-blend-mode:difference; pointer-events: none;}
 /* #header::after{content: ""; display: flex; position: absolute; background-color: #fff; width: 100%; height: 100%; left: 0; top: 0; z-index: 0; display: none;}
 #header:hover{mix-blend-mode: normal;}
 #header:hover a{color: #000 !important;}
@@ -359,14 +359,14 @@ a:hover{color:inherit;}
 #header.nav-up{}
 #header.nav-default{}
 
-#header nav.main-navigation{display: flex; justify-content: space-between; height: 7.4rem;  font-size: 4.2rem; align-items: center; padding: 0 2rem 0 0; box-sizing: content-box; overflow: hidden; position: relative; z-index: 10;}
+#header nav.main-navigation{display: flex; justify-content: space-between; height: 7.4rem;  font-size: 4.2rem; align-items: center; padding: 0 2rem 0 0; box-sizing: content-box; overflow: hidden; position: relative; z-index: 10; pointer-events: all; margin-left: 2rem;}
 
-#header nav.main-navigation .menu{height: 7.4rem; width: 7.8rem; display: flex; align-items: center; justify-content: center; transition: all 0.1s linear; overflow: hidden; margin-left: -7.8rem; opacity: 0; position: relative;}
+#header nav.main-navigation .menu{height: 7.4rem; display: flex; align-items: center; justify-content: center; transition: all 0.1s linear; overflow: hidden; margin-left: -3.8rem; opacity: 0; position: relative;}
 #header nav.main-navigation .menu svg {width: 3.8rem;}
 #header nav.main-navigation .menu svg rect{fill:#000;}
-#header nav.main-navigation ul{display: flex; padding-left: 2rem; margin-right: auto;transition: all 0.1s linear;}
+#header nav.main-navigation ul{display: flex; margin-right: auto;transition: all 0.1s linear;}
 #header nav.main-navigation ul li{margin-right: 1rem}
-#header nav.main-navigation ul li a{position: relative; color: #fff;}
+#header nav.main-navigation ul li a{position: relative; color: #fff; position: relative; display: flex; height:5.36rem; overflow: hidden;}
 #header nav.main-navigation ul li a:after{ transition: all 0.1s linear; content: ""; display: block; position: absolute; bottom: 0.6rem; left: 0; height:0.3rem; width:0 ; background-color: #000;}
 #header nav.main-navigation ul li a:hover{opacity: 1;}
 #header nav.main-navigation ul li a:hover::after{width: calc(100% - 0.8rem)}
@@ -376,8 +376,23 @@ a:hover{color:inherit;}
 #header nav.main-navigation h1 {transform: translateY(0%); transition: all 0.1s linear;}
 #header nav.main-navigation h1 a{opacity: 1; letter-spacing: -0.252rem; color: #fff;}
 #header nav.main-navigation.nav-hide h1{transform: translateY(100%);}
-#header nav.main-navigation.nav-hide .menu{width: 7.8rem; opacity: 1; margin-left: 0;}
-#header nav.main-navigation.nav-hide ul{opacity: 0;}
+#header nav.main-navigation.nav-hide .menu{opacity: 1; margin-left:0rem;}
+#header nav.main-navigation.nav-hide ul{}
+#header nav.main-navigation ul a span{display:flex; transition: all 0.2s linear; overflow: hidden; position: absolute; }
+
+#header nav.main-navigation ul li{}
+#header nav.main-navigation ul li:nth-of-type(1) a { width: 11.4rem;}
+#header nav.main-navigation ul li:nth-of-type(1) a span{transform: translateY(0%); height:5.36rem;}
+#header nav.main-navigation ul li:nth-of-type(2) a {width: 13.1rem;}
+#header nav.main-navigation ul li:nth-of-type(2) a span{transform: translateY(0%); height:5.36rem;}
+#header nav.main-navigation ul li:nth-of-type(3) a {width: 16rem;}
+#header nav.main-navigation ul li:nth-of-type(3) a span{transform: translateX(0%); width: 100%; right: 0;}
+
+#header nav.main-navigation.nav-hide ul li:nth-of-type(1) a span{height: 0;}
+#header nav.main-navigation.nav-hide ul li:nth-of-type(2) a span{height: 0px; bottom: 0; align-items: flex-end; }
+#header nav.main-navigation.nav-hide ul li:nth-of-type(3) a span{width: 0; right: 0; justify-content: flex-end;}
+
+
 #header.nav-default nav.main-navigation{transform: translateY(0) !important;}
 .loading-container {
   position: fixed;
@@ -428,7 +443,7 @@ a:hover{color:inherit;}
     #header {padding-bottom: 0rem;}
     #header.m-menu{ mix-blend-mode: normal;}
     
-    .navTrigger{transform: scale(0.7);}
+    .navTrigger{transform: scale(0.8);}
 
     #header nav.main-navigation ul{background:linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,1) 100%);}
     #header nav.main-navigation ul a{color: #fff; position: relative; display: inline-flex; overflow: hidden; height:5.36rem; }
@@ -447,7 +462,7 @@ a:hover{color:inherit;}
     #wrapper.contact-secton nav.main-navigation a{color: #0064FF;}
     #wrapper.contact-secton nav.main-navigation h1 a{color: #0064FF;}
 
-    #header nav.main-navigation{display: flex; justify-content: space-between; height: 5.4rem;  padding: 0 1.2rem 0 0; box-sizing: content-box;}
+    #header nav.main-navigation{display: flex; justify-content: space-between; height: 5.4rem;  padding: 0 1.2rem 0 0; box-sizing: content-box; margin-left: 0;}
     #header nav.main-navigation .menu{margin-left: 0; opacity: 1; width:5.4rem; height: 5.4rem; position: relative; z-index: 10;}
     #header nav.main-navigation.nav-hide .menu{width:5.4rem; opacity: 1; margin-left: 0;}
     #header nav.main-navigation .menu svg{width: 4.3rem; height: 4rem;}
@@ -483,7 +498,7 @@ a:hover{color:inherit;}
   #wrapper.contact-secton .footer *{color: #0064FF;}
   #wrapper.contact-secton .contents{color:#0064FF;}
 
-  .project-type{display: flex; justify-content: flex-end;}
+  .project-type{display: flex; justify-content: flex-end; margin-right: -0.5rem;}
   .project-type ul{font-size: 4.2rem; display: flex; justify-self: flex-end;}
   .project-type ul li{position: relative; margin-left:1rem;}
   .project-type ul li a{ opacity: 0.4; display: flex;}
@@ -577,7 +592,7 @@ a:hover{color:inherit;}
   .slider .work-slider .swiper-button-prev::after {display: none;}
 
   @media (max-width: 768px) {
-    .project-type{display: flex;  justify-content: flex-end; margin-top: 4rem;  padding-bottom: 2rem;}
+    .project-type{display: flex;  justify-content: flex-end; margin-top: 4rem;  padding-bottom: 2rem; margin-right: 0;}
     .project-type ul{font-size: 3rem; display: flex; flex-direction: column; justify-self: flex-end;}
     .project-type ul li{position: relative; margin-left:1rem; display: flex; justify-content: flex-end;}
     .project-type ul li em{display: none;}

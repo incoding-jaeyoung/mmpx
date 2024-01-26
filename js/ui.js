@@ -179,15 +179,16 @@ $(function() {
                 $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
+                await smoothScroll()
                 await headerScroll()
+                await commonTween()
+                await videoAutoPlay()
+                await datagrid()
+                $('#header').removeClass('disabled')
                 // window.removeMain();
             },
             async afterEnter(data) {
-                $('#header').removeClass('disabled')
-                await smoothScroll()
-                await videoAutoPlay()
-                await commonTween()
-                await datagrid()
+                
                 
             },
             async once(data) {
@@ -217,15 +218,18 @@ $(function() {
                 $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
+                await smoothScroll()
                 await headerScroll()
+                await commonTween()
+                await videoAutoPlay()
+                
+                await work()
+                $('#header').removeClass('disabled')
                 // window.removeMain();
             },
             async afterEnter(data) {
-                await smoothScroll()
-                await videoAutoPlay()
-                await commonTween()
-                await work()
-                $('#header').removeClass('disabled')
+                
+                
             },
             async once(data) {
                 await init()
@@ -706,7 +710,7 @@ function commonTween() {
                 start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
-                markers: true,
+                // markers: true,
                 scroller: ".contents-wrap",
                 invalidateOnRefresh: true,
                 toggleActions: "play complete none reverse",
