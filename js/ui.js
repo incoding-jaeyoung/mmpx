@@ -429,36 +429,44 @@ function datagrid(){
 
 }
 function headerScroll() {
-    gsap.to($('#header'), {
-        scrollTrigger: {
-            trigger:'.contents-wrap',
-          start: "100px 200px",
-          end: "100px 0%",
-        //   scrub: true,
-    //      markers: true,
-          scroller: ".contents-wrap",
-          toggleActions: "play none none none",
-          onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
-          onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
-          onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
-          onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
-        }
-      });
-      gsap.to($('#header'), {
-        scrollTrigger: {
-          trigger:'.contents-wrap',
-          start: "95% 100%",
-          end: "95% 0%",
-        //   scrub: true,
-          // markers: true,
-          scroller: ".contents-wrap",
-          toggleActions: "play none none none",
-          onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
-          onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
-          onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
-          onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
-        }
-      });
+    ScrollTrigger.matchMedia({
+        "(min-width:769px)": function () { // 모바일 작동
+            gsap.to($('#header'), {
+                scrollTrigger: {
+                    trigger:'.contents-wrap',
+                  start: "100px 200px",
+                  end: "100px 0%",
+                //   scrub: true,
+            //      markers: true,
+                  scroller: ".contents-wrap",
+                  toggleActions: "play none none none",
+                  onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+                  onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+                  onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+                  onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+                }
+              });
+              gsap.to($('#header'), {
+                scrollTrigger: {
+                  trigger:'.contents-wrap',
+                  start: "95% 100%",
+                  end: "95% 0%",
+                //   scrub: true,
+                  // markers: true,
+                  scroller: ".contents-wrap",
+                  toggleActions: "play none none none",
+                  onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+                  onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+                  onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+                  onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+                }
+              });
+        },
+        "(max-width:768px)": function () { // pc 작동
+            
+        },
+    })
+    
 }
 
 function navActive(){
