@@ -295,6 +295,7 @@ $(function() {
                 $('#wrapper').addClass('contact-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
+                await smoothScroll()
                 await headerScroll()
                 await commonTween()
                 // window.removeMain();
@@ -303,6 +304,8 @@ $(function() {
             async once(data) {
                 $('#wrapper').addClass('contact-secton')
                 await init()
+                await smoothScroll()
+                await headerScroll()
                 await commonTween()
                 // window.removeMain();
             }

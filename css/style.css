@@ -427,6 +427,7 @@ a:hover{color:inherit;}
   .loading-screen.about{background-color: #081EC9; padding-right: 15rem;}
   .loading-screen.contact{padding-right: 5rem; background-color: #000;}
   @media (max-width: 768px) {
+    .loading-screen.index{padding-right: 1.2rem;}
     .loading-screen.work{ padding-right:2rem;}
     .loading-screen.about{background-color: #081EC9; padding-right:2rem;}
     .loading-screen.contact{padding-right:2rem;}
@@ -436,7 +437,7 @@ a:hover{color:inherit;}
   .footer{display: flex; justify-content: space-between; padding: 24rem 2rem 2rem 2rem; font-size: 2.4rem; margin-top: auto;}
   .footer ul{display: flex; gap: 2rem;}
   
-  .contents{padding-top: 11.4rem; padding-left: 2rem; padding-right: 2rem;}
+  .contents{padding-top: 25rem; padding-left: 2rem; padding-right: 2rem;}
 
   @media (max-width: 768px) {
     .contents{padding:5.4rem 1.2rem 0 1.2rem}
@@ -459,8 +460,8 @@ a:hover{color:inherit;}
     #header.m-menu nav.main-navigation h1 a{color: #fff;}
     #header.m-menu nav.main-navigation svg rect{fill:#fff}
     #header.m-menu nav.main-navigation a::after{background-color: #fff;}
-    #wrapper.contact-secton nav.main-navigation a{color: #0064FF;}
-    #wrapper.contact-secton nav.main-navigation h1 a{color: #0064FF;}
+    #wrapper.contact-secton nav.main-navigation a{}
+    #wrapper.contact-secton nav.main-navigation h1 a{}
 
     #header nav.main-navigation{display: flex; justify-content: space-between; height: 5.4rem;  padding: 0 1.2rem 0 0; box-sizing: content-box; margin-left: 0;}
     #header nav.main-navigation .menu{margin-left: 0; opacity: 1; width:5.4rem; height: 5.4rem; position: relative; z-index: 10;}
@@ -492,11 +493,11 @@ a:hover{color:inherit;}
   #wrapper.about-secton nav.main-navigation a::after{background-color: #fff;}
   #wrapper.about-secton .footer *{color: #fff;}
   #wrapper.contact-secton{background-color: #000;}
-  #wrapper.contact-secton nav.main-navigation .menu i{background-color: #0064FF;}
-  #wrapper.contact-secton nav.main-navigation a{color: #0064FF;}
-  #wrapper.contact-secton nav.main-navigation a::after{background-color: #0064FF;}
-  #wrapper.contact-secton .footer *{color: #0064FF;}
-  #wrapper.contact-secton .contents{color:#0064FF;}
+  #wrapper.contact-secton nav.main-navigation .menu i{}
+  #wrapper.contact-secton nav.main-navigation a{}
+  #wrapper.contact-secton nav.main-navigation a::after{}
+  #wrapper.contact-secton .footer *{color: #fff;}
+  #wrapper.contact-secton .contents{color:#fff;}
 
   .project-type{display: flex; justify-content: flex-end; margin-right: -0.5rem;}
   .project-type ul{font-size: 4.2rem; display: flex; justify-self: flex-end;}
@@ -739,7 +740,7 @@ a:hover{color:inherit;}
 /* contact */
 #wrapper.contact-secton .contents-wrap{min-height: 100vh;}
 #wrapper.contact-secton .contents{display: flex; flex-grow:1; align-items: center;}
-.contact-contents{display: flex; justify-content: space-between; width: 100%;}
+.contact-contents{display: flex; justify-content: space-between; width: 100%; flex-wrap: wrap;}
 .contact-contents .office {}
 .contact-contents .office dl{display: flex; flex-direction: column; width: 82rem; row-gap: 1rem;}
 .contact-contents .office dt{margin-bottom: 1rem;}
@@ -747,16 +748,19 @@ a:hover{color:inherit;}
 .contact-contents .contact{display: flex; flex-direction: column; width: 82rem; row-gap: 4rem;}
 .contact-contents dt{font-size: 1.8rem;}
 .contact-contents dd{font-size: 4rem;}
+.contact-contents .image{margin-top: 10rem; width: 100%;}
 @media (max-width: 768px) {
   #wrapper.contact-secton .contents{display: flex; flex-grow:1; align-items:flex-start;}
   .contact-contents{display: flex; flex-direction: column; justify-content:flex-start; width: 100%; row-gap: 4rem; padding-top: 14rem;}
-  .contact-contents .office {}
+  .contact-contents .office {width: 100%;}
   .contact-contents .office dl{display: flex; flex-direction: column; width: 100%; row-gap: 0rem;}
   .contact-contents .office dt{margin-bottom: 2rem; font-size: 1.5rem;}
   .contact-contents .office dd{font-size: 1.8rem; line-height: 2.4rem;}
   .contact-contents .contact{display: flex; flex-direction: column; width: 82rem; row-gap: 2rem;}
   .contact-contents dt{font-size: 1.5rem;}
   .contact-contents dd{font-size: 3rem;}
+  .contact-contents .image{ width: calc(100vw); margin-left: -1.2rem; margin-top: 0rem;}
+  
 }
 /* about */
 .about-con > *{opacity: 0;}
