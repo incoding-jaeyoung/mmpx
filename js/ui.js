@@ -461,6 +461,31 @@ function headerScroll() {
                   onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
                 }
               });
+            $('#header .main-navigation').on('mouseover',function(){
+                if($('#header .main-navigation').hasClass('nav-hide')){
+                    gsap.to($('#header .bg'), {
+                        duration:0.1,
+                        height:'100%',
+                        onStart:function(){
+                            $('#header').addClass('over')
+                        }
+                    })
+                }
+            })
+            $('#header').on('mouseleave',function(){
+                gsap.to($('#header .bg'), {
+                    delay:0.3,
+                    duration:0.2,
+                    height:'0%',
+                    onComplete:function(){
+                        setTimeout(() => {
+                            $('#header').removeClass('over')
+                        }, 100)
+                        
+                    }
+                })
+                
+            })
         },
         "(max-width:768px)": function () { // pc 작동
             
@@ -814,7 +839,7 @@ function commonTween() {
                 trigger: $(this),
                 start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
                 // scrub: true, //스크롤에 반응 (없으면 자동재생)
-                markers: true,
+                // markers: true,
                 scroller: ".contents-wrap",
                 toggleActions: "play none none reverse",
             },
@@ -871,7 +896,7 @@ function work(){
                         start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                         end: "80% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
-                        markers: true,
+                        // markers: true,
                         scroller: ".contents-wrap",
                         toggleActions: "play none none reverse",
                     },
@@ -896,7 +921,7 @@ function work(){
                         start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                         end: "100% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
-                        markers: true,
+                        // markers: true,
                         scroller: ".contents-wrap",
                         toggleActions: "play none none reverse",
                     },
@@ -918,3 +943,114 @@ function work(){
 
 
 
+/* 글자섞기 */
+function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index, useEvent = true) {
+    this.element = element;
+    this.onload = onload;
+    this.index = delay === true ? index + 1 : 1;
+    this.texts = this.element.textContent;
+    this.startTexts = this.texts;
+    this.iterationNumber = this.texts.length;
+    this.iterationSpeed = iterationSpeed;
+    this.displayedSpeed = displayedSpeed;
+
+    this.textsArr = [];
+    this.textsNewArr = [];
+    this.newText = '';
+    this.isRunning = false;
+    this.renderCount = 0;
+
+    if(useEvent) this.setupEvents();
+}
+
+ShuffleText.prototype.setupEvents = function() {
+    if (this.onload === true) {
+        this.iteration();
+    }
+    var that = this;
+    this.element.addEventListener('mouseover', function() {
+        that.iteration(true);
+    }, false);
+};
+
+ShuffleText.prototype.createNewArr = function() {
+    for (var i = 0; i < this.texts.length; i++) {
+        this.textsArr.push(this.texts[i]);
+    }
+    this.textsNewArr = this.textsArr;
+};
+
+ShuffleText.prototype.createNewTexts = function() {
+    for (var i = 0; i < this.textsNewArr.length; i++) {
+        var num = i + this.renderCount;
+        if(num >= this.textsNewArr.length) num = num - this.textsNewArr.length;
+        this.newText += this.textsNewArr[num];
+    }
+    this.element.textContent = this.newText;
+};
+
+ShuffleText.prototype.reset = function() {
+    this.newText = '';
+    this.textsArr = [];
+    this.textsNewArr = [];
+};
+
+ShuffleText.prototype.render = function() {
+    this.createNewArr();
+    this.createNewTexts();
+    this.reset();
+};
+
+ShuffleText.prototype.iteration = function(ev) {
+    if (this.isRunning !== false) return;
+    if (ev === true) this.index = 1;
+
+    this.isRunning = true;
+    this.renderCount = 0;
+
+    var that = this;
+    for (var i = 0; i < this.iterationNumber; i++) {
+        (function(i) {
+        setTimeout(function() {
+            that.renderCount++;
+            that.render();
+            
+            if (i === that.iterationNumber - 1) {
+            that.element.textContent = '';
+            
+            for (var j = 0; j < that.startTexts.length; j++) {
+                (function(j) {
+                setTimeout(function() {
+                    that.element.textContent += that.startTexts[j];
+                    
+                    if (j === that.startTexts.length - 1) {
+                    that.isRunning = false;
+                    }
+                }, j * that.displayedSpeed);
+                })(j);
+            }
+            }
+        }, i * that.index * that.iterationSpeed);
+        })(i);
+    }
+};
+
+
+(function() {
+    $(function () {
+        var classes = document.getElementsByClassName('shuffleText');
+        for (var i = 0; i < classes.length; i++) {
+            var shuffleText = new ShuffleText(classes[i], false, false, 8, 50, 0, i);
+            $(classes[i]).data('shuffleText', shuffleText);
+        }
+    });
+})();
+$(".thumb").each(function (i) {
+    var dd = $(this).find(" dd");
+    var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 50, 0, 11+i, false);
+    var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 50, 0, 11+i, false);
+    $(this).on('mouseenter', () => {
+       shuffleText1.iteration(true);
+       setTimeout(() => shuffleText2.iteration(true), 1000/30);
+    });
+ });
