@@ -884,28 +884,7 @@ function work(){
             })
         },
         "(max-width:768px)": function () {
-            $('.work-contents .preview-img img').each(function (e) {
-                let text = $(this)
-                const upmotion = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: $(this),
-                        start: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        end: "100% 0%%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        scrub: true, //스크롤에 반응 (없으면 자동재생)
-                        // markers: true,
-                        scroller: ".contents-wrap",
-                        toggleActions: "play none none reverse",
-                    },
-                });
-                upmotion.to(text, 1.4, {
-                    scale:1.2,
-                    opacity: 1,
-                    ease: "power3.out",
-                    onComplete: function () {
-        
-                    }
-                })
-            })
+            
         },
     })
 }
