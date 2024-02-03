@@ -337,14 +337,18 @@ function datagrid(){
         percentPosition: true,
     });
 
-    const projectNum = $('.work-list .thumb').length;
-    $('.project-type li').eq(1).find('span').text(projectNum / 2)
-        var $grid = $('.work-list').isotope({
+    const projectNum = $('.work-list.selected .thumb').length;
+    const allNum = $('.work-list.all-item .grid-item').length;
+    $('.project-type li.selected').find('span').text(projectNum)
+    $('.project-type li.all').find('span').text(allNum)
+    var $grid = $('.work-list').isotope({
         itemSelector: '.grid-item'
     });
+    
+        
     var filterFns = {};
-    $('.work-list .grid-item').append('<span class="block"></span>')
-    $('.work-list.all-item').append('<span class="block"></span>')
+    // $('.work-list .grid-item').append('<span class="block"></span>')
+    // $('.work-list.all-item').append('<span class="block"></span>')
     $('.filters-button-group').on( 'click', 'button', function(event) {
         contentReset()
         var $target = $( event.currentTarget );
@@ -474,13 +478,13 @@ function headerScroll() {
             })
             $('#header').on('mouseleave',function(){
                 gsap.to($('#header .bg'), {
-                    delay:0.3,
+                    delay:0.4,
                     duration:0.2,
                     height:'0%',
                     onComplete:function(){
                         setTimeout(() => {
                             $('#header').removeClass('over')
-                        }, 100)
+                        },0)
                         
                     }
                 })
@@ -513,7 +517,7 @@ function videoAutoPlay(){
                 end: '100% 0%',
                 scroller: ".contents-wrap",
                 // markers: true,
-                onEnter: () => video.play(),
+                onEnter: () => video.play(),  
                 onEnterBack: () => video.play(),
                 onLeave: () => video.pause(),
                 onLeaveBack: () => video.pause(),
@@ -525,29 +529,21 @@ function videoAutoPlay(){
   }
 function init() {
     
-    const work = $('.work-list').clone().appendTo('.work-block' )
-    $('.work-list').eq(1).addClass('all-item').addClass('hide')
+    //  const work = $('.work-list').clone().appendTo('.work-block' )
+    // $('.work-list').eq(1).addClass('all-item').addClass('hide')
     $('.project-type a').on('click',function(){
         const indexNum = $('.project-type a').index(this)
-        console.log(indexNum)
-        $('.project-type li').removeClass('active')
-        $('.project-type li').eq(indexNum).addClass('active')
+        // console.log(indexNum)
+        // $('.project-type li').removeClass('active')
+        // $('.project-type li').eq(indexNum).addClass('active')
         if(indexNum == 0){
             var tl = gsap.timeline();
-            tl.call(
-                
-            )
             tl.to('.work-block',{
-                onStart:function(){
-                    $('.work-list').eq(0).removeClass('hide')
-                },
                 duration: 1.2,
                 x:'0%',
                 marginLeft: 0,
                 ease: "power2.inOut",
                 onComplete:function(){
-                    $('.work-list').eq(0).removeClass('hide')
-                    $('.work-list').eq(1).addClass('hide')
                     contentReset()
                     commonTween()
                     ScrollTrigger.refresh()
@@ -555,14 +551,6 @@ function init() {
                 // delay:0.5,
                 
             })
-            tl.call(
-                setTimeout(() => {
-                    videoAutoPlay()
-                }, 500)
-            );
-            setTimeout(() => {
-                ScrollTrigger.refresh()
-           }, 500);
         }else if(indexNum == 1){
             const fullwidth = $(".contents").innerWidth()
             const conwidth = $(".contents").width()
@@ -570,40 +558,23 @@ function init() {
             var tl = gsap.timeline();
             tl.call()
             tl.to('.work-block',{
-                onStart:function(){
-                    $('.work-list').eq(1).removeClass('hide')
-                },
-                // delay:0.5,
                 duration:1.2,
-                x:"-50%",
-                marginLeft: padding,
                 ease: "power2.inOut",
                 onComplete:function(){
-                    $('.work-list').eq(1).removeClass('hide')
-                    $('.work-list').eq(0).addClass('hide')
                     contentReset()
-                    // commonTween()
                     setTimeout(() => {
                         locoScroll.update()
                    }, 500);
                 }
-            }),
-            tl.call(
-                setTimeout(() => {
-                    videoAutoPlay()
-                }, 500)
-            );
-            setTimeout(() => {
-                locoScroll.update()
-           }, 500);
+            })
         }
 
     })
     $('.grid-item').each(function(){
-        const itemName = $(this).find('.thumb .title').text()
-        const itemCate = $(this).find('.thumb .cate').text()
-        $(this).find('.line .title dt').text(itemName)
-        $(this).find('.line .title dd').text(itemCate)
+        // const itemName = $(this).find('.thumb .title').text()
+        // const itemCate = $(this).find('.thumb .cate').text()
+        // $(this).find('.line .title dt').text(itemName)
+        // $(this).find('.line .title dd').text(itemCate)
     })
     $('.grid-item .line .title').on('click',function(){
         $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
@@ -888,7 +859,7 @@ function closeLayer(no) {
 function work(){
     ScrollTrigger.matchMedia({
         "(min-width:769px)": function () {
-            $('.work-preview .image').each(function (e) {
+            $('.work-contents .preview-img').each(function (e) {
                 let text = $(this)
                 const upmotion = gsap.timeline({
                     scrollTrigger: {
@@ -913,7 +884,7 @@ function work(){
             })
         },
         "(max-width:768px)": function () {
-            $('.work-preview .image img').each(function (e) {
+            $('.work-contents .preview-img img').each(function (e) {
                 let text = $(this)
                 const upmotion = gsap.timeline({
                     scrollTrigger: {
