@@ -460,6 +460,7 @@ function videoAutoPlay(){
         
   }
 function init() {
+    
     $('.project-type li.selected a').on('click',function(){
         locoScroll.scrollTo("top")
         ScrollTrigger.refresh();
@@ -785,6 +786,18 @@ function closeLayer(no) {
 
 
 function work(){
+    // var player = new Vimeo.Player(document.querySelector('.iframeVimeo iframe'));
+    // var iframe = document.querySelector('.iframeVimeo').addEventListener('click', function() {
+    //     console.log(player)
+    //     player.getPaused().then(function(paused) {
+    //         if (paused) {
+    //             player.play();
+    //         } else {
+    //             player.pause();
+    //         }
+    //     }).catch(function(error) {
+    //     });
+    // });
     ScrollTrigger.matchMedia({
         "(min-width:769px)": function () {
             $('.work-contents .preview-img').each(function (e) {
