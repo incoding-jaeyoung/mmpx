@@ -8,11 +8,10 @@ window.onload = function () {
     $('body').imagesLoaded().done(function (instance) {
         $('body').addClass('load')
         headerScroll()
-        navActive()
         $('.main-navigation .menu').on('click',function(){
             $(this).find('.navTrigger').toggleClass('active')
             $('#header').toggleClass('m-menu')
-        })        
+        })
     });
 }
 var locoScroll = '';
@@ -20,12 +19,16 @@ function smoothScroll(){
     locoScroll = new LocomotiveScroll({
         el: document.querySelector(".contents-wrap"),
         smooth: true,
-        lerp:0.1,
+        lerp: 0.055,
         duration: 1.2,
         autoResize: true,
+        touchMultiplier: 5,
         smartphone: {
-            smooth:true,
-        }
+            smooth: true,
+            breakpoint: 0,
+            lerp: 0,
+        },
+        
     });
     locoScroll.on('.contents-wrap', ScrollTrigger.update)
     ScrollTrigger.scrollerProxy(".contents-wrap", {
@@ -99,9 +102,6 @@ function pageTransitionOut(container, pageName) {
         transformOrigin: 'top left',
         })
     .call(contentAnimation, [container])
-
-
-
 }
 
 // Function to animate the content of each page
@@ -189,7 +189,6 @@ $(function() {
             },
             async afterEnter(data) {
                 
-                
             },
             async once(data) {
                 await smoothScroll()
@@ -197,7 +196,6 @@ $(function() {
                 await videoAutoPlay()
                 await commonTween()
                 await datagrid()
-                // window.removeMain();
             }
           }, {
             name: 'detail',
@@ -221,11 +219,9 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
-                await videoAutoPlay()
-                
+                // await videoAutoPlay()
                 await work()
                 $('#header').removeClass('disabled')
-                // window.removeMain();
             },
             async afterEnter(data) {
                 
@@ -234,10 +230,9 @@ $(function() {
             async once(data) {
                 await init()
                 await smoothScroll()
-                await videoAutoPlay()
+                // await videoAutoPlay()
                 await commonTween()
                 await work()
-                // window.removeMain();
             }
           }
           , {
@@ -262,7 +257,6 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
-                // window.removeMain();
                 $('#header').removeClass('disabled')
             },
             async once(data) {
@@ -272,8 +266,6 @@ $(function() {
                 await smoothScroll()
                 await init()
                 await commonTween()
-                // window.removeMain();
-                
             }
           }
           , {
@@ -298,7 +290,6 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
-                // window.removeMain();
                 $('#header').removeClass('disabled')
             },
             async once(data) {
@@ -307,7 +298,7 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
-                // window.removeMain();
+                
             }
           }
           
@@ -321,7 +312,7 @@ function navClose(){
 }
 
 function datagrid(){
-    $('.grid-item').each(function(){
+    $('.work-list.all-item .grid-item').each(function(){
         const moreNum = $(this).find('.more').length
         if(moreNum == 1){
             $(this).find('.select').show();
@@ -332,69 +323,38 @@ function datagrid(){
             $(this).find('.open').hide();
         }
     })
-    var $grid = $('.work-list').isotope({
+    var $grid = $('.work-list.all-item').isotope({
         itemSelector: '.grid-item',
         percentPosition: true,
+        transitionDuration: 0,
+        
     });
-
     const projectNum = $('.work-list.selected .thumb').length;
     const allNum = $('.work-list.all-item .grid-item').length;
     $('.project-type li.selected').find('span').text(projectNum)
     $('.project-type li.all').find('span').text(allNum)
-    var $grid = $('.work-list').isotope({
+    var $grid = $('.work-list.all-item').isotope({
         itemSelector: '.grid-item'
     });
-    
         
     var filterFns = {};
-    // $('.work-list .grid-item').append('<span class="block"></span>')
-    // $('.work-list.all-item').append('<span class="block"></span>')
     $('.filters-button-group').on( 'click', 'button', function(event) {
-        contentReset()
+        // contentReset()
         var $target = $( event.currentTarget );
         if($target.hasClass('is-checked')){
             return false;
         }
         $target.toggleClass('is-checked');
         var filterValue = $( this ).attr('data-filter');
-        var filter = $target.attr('data-filter');
         filterValue = filterFns[ filterValue ] || filterValue;
+        $grid.isotope({ filter: filterValue });
+        $grid.on('arrangeComplete', function() {
+            console.log( 'Isotope arrange completed on ')
+            
+          });
         setTimeout(() => {
-            $grid.isotope({ filter: filterValue });
-        }, 400);
-        var tl = gsap.timeline();
-        tl.set(".work-list .grid-item span.block, .work-list.all-item .block",{
-            delay:0,
-            duration: 0,
-            y:'100%',
-        })
-        tl.to(".work-list .grid-item span.block, .work-list.all-item .block",{
-            duration: 0.4,
-            y:'0%',
-            ease:"power1.in",
-            onComplete:function(){
-                $('.work-list').addClass('sort')
-                $grid.isotope({ filter: filterValue });
-                $grid.isotope('updateSortData').isotope();
-                $grid.isotope('layout');
-            }
-        })
-        tl.to(".work-list .grid-item span.block, .work-list.all-item .block",{
-            delay:0.4,
-            duration: 0.4,
-            y:'-200%',
-            ease:"power1.out",
-            onComplete:function(){
-                const filterCount =  $(".grid-item:visible").length;
-                $('.project-type li').eq(0).find('span').text(filterCount / 2)
-                videoAutoPlay()
-            }
-        })
-        // 스크롤 리프레쉬
-        commonTween()
-        setTimeout(() => {
-             ScrollTrigger.refresh()
-        }, 800);
+            ScrollTrigger.refresh()
+        },0);
         
       });
     $('.filters-button-group ').each( function( i, buttonGroup ) {
@@ -405,30 +365,9 @@ function datagrid(){
         });
       });
     $('.filter-block .title').on( 'click', 'button', function() {
-        $('.work-list').removeClass('sort')
         $('.button-group button').removeClass('is-checked')
         $grid.isotope({ filter: '*' });
-        $grid.isotope('updateSortData').isotope();
-        $('.project-type li').eq(0).find('span').text('0')
-        setTimeout(() => {
-            ScrollTrigger.refresh()
-       }, 400);
-    })
-
-
-
-      
-    
-    
-
-
-    // 필터 초기화
-    $('.filter-block .title').on( 'click', 'button', function() {
-        $('.work-list').removeClass('sort')
-        $('.button-group button').removeClass('is-checked')
-        $grid.isotope({ filter: '*' });
-        $grid.isotope('updateSortData').isotope();
-        $('.project-type li').eq(0).find('span').text('0')
+        // ScrollTrigger.refresh()
     })
 
 }
@@ -441,7 +380,7 @@ function headerScroll() {
                   start: "100px 200px",
                   end: "100px 0%",
                 //   scrub: true,
-            //      markers: true,
+                //  markers: true,
                   scroller: ".contents-wrap",
                   toggleActions: "play none none none",
                   onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
@@ -456,7 +395,7 @@ function headerScroll() {
                   start: "95% 100%",
                   end: "95% 0%",
                 //   scrub: true,
-                  // markers: true,
+                //  markers: true,
                   scroller: ".contents-wrap",
                   toggleActions: "play none none none",
                   onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
@@ -498,14 +437,7 @@ function headerScroll() {
     
 }
 
-function navActive(){
-    $('.main-navigation h1 a').on('click',function(){
-        $('#header').addClass('disabled')
-    })
-    $('.main-navigation li a').on('click',function(){
-        $('#header').addClass('disabled')
-    })
-}
+
 function videoAutoPlay(){
     setTimeout(() => {
         const videos = gsap.utils.toArray('.work-list video')
@@ -528,48 +460,21 @@ function videoAutoPlay(){
         
   }
 function init() {
-    
-    //  const work = $('.work-list').clone().appendTo('.work-block' )
-    // $('.work-list').eq(1).addClass('all-item').addClass('hide')
-    $('.project-type a').on('click',function(){
-        const indexNum = $('.project-type a').index(this)
-        // console.log(indexNum)
-        // $('.project-type li').removeClass('active')
-        // $('.project-type li').eq(indexNum).addClass('active')
-        if(indexNum == 0){
-            var tl = gsap.timeline();
-            tl.to('.work-block',{
-                duration: 1.2,
-                x:'0%',
-                marginLeft: 0,
-                ease: "power2.inOut",
-                onComplete:function(){
-                    contentReset()
-                    commonTween()
-                    ScrollTrigger.refresh()
-                }
-                // delay:0.5,
-                
-            })
-        }else if(indexNum == 1){
-            const fullwidth = $(".contents").innerWidth()
-            const conwidth = $(".contents").width()
-            const padding = - (fullwidth - conwidth)
-            var tl = gsap.timeline();
-            tl.call()
-            tl.to('.work-block',{
-                duration:1.2,
-                ease: "power2.inOut",
-                onComplete:function(){
-                    contentReset()
-                    setTimeout(() => {
-                        locoScroll.update()
-                   }, 500);
-                }
-            })
-        }
-
+    $('.project-type li.selected a').on('click',function(){
+        locoScroll.scrollTo("top")
+        ScrollTrigger.refresh();
     })
+    $('.project-type li.all a').on('click',function(){
+        locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
+        ScrollTrigger.refresh();
+    })
+    
+    $('.work-info button').on('click',function(){
+        $(this).hide()
+        $('.work-info').addClass('active');
+        ScrollTrigger.refresh();
+    })
+   
     $('.grid-item').each(function(){
         // const itemName = $(this).find('.thumb .title').text()
         // const itemCate = $(this).find('.thumb .cate').text()
@@ -580,7 +485,8 @@ function init() {
         $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
         $(this).parents('.line').toggleClass('active')
         setTimeout(() => {
-            locoScroll.update()
+            ScrollTrigger.refresh();
+            // locoScroll.update()
        }, 200);
         
     })
@@ -644,9 +550,6 @@ function init() {
             ScrollTrigger.refresh();
         }, 500);
     })  
-    $('.filter-list button').on('click',function(){
-        // $(this).toggleClass('active')
-    })
     $('#header').on('mouseover',function(){
         if (winw > 768) {
             setTimeout(() => {
@@ -683,7 +586,32 @@ function init() {
 
 
 function commonTween() {
-    console.log('eded')
+    $(function () {
+        var classes = document.getElementsByClassName('shuffleText1');
+        for (var i = 0; i < classes.length; i++) {
+            var shuffleText = new ShuffleText(classes[i], false, false, 8, 50, 0, i);
+            $(classes[i]).data('shuffleText1', shuffleText);
+        }
+    });
+
+    
+
+     var swiper = new Swiper(".contact-slider", {
+        spaceBetween:20,
+        loop: true,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+          },
+        pagination: {
+          el: ".swiper-pagination",
+          type: "fraction",
+        },
+        autoplay: {
+            delay: 3500,
+            disableOnInteraction: false,
+          },
+      });
     //ScrollTrigger.refresh()
     // $('.fade').each(function (e) {
     //     let text = $(this)
@@ -709,7 +637,7 @@ function commonTween() {
     //     })
 
     // })
-    $('.work-list').eq(0).find('.grid-item').each(function (e) {
+    $('.work-list.selected').find('.grid-item').each(function (e) {
         let text = $(this).find('.thumb dt a')
         const upmotion = gsap.timeline({
             scrollTrigger: {
