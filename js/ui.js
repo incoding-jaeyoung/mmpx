@@ -313,7 +313,7 @@ function navClose(){
 
 function datagrid(){
     $('.work-list.all-item .grid-item').each(function(){
-        const moreNum = $(this).find('.more').length
+        const moreNum = $(this).find('.more a').length
         if(moreNum == 1){
             $(this).find('.select').show();
         }
@@ -370,6 +370,17 @@ function datagrid(){
         // ScrollTrigger.refresh()
     })
 
+
+    $('.grid-item .line .title').on('click',function(){
+        $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
+        $(this).parents('.line').toggleClass('active')
+        // swiper.destroy()
+        // slider()
+        setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 200);
+        
+    })
 }
 function headerScroll() {
     ScrollTrigger.matchMedia({
@@ -407,7 +418,7 @@ function headerScroll() {
             $('#header .main-navigation').on('mouseover',function(){
                 if($('#header .main-navigation').hasClass('nav-hide')){
                     gsap.to($('#header .bg'), {
-                        duration:0.1,
+                        duration:0.2,
                         height:'100%',
                         onStart:function(){
                             $('#header').addClass('over')
@@ -459,8 +470,64 @@ function videoAutoPlay(){
     }, 500);
         
   }
-function init() {
+
+function slider(){
+    return new Swiper(".work-slider", {
+            // init: false,
+            slideToClickedSlide:true,
+            slidesPerView: "auto",
+            // autoHeight: true,
+            slideWidth:'auto',
+            spaceBetween:0,
+            loop: true,
+            // observer : true,
+            // observeParents : true,
+            pagination: {
+              el: ".swiper-pagination",
+              type: "fraction",
+              clickable: true,
+              type: 'custom',
+              renderCustom: function (swiper, current, total) {
+                    return '0' + current + '/0' + (total); 
+                }
+            },
+            navigation: {
+              nextEl: ".swiper-button-next",
+              prevEl: ".swiper-button-prev",
+            },
+            on: {
+                afterInit:function(){
+                    setTimeout(() => {
+                        $('.work-type .type').each(function(){
+                            const name = $(this).parents('.swiper').find('.swiper-slide.swiper-slide-active > *').prop('tagName')
+                            if(name == 'IMG'){
+                                $(this).text('image')
+                            }else if(name == 'VIDEO'){
+                                $(this).text('video')
+                                
+                            }
+                        })
+                    }, 500);
+                    
+                },
+                slideChangeTransitionEnd : function() {
+                    $('.work-type .type').each(function(){
+                        const name = $(this).parents('.swiper').find('.swiper-slide.swiper-slide-active > *').prop('tagName')
+                        if(name == 'IMG'){
+                            $(this).text('image')
+                        }else if(name == 'VIDEO'){
+                            $(this).text('video')
+                        }
+                    })
+                },
+            },
+    });
     
+    
+}
+
+function init() {
+   
     $('.project-type li.selected a').on('click',function(){
         locoScroll.scrollTo("top")
         ScrollTrigger.refresh();
@@ -471,8 +538,9 @@ function init() {
     })
     
     $('.work-info button').on('click',function(){
-        $(this).hide()
-        $('.work-info').addClass('active');
+        // $(this).hide()
+        // $('.work-info').addClass('active');
+        $('.work-info').toggleClass('active');
         ScrollTrigger.refresh();
     })
    
@@ -482,63 +550,8 @@ function init() {
         // $(this).find('.line .title dt').text(itemName)
         // $(this).find('.line .title dd').text(itemCate)
     })
-    $('.grid-item .line .title').on('click',function(){
-        $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
-        $(this).parents('.line').toggleClass('active')
-        setTimeout(() => {
-            ScrollTrigger.refresh();
-            // locoScroll.update()
-       }, 200);
-        
-    })
-    var swiper = new Swiper(".work-slider", {
-        slidesPerView: "auto",
-        // autoHeight: true,
-        slideWidth:'auto',
-        spaceBetween:0,
-        loop: true,
-        observer : true,
-        observeParents : true,
-        pagination: {
-          el: ".swiper-pagination",
-          type: "fraction",
-          clickable: true,
-          type: 'custom',
-          renderCustom: function (swiper, current, total) {
-                return '0' + current + '/0' + (total); 
-            }
-        },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        on: {
-            afterInit:function(){
-                setTimeout(() => {
-                    $('.work-type .type').each(function(){
-                        const name = $(this).parents('.swiper').find('.swiper-slide.swiper-slide-active > *').prop('tagName')
-                        if(name == 'IMG'){
-                            $(this).text('image')
-                        }else if(name == 'VIDEO'){
-                            $(this).text('video')
-                            
-                        }
-                    })
-                }, 500);
-                
-            },
-            slideChangeTransitionEnd : function() {
-                $('.work-type .type').each(function(){
-                    const name = $(this).parents('.swiper').find('.swiper-slide.swiper-slide-active > *').prop('tagName')
-                    if(name == 'IMG'){
-                        $(this).text('image')
-                    }else if(name == 'VIDEO'){
-                        $(this).text('video')
-                    }
-                })
-            },
-        },
-      });
+    
+    
     
     setTimeout(() => {
         $('body').removeClass('fixed')
@@ -643,8 +656,8 @@ function commonTween() {
         const upmotion = gsap.timeline({
             scrollTrigger: {
                 trigger: $(this),
-                start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-                end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                start: "90% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
+                end: "90% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                 scrub: true, //스크롤에 반응 (없으면 자동재생)
                 // markers: true,
                 scroller: ".contents-wrap",
@@ -786,6 +799,7 @@ function closeLayer(no) {
 
 
 function work(){
+    
     // var player = new Vimeo.Player(document.querySelector('.iframeVimeo iframe'));
     // var iframe = document.querySelector('.iframeVimeo').addEventListener('click', function() {
     //     console.log(player)
