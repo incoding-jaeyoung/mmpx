@@ -114,7 +114,7 @@ function contentReset(container) {
 }
 function contentAnimation(container) {
     // headerScroll()
-    $('.main-navigation').removeClass('nav-hide')
+    // $('.main-navigation').removeClass('nav-hide')
     init()
 }
 
@@ -375,10 +375,10 @@ function datagrid(){
         $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
         $(this).parents('.line').toggleClass('active')
         // swiper.destroy()
-        // slider()
+        slider()
         setTimeout(() => {
             ScrollTrigger.refresh();
-        }, 200);
+        }, 500);
         
     })
 }
@@ -610,7 +610,7 @@ function commonTween() {
 
     
 
-     var swiper = new Swiper(".contact-slider", {
+     var contact = new Swiper(".contact-slider", {
         spaceBetween:20,
         loop: true,
         navigation: {
