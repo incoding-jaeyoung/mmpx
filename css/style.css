@@ -39,7 +39,9 @@ body.fixed{overflow: hidden;}
 .videoPlayer video{object-fit:cover; object-position: center; width: 100%;  width: 100%    !important; height: auto   !important;}
 .videoPlayer iframe{ object-fit:cover; object-position: center; width: 100%; position: absolute; left: 0; top: 0; width: 100%; height: 100%;}
 video[poster]{object-fit:contain;}
-
+@media (max-width: 600px) {
+  .pc-view{display: none;}
+}
 
 /* ===== Scrollbar CSS ===== */
   /* Firefox */
@@ -405,7 +407,7 @@ a:hover{color:inherit;}
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  z-index: 1201;
+  z-index: 99;
   pointer-events: none;
 }
 .loading-screen {
@@ -541,7 +543,7 @@ a:hover{color:inherit;}
   .work-wrap{display: flex; flex-wrap: nowrap; justify-content: space-between;}
   .work-wrap .work-block{width:calc(200vw); display: flex; justify-content: space-between; flex-grow: 0; flex-shrink: 0; flex: none; flex-wrap: nowrap;}
   .work-list {display: grid !important; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 1.85rem; row-gap: 17.5rem; align-items: flex-end; height: auto !important; width:calc(100vw - 4rem); transition: none; flex: none;}
-  .work-list.selected {padding-bottom: 18rem;}
+  .work-list.selected {padding-bottom: 8.5rem;}
   .work-list.hide{height: 0 !important ; overflow: hidden;}
   .work-list dl.thumb dt{margin-bottom: 1.2rem;  overflow: hidden; position: relative;  display: flex;  align-items: center; justify-content: center;}
   .work-list dl.thumb dd{font-size: 1.8rem; line-height: 2.6rem; height: 2.6rem;}
@@ -584,7 +586,7 @@ a:hover{color:inherit;}
   .work-list.all-item .line.active .slider{overflow: hidden;  max-height:100rem;}
   .work-list.all-item .line.active .open img{transform: rotateZ(0);}
   .work-list.all-item .line .title .select{display:none;}
-  .work-list.all-item .title{display: flex; padding: 1.6rem 0; align-items: center; font-size:1.8rem; justify-content: space-between; cursor: pointer; position: relative; overflow: hidden;}
+  .work-list.all-item .title{display: flex; padding: 2rem 0; align-items: center; font-size:1.8rem; justify-content: space-between; cursor: pointer; position: relative; overflow: hidden;}
   .work-list.all-item .title dl{display: flex; align-items: center; gap: 8rem;}
   .work-list.all-item .title dl dt{width: 76.5rem;}
   .work-list.all-item .title .select{width: 16.4rem; margin-left: auto;}
@@ -594,7 +596,7 @@ a:hover{color:inherit;}
   .work-list.all-item .line.active .slider{padding-top: 2rem;}
   .work-list.all-item .title .open img{width: 2rem; height: auto;}
   .work-list.all-item .more{ display: flex; justify-content: flex-end; padding-right: 2rem; min-height: 2.2rem;}
-  .work-list.all-item .more a{display: flex; align-items: center; font-size: 2rem; height: 4.6rem;  background-color: #000; padding: 0 2rem; border-radius: 2.3rem; color: #fff;}
+  .work-list.all-item .more a{display: flex; align-items: center; font-size: 2rem; height: 4.6rem;  border-radius: 2.3rem; color: #000;}
   .work-list.all-item .more img{width: 2.2rem; height: auto; margin-left: 0.8rem; transition: all 0.2s ease;}
   .work-list.all-item .title .select img{width: 2.2rem; height: auto; margin-left: 0.8rem; transition: all 0.2s ease;}
   .work-list.all-item .grid-item.active .title .select img{transform: rotateZ(180deg);}
@@ -614,7 +616,7 @@ a:hover{color:inherit;}
 
   @media (max-width: 768px) {
     .project-type{display: flex;  justify-content: flex-end; margin-top: 0rem;  padding-bottom:0rem; margin-right: 0; margin-bottom: 5.6rem;}
-    .project-type.bottom{margin-top:0rem;}
+    .project-type.bottom{padding-top:9.5rem; margin-top: 0;}
     .project-type ul{font-size: 2.6rem; display: flex; flex-direction: column; justify-self: flex-end;}
     .project-type ul li{position: relative; margin-left:1rem; display: flex; justify-content: flex-end;}
     .project-type ul li em{display: none;}
@@ -694,7 +696,7 @@ a:hover{color:inherit;}
     .work-list.all-item .line.active .title dl dt{width: 24rem; padding-right:1rem; white-space:wrap;}
 
     .work-list.all-item .more{padding-bottom: 2.4rem; display: flex; justify-content: flex-end; padding-top: 0rem; min-height: 0; position: relative; z-index: 10; padding-right: 1.2rem; padding-top: 1.2rem;}
-    .work-list.all-item .more a{display: flex; align-items: center; font-size: 1.6rem; height:3.6rem; padding: 0 1.6rem; border: none;}
+    .work-list.all-item .more a{display: flex; align-items: center; font-size: 1.6rem; height:3.6rem; border: none;}
     .work-list.all-item .more img{width: 1.8rem; height: auto; margin-left: 0.6rem; transition: all 0.2s ease;}
     .work-list.all-item .title .select img{width: 2.2rem; height: auto; margin-left: 0.8rem; transition: all 0.2s ease;}
     .work-list.all-item .grid-item.active .title .select img{transform: rotateZ(180deg);}
@@ -807,7 +809,7 @@ a:hover{color:inherit;}
 .contact-contents .slider{margin-top:8rem; width: 100%; position: relative; overflow: hidden;}
 .contact-contents .slider .swiper-slide{}
 .contact-contents .slider .swiper-slide img{width: 100%;}
-.contact-contents .slider .swiper-pagination.swiper-pagination-fraction{ bottom: 0; left: auto; right: 0; background: rgba(0, 0, 0, 0.10); height: 4.3rem; padding: 0 1.5rem; font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; width: auto; font-weight:100; justify-content: center;}
+.contact-contents .slider .swiper-pagination.swiper-pagination-fraction{ bottom: 0; left: auto; right: 0; background: rgba(0, 0, 0, 0.10); height: 4.3rem; padding: 0 1.5rem; font-size: 1.8rem; display: inline-flex; align-items: center; justify-content: center; width: auto; font-weight:100; justify-content: center; width:7.5rem;}
 .contact-contents .slider .swiper-pagination.swiper-pagination-fraction span{text-align: right; padding: 0 0.5rem;}
 .contact-contents .slider .swiper-button-next:after,.contact-contents .slider .swiper-button-prev:after{display: none;}
 .contact-contents .slider .swiper-button-prev{left: 0; width: 10rem; top: 0; height: 100%; margin: 0;}
@@ -824,7 +826,7 @@ a:hover{color:inherit;}
   .contact-contents dt{font-size: 1.6rem;}
   .contact-contents dd{font-size: 2.6rem;}
   .contact-contents .slider{ width: calc(100vw); margin-left: -1.2rem; margin-top: 0rem; margin-top: 2rem;}
-  .contact-contents .slider .swiper-pagination.swiper-pagination-fraction{font-size: 1.2rem; height: 3rem; padding: 0 1rem;}
+  .contact-contents .slider .swiper-pagination.swiper-pagination-fraction{font-size: 1.2rem; height: 3rem; padding: 0 1rem; width: auto;}
   .contact-contents .slider .swiper-button-prev{width: 5rem;}
   .contact-contents .slider .swiper-button-next{width: 5rem;}
   
@@ -838,8 +840,8 @@ a:hover{color:inherit;}
 .about-introduce h2{width: 82rem; font-size: 3.6rem; line-height: 5.4rem;}
 .about-introduce dl{width: 82rem; display: flex; flex-direction: column; row-gap: 8rem;}
 .about-introduce dl dt{font-size: 3.6rem; line-height: 4.8rem;}
-.about-introduce dl dd{font-size: 2.2rem; line-height: 3.4rem;}
-.about-image{display: flex; flex-wrap: wrap; width: 100%; flex-direction: column; padding-bottom: 24rem;}
+.about-introduce dl dd{font-size: 2.2rem; line-height: 3.4rem; overflow-wrap: break-word}
+.about-image{display: flex; flex-wrap: wrap; width: 100%; flex-direction: column; padding-bottom: 24rem; }
 .about-image img{width: 100%;}
 .about-image p{padding-bottom: 24rem;}
 .about-image .download{display: flex; justify-content: space-between;}
@@ -870,7 +872,7 @@ a:hover{color:inherit;}
 @media (max-width: 768px) {
   .about-slogan {display: flex; flex-direction: column; justify-content:center; padding-top: 8.5rem; padding-bottom: 12rem;}
   .about-slogan .en{display: flex; height:auto; font-size: 3rem; line-height: normal; padding:0; align-items: flex-end;}
-  .about-slogan .kor{margin-top: 2rem; padding: 0rem 0 0rem 0; font-size: 1.8rem; line-height: 2.6rem;}
+  .about-slogan .kor{margin-top: 2rem; padding: 0rem 0 0rem 0; font-size: 1.8rem; line-height: 2.6rem; word-break: break-all;}
   .about-introduce{display: flex; flex-direction: column; justify-content: space-between; padding: 0rem 0 12rem 0;}
   .about-introduce h2{width:100%; font-size: 2.6rem; line-height:normal;}
   .about-introduce dl{width:100%; display: flex; flex-direction: column; row-gap: 2rem; margin-top: 4rem;}

@@ -19,8 +19,8 @@ function smoothScroll(){
     locoScroll = new LocomotiveScroll({
         el: document.querySelector(".contents-wrap"),
         smooth: true,
-        lerp: 0.095,
-        duration: 0.1,
+        lerp: 0.055,
+        duration: 1.2,
         autoResize: true,
         touchMultiplier: 5,
         smartphone: {
@@ -63,7 +63,7 @@ function pageTransitionIn(pageName) {
     $('.main-navigation').addClass('active')
     
     const container = document.querySelector('.contents')
-    const screenNum = document.querySelector('.loading-screen')
+    const screenNum = document.querySelector('.loading-screen.' + pageName)
     navClose()
     return gsap
     .timeline({ delay: 0})
@@ -73,7 +73,7 @@ function pageTransitionIn(pageName) {
 }
 // Function to add and remove the page transition screen
 function pageTransitionOut(container, pageName) {
-    const screenNum = document.querySelector('.loading-screen')
+    const screenNum = document.querySelector('.loading-screen.' + pageName)
     
   // GSAP methods can be chained and return directly a promise
   return gsap
@@ -175,9 +175,9 @@ $(function() {
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(0).addClass('active')
-                // $('#wrapper').removeClass('about-secton')
-                // $('#wrapper').removeClass('contact-secton')
-                // $('#wrapper').addClass('index-secton')
+                $('#wrapper').removeClass('about-secton')
+                $('#wrapper').removeClass('contact-secton')
+                $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -186,35 +186,17 @@ $(function() {
                 await videoAutoPlay()
                 await datagrid()
                 // window.removeMain();
-                $('.project-type li.selected a').on('click',function(){
-                    locoScroll.scrollTo("top")
-                    ScrollTrigger.refresh();
-                })
-                $('.project-type li.all a').on('click',function(){
-                    console.log('asdasdasdasd')
-                    locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
-                    ScrollTrigger.refresh();
-                })
             },
             async afterEnter(data) {
                 
             },
             async once(data) {
                 $('.main-navigation li').eq(0).addClass('active')
-                // $('#wrapper').addClass('index-secton')
+                $('#wrapper').addClass('index-secton')
                 await smoothScroll()
                 await videoAutoPlay()
                 await commonTween()
                 await datagrid()
-                $('.project-type li.selected a').on('click',function(){
-                    locoScroll.scrollTo("top")
-                    ScrollTrigger.refresh();
-                })
-                $('.project-type li.all a').on('click',function(){
-                    console.log('asdasdasdasd')
-                    locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
-                    ScrollTrigger.refresh();
-                })
             }
           }, {
             name: 'detail',
@@ -227,9 +209,9 @@ $(function() {
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(0).addClass('active')
-                // $('#wrapper').removeClass('about-secton')
-                // $('#wrapper').removeClass('contact-secton')
-                // $('#wrapper').addClass('index-secton')
+                $('#wrapper').removeClass('about-secton')
+                $('#wrapper').removeClass('contact-secton')
+                $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -244,7 +226,7 @@ $(function() {
             },
             async once(data) {
                 $('.main-navigation li').eq(0).addClass('active')
-                // $('#wrapper').addClass('index-secton')
+                $('#wrapper').addClass('index-secton')
                 await smoothScroll()
                 // await videoAutoPlay()
                 await commonTween()
@@ -263,9 +245,9 @@ $(function() {
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(1).addClass('active')
-                // $('#wrapper').removeClass('index-secton')
-                // $('#wrapper').removeClass('contact-secton')
-                // $('#wrapper').addClass('about-secton')
+                $('#wrapper').removeClass('index-secton')
+                $('#wrapper').removeClass('contact-secton')
+                $('#wrapper').addClass('about-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -274,7 +256,7 @@ $(function() {
             },
             async once(data) {
                 $('.main-navigation li').eq(1).addClass('active')
-                // $('#wrapper').addClass('about-secton')
+                $('#wrapper').addClass('about-secton')
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
@@ -292,19 +274,15 @@ $(function() {
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(2).addClass('active')
-                // $('#wrapper').removeClass('index-secton')
-                // $('#wrapper').removeClass('about-secton')
-                // $('#wrapper').addClass('contact-secton')
+                $('#wrapper').removeClass('index-secton')
+                $('#wrapper').removeClass('about-secton')
+                $('#wrapper').addClass('contact-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
                 var swiper = new Swiper(".contact-slider", {
-                    effect: 'fade',
-                    fadeEffect: {
-                        crossFade: true
-                    },
                     spaceBetween:20,
                     loop: true,
                     navigation: {
@@ -324,14 +302,10 @@ $(function() {
             async once(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(2).addClass('active')
-                //  $('#wrapper').addClass('contact-secton')
+                $('#wrapper').addClass('contact-secton')
                 await smoothScroll()
                 await commonTween()
                 var swiper = new Swiper(".contact-slider", {
-                    effect: 'fade',
-                    fadeEffect: {
-                        crossFade: true
-                    },
                     spaceBetween:20,
                     loop: true,
                     navigation: {
@@ -422,6 +396,8 @@ function datagrid(){
     $('.grid-item .line .title').on('click',function(){
         $(this).parents('.grid-item').siblings().find('.line').removeClass('active')
         $(this).parents('.line').toggleClass('active')
+        
+
         if($(this).parents('.line').hasClass('active')) {
             if($(this).parents('.line').data('swiper')) {
                 $(this).parents('.line').data('swiper').destroy();
@@ -429,23 +405,18 @@ function datagrid(){
             }
             var swiper = slider($(this).parents('.line').find('.work-slider')[0]);
             $(this).parents('.line').data('swiper', swiper);
-            setTimeout(() => {
-                ScrollTrigger.refresh();
-            }, 400);
         } else {
             if($(this).parents('.line').data('swiper')) {
                 $(this).parents('.line').data('swiper').destroy();
                 $(this).parents('.line').data('swiper', null);
-                setTimeout(() => {
-                    console.log('aaaa')
-                    ScrollTrigger.refresh();
-                }, 400);
             }
         }
 
         // swiper.destroy()
         // slider()
-        
+        setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 400);
         
     })
 }
@@ -596,7 +567,14 @@ function slider(el){
 
 function init() {
    
-    
+    $('.project-type li.selected a').on('click',function(){
+        locoScroll.scrollTo("top")
+        ScrollTrigger.refresh();
+    })
+    $('.project-type li.all a').on('click',function(){
+        locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
+        ScrollTrigger.refresh();
+    })
     
     $('.work-info button').on('click',function(){
         // $(this).hide()
