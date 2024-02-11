@@ -7,7 +7,6 @@ gsap.registerPlugin(ScrollTrigger);
 window.onload = function () {
     $('body').imagesLoaded().done(function (instance) {
         $('body').addClass('load')
-        init()
         headerScroll()
         $('.main-navigation .menu').on('click',function(){
             $(this).find('.navTrigger').toggleClass('active')
@@ -25,7 +24,7 @@ function smoothScroll(){
         autoResize: true,
         touchMultiplier: 5,
         smartphone: {
-            smooth: false,
+            smooth: true,
             breakpoint: 0,
             lerp: 0,
         },
@@ -60,7 +59,7 @@ const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
 function pageTransitionIn(pageName) {
-    // $('body').addClass('fixed')
+    $('body').addClass('fixed')
     $('.main-navigation').addClass('active')
     
     const container = document.querySelector('.contents')
@@ -70,9 +69,7 @@ function pageTransitionIn(pageName) {
     .timeline({ delay: 0})
     .add('start')
     .to(container, {duration: 1, translateY: '-100vh',ease:"power1.in"}, 'start')
-    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh',onComplete:function(){
-       
-    }}, 'start')
+    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh'}, 'start')
 }
 // Function to add and remove the page transition screen
 function pageTransitionOut(container, pageName) {
@@ -106,7 +103,6 @@ function pageTransitionOut(container, pageName) {
         transformOrigin: 'top left',
         onComplete:function(){
             $('.main-navigation').removeClass('active')
-            
         }
         })
     .call(contentAnimation, [container])
@@ -175,9 +171,6 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },300)
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
@@ -192,18 +185,19 @@ $(function() {
                 await commonTween()
                 await videoAutoPlay()
                 await datagrid()
-                // await shuffle()
                 // window.removeMain();
                 $('.project-type li.selected a').on('click',function(){
                     locoScroll.scrollTo("top")
-                    $('html,body').animate({scrollTop:0},5000)
                     ScrollTrigger.refresh();
                 })
                 $('.project-type li.all a').on('click',function(){
+                    console.log('asdasdasdasd')
                     locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
-                    $('html,body').animate( { scrollTop : $('.project-type.bottom').offset().top }, 500 );
                     ScrollTrigger.refresh();
                 })
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
             },
             async afterEnter(data) {
                 
@@ -217,15 +211,13 @@ $(function() {
                 await datagrid()
                 $('.project-type li.selected a').on('click',function(){
                     locoScroll.scrollTo("top")
-                    $('html,body').animate({scrollTop:0},500)
                     ScrollTrigger.refresh();
                 })
                 $('.project-type li.all a').on('click',function(){
+                    console.log('asdasdasdasd')
                     locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
-                    $('html,body').animate( { scrollTop : $('.project-type.bottom').offset().top }, 500 );
                     ScrollTrigger.refresh();
                 })
-                // await shuffle()
             }
           }, {
             name: 'detail',
@@ -234,9 +226,6 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },300)
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
@@ -251,6 +240,9 @@ $(function() {
                 await commonTween()
                 // await videoAutoPlay()
                 await work()
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
             },
             async afterEnter(data) {
                 
@@ -272,9 +264,7 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },300)
+                
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
@@ -287,6 +277,9 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
+                $('html,body').animate({
+                    scrollTop:0
+                },300)
             },
             async once(data) {
                 $('.main-navigation li').eq(1).addClass('active')
@@ -303,9 +296,7 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },300)
+                
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
@@ -338,6 +329,9 @@ $(function() {
                         disableOnInteraction: false,
                       },
                   });
+                  $('html,body').animate({
+                    scrollTop:0
+                },300)
             },
             async once(data) {
                 $('.main-navigation li').removeClass('active')
@@ -485,6 +479,21 @@ function headerScroll() {
                   onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
                 }
               });
+            //   gsap.to($('#header'), {
+            //     scrollTrigger: {
+            //       trigger:'.contents-wrap',
+            //       start: "95% 100%",
+            //       end: "95% 0%",
+            //     //   scrub: true,
+            //     //  markers: true,
+            //       scroller: ".contents-wrap",
+            //       toggleActions: "play none none none",
+            //       onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+            //       onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
+            //       onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+            //       onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+            //     }
+            //   });
             $('#header .main-navigation').on('mouseover',function(){
                 if($('#header .main-navigation').hasClass('nav-hide')){
                     gsap.to($('#header .bg'), {
@@ -598,12 +607,29 @@ function slider(el){
 }
 
 function init() {
+   
+    
+    
     $('.work-info button').on('click',function(){
         // $(this).hide()
         // $('.work-info').addClass('active');
         $('.work-info').toggleClass('active');
         ScrollTrigger.refresh();
     })
+   
+    $('.grid-item').each(function(){
+        // const itemName = $(this).find('.thumb .title').text()
+        // const itemCate = $(this).find('.thumb .cate').text()
+        // $(this).find('.line .title dt').text(itemName)
+        // $(this).find('.line .title dd').text(itemCate)
+    })
+    
+    
+    
+    setTimeout(() => {
+        $('body').removeClass('fixed')
+    }, 0);
+    
     $('.filter-block .title button').on('click',function(){
         $(this).toggleClass('active')
         $(this).parents('.title').next().toggleClass('active')
@@ -616,66 +642,121 @@ function init() {
 
 
 function commonTween() {
-    ScrollTrigger.matchMedia({
-        "(min-width:769px)": function () {
-            shuffle()
-            var classes = document.getElementsByClassName('shuffleText');
-                for (var i = 0; i < classes.length; i++) {
-                    var shuffleText = new ShuffleText(classes[i], false, false, 8, 40, 0, i);
-                    $(classes[i]).data('shuffleText', shuffleText);
-                }
-            $(".thumb").each(function (i) {
-                var dd = $(this).find(" dd");
-                var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 20, 0, 11+i, false);
-                var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 20, 0, 11+i, true);
-                $(this).on('mouseenter', () => {
-                shuffleText1.iteration(true);
-                setTimeout(() => shuffleText2.iteration(true), 1000/30);
-                });
-            });
-            $('.work-list.selected').find('.grid-item').not(":eq(0)").not(":eq(0)").each(function (e) {
-                let text = $(this).find('.thumb dt a')
-                const upmotion = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: $(this),
-                        start: "90% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        end: "90% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        scrub: true, //스크롤에 반응 (없으면 자동재생)
-                        // markers: true,
-                        scroller: ".contents-wrap",
-                        invalidateOnRefresh: true,
-                        toggleActions: "play complete none reverse",
-                    },
-                });
-                upmotion.to(text,1, {
-                    y:'10%',
-                    ease: "none",
-                })
+    $(function () {
+        var classes = document.getElementsByClassName('shuffleText1');
+        for (var i = 0; i < classes.length; i++) {
+            var shuffleText = new ShuffleText(classes[i], false, false, 8, 50, 0, i);
+            $(classes[i]).data('shuffleText1', shuffleText);
+        }
+    });
+    $('.work-list.selected').find('.grid-item').not(":eq(0)").not(":eq(0)").each(function (e) {
+        let text = $(this).find('.thumb dt a')
+        const upmotion = gsap.timeline({
+            scrollTrigger: {
+                trigger: $(this),
+                start: "90% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
+                end: "90% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                scrub: true, //스크롤에 반응 (없으면 자동재생)
+                // markers: true,
+                scroller: ".contents-wrap",
+                invalidateOnRefresh: true,
+                toggleActions: "play complete none reverse",
+            },
+        });
+        upmotion.to(text,1, {
+            y:'10%',
+            ease: "none",
+        })
 
-            })
-            $('.up-slide-stagger > *').each(function (e) {
-                var stagger = $(this)
-                gsap.from(stagger, {
-                    scrollTrigger: {
-                        trigger: $(this),
-                        start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        // scrub: true, //스크롤에 반응 (없으면 자동재생)
-                        // markers: true,
-                        scroller: ".contents-wrap",
-                        toggleActions: "play none none reverse",
-                    },
-                    y: 40,
-                    opacity:0,
-                    stagger: 1,
-                    ease: 'Power1.easeOut'
-                })
-            })
-        },
-        "(max-width:768px)": function () {
-            
-        },
     })
+    // $('.slide-down').each(function (e) {
+    //     let text = $(this)
+    //     const upmotion = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: $(this),
+    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             //                scrub: true, //스크롤에 반응 (없으면 자동재생)
+    //             //                markers: true,
+    //             toggleActions: "play complete none none",
+    //         },
+    //     });
+    //     upmotion.from(text, 1, {
+    //         y: -50,
+    //         opacity: 0,
+    //         //            ease: "power3.out",
+    //         onComplete: function () {
+
+    //         }
+    //     })
+
+    // })
+    // $('.slide-up, .about-con > *').each(function (e) {
+    //     // let text = $(this).wrapInner('<div class="over-text-con"></div>')
+    //     // let target = text.find('.over-text-con')
+    //     gsap.set($(this), {
+    //         y:40,
+    //         opacity: 0,
+    //     })
+    //     const upmotion = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: $(this),
+    //             start: "top 80%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             end: "top 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             //scrub: true, //스크롤에 반응 (없으면 자동재생)
+    //             // markers: true,
+    //             toggleActions: "play none none reverse",
+    //         },
+    //     });
+    //     upmotion.to($(this), 1, {
+    //         y:0,
+    //         opacity: 1,
+    //         ease: "power1.out",
+    //     })
+
+    // })
     
+    
+    // $('.over-text-wrap').each(function (e) {
+    //     $(this).find(' > *').addClass('over-text').wrapInner('<span class="over-text-con"></span>')
+    //     let text = $(this).find('.over-text-con')
+    //     const textmotion = gsap.timeline({
+    //         scrollTrigger: {
+    //             trigger: $(this),
+    //             start: "0% 80%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             end: "0% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+    //             //                scrub: true, //스크롤에 반응 (없으면 자동재생)
+    //             // markers: true,
+    //             toggleActions: "play complete none none",
+    //         },
+    //     });
+    //     textmotion.to(text, 0.5, {
+    //         y: 0,
+    //         stagger: 0.3,
+    //         opacity: 1,
+    //         //            ease: "power2.inOut",
+    //         onComplete: function () {
+
+    //         }
+    //     })
+    // })
+    $('.up-slide-stagger > *').each(function (e) {
+        var stagger = $(this)
+        gsap.from(stagger, {
+            scrollTrigger: {
+                trigger: $(this),
+                start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
+                // scrub: true, //스크롤에 반응 (없으면 자동재생)
+                // markers: true,
+                scroller: ".contents-wrap",
+                toggleActions: "play none none reverse",
+            },
+            y: 40,
+            opacity:0,
+            stagger: 1,
+            ease: 'Power1.easeOut'
+        })
+    })
 
 }
 
@@ -838,60 +919,19 @@ ShuffleText.prototype.iteration = function(ev) {
 
 (function() {
     $(function () {
-        var classes = document.getElementsByClassName('shuffleText1');
+        var classes = document.getElementsByClassName('shuffleText');
         for (var i = 0; i < classes.length; i++) {
             var shuffleText = new ShuffleText(classes[i], false, false, 8, 50, 0, i);
-            $(classes[i]).data('shuffleText1', shuffleText);
+            $(classes[i]).data('shuffleText', shuffleText);
         }
     });
 })();
-
-function shuffleText(){
-
-}
-function shuffle(){
-    var velocity = 20;
-	var i = 0;
-	var shuffleElement = $('.shuffle');
-
-	$.each( shuffleElement, function(index, item) {
-		$(item).attr('data-text', $(item).text());
-	});
-
-	var shuffle = function(o) {
-		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-		return o;
-	};
-
-	var shuffleText = function(element, originalText) {
-		var elementTextArray = [];
-		var randomText = [];
-
-		for ( i=0;i<originalText.length;i++) {
-			elementTextArray.push(originalText.charAt([i]));
-		};
-
-		var repeatShuffle = function(times, index) {
-			if ( index == times ) {
-				element.text(originalText);
-				return;
-			} 
-
-			setTimeout( function() {
-				randomText = shuffle(elementTextArray);
-				for (var i=0;i<index;i++) {
-					randomText[i] = originalText[i];	
-				}
-				randomText = randomText.join('');
-				element.text(randomText);
-				index++;
-				repeatShuffle(times, index);
-			}, velocity);	
-		}
-		repeatShuffle(element.text().length, 0);
-	}
-
-	shuffleElement.mouseenter(function() {
-		shuffleText($(this), $(this).data('text'));
-	});
-}
+$(".thumb").each(function (i) {
+    var dd = $(this).find(" dd");
+    var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 50, 0, 11+i, false);
+    var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 50, 0, 11+i, false);
+    $(this).on('mouseenter', () => {
+       shuffleText1.iteration(true);
+       setTimeout(() => shuffleText2.iteration(true), 1000/30);
+    });
+ });
