@@ -480,7 +480,7 @@ function headerScroll() {
                     $('#header .main-navigation').addClass('nav-hide')
                 }
                 gsap.to($('#header .bg'), {
-                    delay:0.4,
+                    delay:0.3,
                     duration:0.4,
                     height:'0%',
                     onComplete:function(){

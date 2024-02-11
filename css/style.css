@@ -41,7 +41,7 @@ video[poster]{object-fit:contain;}
   .pc-view{display: none;}
   html, body{overflow: auto; height: auto; height: -webkit-fill-available} /*   */
   body{}
-  #wrapper{overflow: auto; height: auto; border: 1px solid #f00;}
+  #wrapper{overflow: auto; height: auto;}
 }
 
 /* ===== Scrollbar CSS ===== */
