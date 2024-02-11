@@ -70,9 +70,7 @@ function pageTransitionIn(pageName) {
     .timeline({ delay: 0})
     .add('start')
     .to(container, {duration: 1, translateY: '-100vh',ease:"power1.in"}, 'start')
-    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh',onComplete:function(){
-       
-    }}, 'start')
+    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh'}, 'start')
 }
 // Function to add and remove the page transition screen
 function pageTransitionOut(container, pageName) {
@@ -97,7 +95,6 @@ function pageTransitionOut(container, pageName) {
     .to(container.querySelector('.contents'), {
       duration:0.6,
       translateY: '0%',
-      opacity: 1,
       ease: "power1.out",
     }, 'start')
     .to(screenNum, {
@@ -106,10 +103,9 @@ function pageTransitionOut(container, pageName) {
         transformOrigin: 'top left',
         onComplete:function(){
             $('.main-navigation').removeClass('active')
-            
         }
         })
-    .call(contentAnimation, [container])
+    .call(init, [container])
 }
 
 // Function to animate the content of each page
@@ -120,24 +116,11 @@ function contentReset(container) {
         trigger.kill();
     });
 }
-function contentAnimation(container) {
-    // headerScroll()
-    // $('.main-navigation').removeClass('nav-hide')
-    init()
-}
 
 $(function() {
     barba.init({
         transitions: [
-            {
-                async leave(data) {
-                    console.log('asdasd')
-                },
-                async enter(data) {
-                    $('.main-navigation li').removeClass('active')
-                },
-              },
-        //     {
+    //     {
         //     name: 'index',
         //     to: { namespace: ['index'] },
         //     async leave(data) {
@@ -177,7 +160,7 @@ $(function() {
                 data.current.container.remove()
                 $('html,body').animate({
                     scrollTop:0
-                },300)
+                },0)
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
@@ -219,20 +202,17 @@ $(function() {
                 data.current.container.remove()
                 $('html,body').animate({
                     scrollTop:0
-                },300)
+                },0)
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(0).addClass('active')
-                // $('#wrapper').removeClass('about-secton')
-                // $('#wrapper').removeClass('contact-secton')
-                // $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
-                // await videoAutoPlay()
+                await videoAutoPlay()
                 await work()
             },
             async afterEnter(data) {
@@ -241,9 +221,7 @@ $(function() {
             },
             async once(data) {
                 $('.main-navigation li').eq(0).addClass('active')
-                // $('#wrapper').addClass('index-secton')
                 await smoothScroll()
-                // await videoAutoPlay()
                 await commonTween()
                 await work()
             }
@@ -257,14 +235,11 @@ $(function() {
                 data.current.container.remove()
                 $('html,body').animate({
                     scrollTop:0
-                },300)
+                },0)
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(1).addClass('active')
-                // $('#wrapper').removeClass('index-secton')
-                // $('#wrapper').removeClass('contact-secton')
-                // $('#wrapper').addClass('about-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -277,7 +252,6 @@ $(function() {
             },
             async once(data) {
                 $('.main-navigation li').eq(1).addClass('active')
-                // $('#wrapper').addClass('about-secton')
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
@@ -292,14 +266,11 @@ $(function() {
                 data.current.container.remove()
                 $('html,body').animate({
                     scrollTop:0
-                },300)
+                },0)
             },
             async enter(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(2).addClass('active')
-                // $('#wrapper').removeClass('index-secton')
-                // $('#wrapper').removeClass('about-secton')
-                // $('#wrapper').addClass('contact-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -333,7 +304,6 @@ $(function() {
             async once(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(2).addClass('active')
-                //  $('#wrapper').addClass('contact-secton')
                 await smoothScroll()
                 await commonTween()
                 var swiper = new Swiper(".contact-slider", {
@@ -624,23 +594,30 @@ function init() {
 
 
 function commonTween() {
+    const winW = $(window).width()
+    if(winW > 768){
+        shuffle()
+        var classes = document.getElementsByClassName('shuffleText');
+            for (var i = 0; i < classes.length; i++) {
+                var shuffleText = new ShuffleText(classes[i], false, false, 8, 40, 0, i);
+                $(classes[i]).data('shuffleText', shuffleText);
+            }
+        $(".thumb").each(function (i) {
+            var dd = $(this).find(" dd");
+            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 20, 0, 11+i, false);
+            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 20, 0, 11+i, true);
+            $(this).on('mouseenter', () => {
+            shuffleText1.iteration(true);
+            setTimeout(() => shuffleText2.iteration(true), 1000/30);
+            });
+        });
+    } else {
+    
+    }
+            
     ScrollTrigger.matchMedia({
         "(min-width:769px)": function () {
-            shuffle()
-            var classes = document.getElementsByClassName('shuffleText');
-                for (var i = 0; i < classes.length; i++) {
-                    var shuffleText = new ShuffleText(classes[i], false, false, 8, 40, 0, i);
-                    $(classes[i]).data('shuffleText', shuffleText);
-                }
-            $(".thumb").each(function (i) {
-                var dd = $(this).find(" dd");
-                var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 20, 0, 11+i, false);
-                var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 20, 0, 11+i, true);
-                $(this).on('mouseenter', () => {
-                shuffleText1.iteration(true);
-                setTimeout(() => shuffleText2.iteration(true), 1000/30);
-                });
-            });
+            
             $('.work-list.selected').find('.grid-item').not(":eq(0)").not(":eq(0)").each(function (e) {
                 let text = $(this).find('.thumb dt a')
                 const upmotion = gsap.timeline({
@@ -680,7 +657,43 @@ function commonTween() {
             })
         },
         "(max-width:768px)": function () {
-            
+            $('.work-list.selected').find('.grid-item').each(function (e) {
+                let text = $(this).find('.thumb dt a')
+                const upmotion = gsap.timeline({
+                    duration:0.4,
+                    scrollTrigger: {
+                        trigger: $(this),
+                        start: "90% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        end: "90% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        scrub: true, //스크롤에 반응 (없으면 자동재생)
+                        // markers: true,
+                        invalidateOnRefresh: true,
+                        toggleActions: "play complete none reverse",
+                    },
+                });
+                upmotion.to(text,1, {
+                    y:'10%',
+                    // ease: 'Power1.easeOut'
+                    ease: "none",
+                })
+
+            })
+            $('.up-slide-stagger > *').each(function (e) {
+                var stagger = $(this)
+                gsap.from(stagger, {
+                    scrollTrigger: {
+                        trigger: $(this),
+                        start: "0 90%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        // scrub: true, //스크롤에 반응 (없으면 자동재생)
+                        // markers: true,
+                        toggleActions: "play none none reverse",
+                    },
+                    y: 40,
+                    opacity:0,
+                    stagger: 1,
+                    ease: 'Power1.easeOut'
+                })
+            })
         },
     })
     
@@ -854,9 +867,6 @@ ShuffleText.prototype.iteration = function(ev) {
     });
 })();
 
-function shuffleText(){
-
-}
 function shuffle(){
     var velocity = 20;
 	var i = 0;
