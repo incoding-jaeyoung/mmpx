@@ -253,7 +253,7 @@ $(function() {
             async once(data) {
                 $('.main-navigation li').eq(1).addClass('active')
                 await smoothScroll()
-                await headerScroll()
+                // await headerScroll()
                 await commonTween()
             }
           }
@@ -433,7 +433,6 @@ function datagrid(){
                 $(this).parents('.line').data('swiper').destroy();
                 $(this).parents('.line').data('swiper', null);
                 setTimeout(() => {
-                    console.log('aaaa')
                     ScrollTrigger.refresh();
                 }, 400);
             }

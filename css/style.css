@@ -747,7 +747,7 @@ a:hover{color:inherit;}
 .work-image {display: flex; flex-direction: column; row-gap: 2rem; }
 .work-image img{width: 100%;}
 .work-image .colum{display: flex;  justify-content: space-between; align-items: flex-start; gap: 2rem;}
-.work-image .colum p{aspect-ratio:1 !important; display: flex; width: 100%; object-position: 50% 50%;}
+.work-image .colum p{aspect-ratio:1 !important; display: flex; width: 100%; object-position: 50% 50%; overflow: hidden;}
 .work-image .colum p img{object-fit:cover;}
 .work-image .colum .text{display: flex; font-size: 6rem; line-height: 7.6rem; letter-spacing: -0.06rem; padding: 8rem 6.5rem;}
 .work-image .large-text{padding-top: 24rem; font-size: 6.4rem; line-height:normal; padding-bottom: 8rem;}
