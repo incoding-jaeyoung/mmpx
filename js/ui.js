@@ -194,19 +194,11 @@ $(function() {
                 await datagrid()
                 // await shuffle()
                 // window.removeMain();
-                $('.project-type li.selected a').on('click',function(){
-                    locoScroll.scrollTo("top")
-                    $('html,body').animate({scrollTop:0},5000)
-                    ScrollTrigger.refresh();
-                })
-                $('.project-type li.all a').on('click',function(){
-                    locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
-                    $('html,body').animate( { scrollTop : $('.project-type.bottom').offset().top }, 500 );
-                    ScrollTrigger.refresh();
-                })
+                
+                
             },
             async afterEnter(data) {
-                
+                ScrollTrigger.refresh();
             },
             async once(data) {
                 $('.main-navigation li').eq(0).addClass('active')
@@ -215,16 +207,7 @@ $(function() {
                 await videoAutoPlay()
                 await commonTween()
                 await datagrid()
-                $('.project-type li.selected a').on('click',function(){
-                    locoScroll.scrollTo("top")
-                    $('html,body').animate({scrollTop:0},500)
-                    ScrollTrigger.refresh();
-                })
-                $('.project-type li.all a').on('click',function(){
-                    locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
-                    $('html,body').animate( { scrollTop : $('.project-type.bottom').offset().top }, 500 );
-                    ScrollTrigger.refresh();
-                })
+                
                 // await shuffle()
             }
           }, {
@@ -253,7 +236,7 @@ $(function() {
                 await work()
             },
             async afterEnter(data) {
-                
+                ScrollTrigger.refresh();
                 
             },
             async once(data) {
@@ -287,6 +270,10 @@ $(function() {
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
+            },
+            async afterEnter(data) {
+                ScrollTrigger.refresh();
+                
             },
             async once(data) {
                 $('.main-navigation li').eq(1).addClass('active')
@@ -339,6 +326,10 @@ $(function() {
                       },
                   });
             },
+            async afterEnter(data) {
+                ScrollTrigger.refresh();
+                
+            },
             async once(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(2).addClass('active')
@@ -378,6 +369,23 @@ function navClose(){
 }
 
 function datagrid(){
+    const winW = $(window).width()
+    $('.project-type li.selected a').on('click',function(){
+        if(winW > 768){
+            locoScroll.scrollTo("top")
+            ScrollTrigger.refresh();
+        } else {
+            gsap.to('html,body', { duration: 1, scrollTo: 0 });
+        }
+    })
+    $('.project-type li.all a').on('click',function(){
+        if(winW > 768){
+            locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
+            ScrollTrigger.refresh();
+        } else {
+            gsap.to('html,body', { duration: 1, scrollTo: ".project-type.bottom" });
+        }
+    })
     $('.work-list.all-item .grid-item').each(function(){
         const moreNum = $(this).find('.more a').length
         if(moreNum == 1){
