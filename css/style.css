@@ -439,7 +439,7 @@ a:hover{color:inherit;}
     .loading-screen.about{background-color: #081EC9; padding-right:2rem;}
     .loading-screen.contact{padding-right:2rem;}
   }
-  .contents-wrap{display: flex; flex-direction: column; min-height: 100vh; background-color: #fff;}
+  .contents-wrap{display: flex; flex-direction: column; min-height: 100vh; background-color: #fff; overflow: hidden;}
   .footer{display: flex; justify-content: space-between; padding: 16rem 2rem 2rem 2rem; font-size: 2.4rem; margin-top: auto;}
   .footer ul{display: flex; gap: 2rem;}
   
@@ -513,6 +513,7 @@ a:hover{color:inherit;}
   .project-type ul li{position: relative; margin-left:1rem;}
   .project-type ul li a{ opacity: 0.4; display: flex;}
   .project-type ul li a:hover{ opacity:1;}
+  .project-type ul li p{white-space:nowrap;}
   .project-type ul li span{font-size: 1.8rem; vertical-align: top; display:inline-flex; justify-content: flex-end;}
   .project-type ul li:first-of-type span{margin-left: -0.8rem;}
   .project-type ul li:first-of-type p{width: 29.8rem;}
@@ -828,7 +829,7 @@ a:hover{color:inherit;}
   .contact-contents .contact{display: flex; flex-direction: column; width: 82rem; row-gap: 2rem; margin-top: 4rem;}
   .contact-contents dt{font-size: 1.6rem;}
   .contact-contents dd{font-size: 2.6rem;}
-  .contact-contents .slider{ width: calc(100vw); margin-left: -1.2rem; margin-top: 0rem; margin-top: 2rem;}
+  .contact-contents .slider{ width: calc(100vw); margin-left: -1.2rem; margin-top: 0rem; margin-top: 2rem; }
   .contact-contents .slider .swiper-pagination.swiper-pagination-fraction{font-size: 1.2rem; height: 3rem; padding: 0 1rem; width: auto;}
   .contact-contents .slider .swiper-button-prev{width: 5rem;}
   .contact-contents .slider .swiper-button-next{width: 5rem;}
