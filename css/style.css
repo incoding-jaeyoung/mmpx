@@ -39,7 +39,7 @@ body.fixed{overflow: hidden;}
 video[poster]{object-fit:contain;}
 @media (max-width: 768px) {
   .pc-view{display: none;}
-  html, body{overflow: auto; height: auto; min-height: -webkit-fill-available} /*  height: -webkit-fill-available  */
+  html, body{overflow: auto; height: auto; display: block; } /*  height: -webkit-fill-available  */
   body{}
   #wrapper{overflow: auto; height: auto; border: 1px solid #f00;}
 }
@@ -51,7 +51,6 @@ video[poster]{object-fit:contain;}
     scrollbar-color: #000000;
   }
 
-  /* Chrome, Edge, and Safari */
   *::-webkit-scrollbar {
     width: 0px;
   }

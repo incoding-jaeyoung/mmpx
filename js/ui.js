@@ -99,6 +99,9 @@ function pageTransitionOut(container, pageName) {
         duration: 0,
         translateY: '80vh',
       })
+    .to(window,{
+        duration:0.6, scrollTo: 0,delay:0
+    })
     .to(screenNum, {
       duration:0.6,
       y: '-200vh',
@@ -110,6 +113,9 @@ function pageTransitionOut(container, pageName) {
       duration:0.6,
       translateY: '0%',
       ease: "power1.out",
+      onComplete:function(){
+        
+        }
     }, 'start')
     .to(screenNum, {
         duration: 0,
@@ -117,9 +123,9 @@ function pageTransitionOut(container, pageName) {
         transformOrigin: 'top left',
         onComplete:function(){
             $('.main-navigation').removeClass('active')
-            
         }
-        })
+    })
+    
     .call(init, [container])
 }
 
@@ -175,9 +181,6 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },0)
             },
             async enter(data) {
                 
@@ -217,9 +220,7 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },0)
+
             },
             async enter(data) {
                 
@@ -251,9 +252,7 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },0)
+                
             },
             async enter(data) {
                 
@@ -264,8 +263,9 @@ $(function() {
                 await commonTween()
             },
             async afterEnter(data) {
-                ScrollTrigger.refresh();
                 
+                
+                ScrollTrigger.refresh();
             },
             async once(data) {
                 $('.main-navigation li').eq(1).addClass('active')
@@ -283,9 +283,7 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                $('html,body').animate({
-                    scrollTop:0
-                },0)
+                
             },
             async enter(data) {
                 
@@ -316,8 +314,9 @@ $(function() {
                   });
             },
             async afterEnter(data) {
-                ScrollTrigger.refresh();
                 
+                
+                ScrollTrigger.refresh();
             },
             async once(data) {
                 $('.main-navigation li').removeClass('active')
@@ -363,8 +362,8 @@ function datagrid(){
             locoScroll.scrollTo("top")
             ScrollTrigger.refresh();
         } else {
-            gsap.to('html,body', { duration: 1, scrollTo: 0 });
-            // ScrollTrigger.refresh();
+            gsap.to(window, { duration: 1, scrollTo: ".project-type.top" });
+            ScrollTrigger.refresh();
         }
     })
     $('.project-type.top li.all a').on('click',function(){
@@ -372,8 +371,8 @@ function datagrid(){
             locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
             ScrollTrigger.refresh();
         } else {
-            gsap.to('html,body', { duration: 1, scrollTo: ".project-type.bottom" });
-            // ScrollTrigger.refresh();
+            gsap.to(window, { duration: 1, scrollTo: ".project-type.bottom" });
+            ScrollTrigger.refresh();
         }
     })
     $('.work-list.all-item .grid-item').each(function(){
