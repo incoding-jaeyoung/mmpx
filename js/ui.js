@@ -81,9 +81,10 @@ function pageTransitionIn(pageName) {
     .timeline({ delay: 0})
     .add('start')
     .to(container, {duration: 1, translateY: '-100vh',ease:"power1.in"}, 'start')
-    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh',onComplete:function(){
+    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left', y: '-100vh',ease:"power1.in", height:'100vh',onComplete:function(){
         $('#header').removeClass('over')
         $('#header .bg').css({height:0})
+        gsap.to(window, { duration:0.1, scrollTo : 1, delay:0});
     }}, 'start')
 }
 // Function to add and remove the page transition screen
@@ -97,25 +98,25 @@ function pageTransitionOut(container, pageName) {
     .call(contentReset, [container])
     .set(container.querySelector('.contents'), {
         duration: 0,
-        translateY: '80vh',
+        translateY: '100vh',
+        onComplete:function(){
+        }
       })
-    .to(window,{
-        duration:0.6, scrollTo: 0,delay:0
-    })
+    // .to($('html,body'), { duration: 0, scrollTo:'0'})
     .to(screenNum, {
-      duration:0.6,
+      duration:0.4,
       y: '-200vh',
       skewX: 0,
       transformOrigin: 'top left',
       ease:"power1.out",
     }, 'start')
     .to(container.querySelector('.contents'), {
-      duration:0.6,
+      duration:0.4,
       translateY: '0%',
       ease: "power1.out",
       onComplete:function(){
         
-        }
+      }
     }, 'start')
     .to(screenNum, {
         duration: 0,
@@ -124,6 +125,7 @@ function pageTransitionOut(container, pageName) {
         onComplete:function(){
             $('.main-navigation').removeClass('active')
             $('body').removeClass('fixed')
+            
         }
     })
     
@@ -182,12 +184,11 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
+                $('html,body').animate({
+                    scrollTop:0
+                },0)
             },
             async enter(data) {
-                
-                // $('#wrapper').removeClass('about-secton')
-                // $('#wrapper').removeClass('contact-secton')
-                // $('#wrapper').addClass('index-secton')
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -195,22 +196,15 @@ $(function() {
                 await commonTween()
                 await videoAutoPlay()
                 await datagrid()
-                // await shuffle()
-                // window.removeMain();
-                
-                
             },
             async afterEnter(data) {
-               // ScrollTrigger.refresh();
+                ScrollTrigger.refresh();
             },
             async once(data) {
                 $('.main-navigation li').eq(0).addClass('active')
-                // $('#wrapper').addClass('index-secton')
                 await smoothScroll()
                 await commonTween()
                 await datagrid()
-                
-                // await shuffle()
             }
           }, {
             name: 'detail',
@@ -221,7 +215,9 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-
+                $('html,body').animate({
+                    scrollTop:0
+                },0)
             },
             async enter(data) {
                 
@@ -253,7 +249,9 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                
+                $('html,body').animate({
+                    scrollTop:0
+                },0)
             },
             async enter(data) {
                 
@@ -264,8 +262,6 @@ $(function() {
                 await commonTween()
             },
             async afterEnter(data) {
-                
-                
                 ScrollTrigger.refresh();
             },
             async once(data) {
@@ -284,7 +280,9 @@ $(function() {
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
-                
+                $('html,body').animate({
+                    scrollTop:0
+                },100)
             },
             async enter(data) {
                 
@@ -315,7 +313,7 @@ $(function() {
                   });
             },
             async afterEnter(data) {
-                
+                    
                 
                 ScrollTrigger.refresh();
             },
@@ -363,7 +361,7 @@ function datagrid(){
             locoScroll.scrollTo("top")
             ScrollTrigger.refresh();
         } else {
-            gsap.to(window, { duration: 1, scrollTo: 0 });
+            gsap.to(window, { duration: 1, scrollTo : 0});
             ScrollTrigger.refresh();
         }
     })
@@ -372,7 +370,7 @@ function datagrid(){
             locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
             ScrollTrigger.refresh();
         } else {
-            gsap.to(window, { duration: 1, scrollTo: ".project-type.bottom" });
+            gsap.to($('html,body'), { duration: 1, scrollTo: ".project-type.bottom" });
             ScrollTrigger.refresh();
         }
     })
