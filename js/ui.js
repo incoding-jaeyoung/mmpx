@@ -201,7 +201,7 @@ $(function() {
                 
             },
             async afterEnter(data) {
-                ScrollTrigger.refresh();
+               // ScrollTrigger.refresh();
             },
             async once(data) {
                 $('.main-navigation li').eq(0).addClass('active')
@@ -363,7 +363,7 @@ function datagrid(){
             locoScroll.scrollTo("top")
             ScrollTrigger.refresh();
         } else {
-            gsap.to(window, { duration: 1, scrollTo: ".project-type.top" });
+            gsap.to(window, { duration: 1, scrollTo: 0 });
             ScrollTrigger.refresh();
         }
     })
