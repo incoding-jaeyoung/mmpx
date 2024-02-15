@@ -5,18 +5,24 @@
 gsap.registerPlugin(ScrollTrigger);
 // ScrollTrigger.normalizeScroll(true)
 window.onload = function () {
+    const winW = $(window).width()
     $('body').imagesLoaded().done(function (instance) {
         $('body').addClass('load')
         init()
         headerScroll()
-        $('.main-navigation .menu').on('click',function(){
-            $(this).find('.navTrigger').toggleClass('active')
-            $('#header').toggleClass('m-menu')
-        })
+        if(winW < 769){
+            $('.menu').on('click',function(){
+                $(this).find('.navTrigger').toggleClass('active')
+                $('#header').toggleClass('m-menu')
+            })
+        }
+       
     });
 }
 var locoScroll = '';
 function smoothScroll(){
+    const winW = $(window).width()
+    console.log(winW)
     locoScroll = new LocomotiveScroll({
         el: document.querySelector(".contents-wrap"),
         smooth: true,
@@ -24,11 +30,16 @@ function smoothScroll(){
         duration: 0.1,
         autoResize: true,
         touchMultiplier: 5,
+        tablet: {
+            smooth: true,
+            breakpoint: 769,
+        },
         smartphone: {
             smooth: false,
             breakpoint: 0,
             lerp: 0,
         },
+        
         
     });
     locoScroll.on('.contents-wrap', ScrollTrigger.update)
@@ -55,7 +66,7 @@ function delay(n) {
     })
   }
 
-const screenNum = '';
+// const screenNum = '';
 const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
@@ -70,7 +81,10 @@ function pageTransitionIn(pageName) {
     .timeline({ delay: 0})
     .add('start')
     .to(container, {duration: 1, translateY: '-100vh',ease:"power1.in"}, 'start')
-    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh'}, 'start')
+    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left',opacity: 1,y: '-100vh',ease:"power1.in", height:'100vh',onComplete:function(){
+        $('#header').removeClass('over')
+        $('#header .bg').css({height:0})
+    }}, 'start')
 }
 // Function to add and remove the page transition screen
 function pageTransitionOut(container, pageName) {
@@ -103,6 +117,7 @@ function pageTransitionOut(container, pageName) {
         transformOrigin: 'top left',
         onComplete:function(){
             $('.main-navigation').removeClass('active')
+            
         }
         })
     .call(init, [container])
@@ -155,6 +170,8 @@ $(function() {
             name: 'index',
             to: { namespace: ['index'] },
             async leave(data) {
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(0).addClass('active')
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
@@ -163,8 +180,7 @@ $(function() {
                 },0)
             },
             async enter(data) {
-                $('.main-navigation li').removeClass('active')
-                $('.main-navigation li').eq(0).addClass('active')
+                
                 // $('#wrapper').removeClass('about-secton')
                 // $('#wrapper').removeClass('contact-secton')
                 // $('#wrapper').addClass('index-secton')
@@ -187,7 +203,6 @@ $(function() {
                 $('.main-navigation li').eq(0).addClass('active')
                 // $('#wrapper').addClass('index-secton')
                 await smoothScroll()
-                await videoAutoPlay()
                 await commonTween()
                 await datagrid()
                 
@@ -197,6 +212,8 @@ $(function() {
             name: 'detail',
             to: { namespace: ['detail'] },
             async leave(data) {
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(0).addClass('active')
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
@@ -205,8 +222,7 @@ $(function() {
                 },0)
             },
             async enter(data) {
-                $('.main-navigation li').removeClass('active')
-                $('.main-navigation li').eq(0).addClass('active')
+                
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -216,7 +232,7 @@ $(function() {
                 await work()
             },
             async afterEnter(data) {
-                ScrollTrigger.refresh();
+                // ScrollTrigger.refresh();
                 
             },
             async once(data) {
@@ -230,6 +246,8 @@ $(function() {
             name: 'about',
             to: { namespace: ['about'] },
             async leave(data) {
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(1).addClass('active')
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
@@ -238,8 +256,7 @@ $(function() {
                 },0)
             },
             async enter(data) {
-                $('.main-navigation li').removeClass('active')
-                $('.main-navigation li').eq(1).addClass('active')
+                
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -261,6 +278,8 @@ $(function() {
             name: 'contact',
             to: { namespace: ['contact'] },
             async leave(data) {
+                $('.main-navigation li').removeClass('active')
+                $('.main-navigation li').eq(2).addClass('active')
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
@@ -269,8 +288,7 @@ $(function() {
                 },0)
             },
             async enter(data) {
-                $('.main-navigation li').removeClass('active')
-                $('.main-navigation li').eq(2).addClass('active')
+                
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
@@ -340,20 +358,22 @@ function navClose(){
 
 function datagrid(){
     const winW = $(window).width()
-    $('.project-type li.selected a').on('click',function(){
+    $('.project-type.bottom li.selected a').on('click',function(){
         if(winW > 768){
             locoScroll.scrollTo("top")
             ScrollTrigger.refresh();
         } else {
             gsap.to('html,body', { duration: 1, scrollTo: 0 });
+            // ScrollTrigger.refresh();
         }
     })
-    $('.project-type li.all a').on('click',function(){
+    $('.project-type.top li.all a').on('click',function(){
         if(winW > 768){
             locoScroll.scrollTo(document.querySelector('.project-type.bottom'))
             ScrollTrigger.refresh();
         } else {
             gsap.to('html,body', { duration: 1, scrollTo: ".project-type.bottom" });
+            // ScrollTrigger.refresh();
         }
     })
     $('.work-list.all-item .grid-item').each(function(){
@@ -456,39 +476,61 @@ function headerScroll() {
                 //  markers: true,
                   scroller: ".contents-wrap",
                   toggleActions: "play none none none",
-                  onEnter: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
-                  onEnterBack: () => $(mainNavigation).removeClass('nav-hide').addClass('nav-default'),
-                  onLeave: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
-                  onLeaveBack: () => $(mainNavigation).addClass('nav-hide').removeClass('nav-default'),
+                  onEnter:function(){
+                    setTimeout(() => {
+                        $(mainNavigation).removeClass('nav-hide').addClass('nav-default')
+                    }, 250);
+                    
+                    $('.menu').removeClass('active')
+                  },
+                  onEnterBack:function(){
+                    setTimeout(() => {
+                        $(mainNavigation).removeClass('nav-hide').addClass('nav-default')
+                    }, 250);
+                    $('.menu').removeClass('active')
+                  },
+                  onLeave:function(){
+                    $(mainNavigation).addClass('nav-hide').removeClass('nav-default')
+                    $('.menu').addClass('active')
+                  },
+                  onLeaveBack:function(){
+                    $(mainNavigation).addClass('nav-hide').removeClass('nav-default')
+                    $('.menu').addClass('active')
+                  },
                 }
               });
             $('#header .main-navigation').on('mouseover',function(){
-                if($('#header .main-navigation').hasClass('nav-hide')){
-                    gsap.to($('#header .bg'), {
-                        duration:0.4,
-                        height:'100%',
-                        onStart:function(){
-                            $('#header').addClass('over')
-                            $('#header .main-navigation').removeClass('nav-hide')
-                        }
-                    })
+                if($('#header .main-navigation').hasClass('nav-default')){
+                    return false;
                 }
+                gsap
+                .timeline()
+                .to($('#header .bg'), {
+                    delay:0,
+                    duration:0.2,
+                    height:'100%',
+                    onStart:function(){
+                        $('#header .main-navigation').removeClass('nav-hide')
+                        $('.menu').removeClass("active")
+                    },
+
+                })
             })
             $('#header').on('mouseleave',function(){
-                if($('#header').hasClass('over')){
-                    $('#header .main-navigation').addClass('nav-hide')
+                if($('#header .main-navigation').hasClass('nav-default')){
+                    return false;
                 }
-                gsap.to($('#header .bg'), {
-                    delay:0.3,
-                    duration:0.4,
+                gsap
+                .timeline()
+                .to($('#header .bg'), {
+                    delay:0,
+                    duration:0.2,
                     height:'0%',
-                    onComplete:function(){
-                        setTimeout(() => {
-                            $('#header').removeClass('over')
-                        },0)
+                    onStart:function(){
+                        $('#header .main-navigation').addClass('nav-hide')
+                        $('.menu').addClass("active")
                     },
                 })
-                
             })
         },
         "(max-width:768px)": function () { // pc 작동
@@ -500,24 +542,47 @@ function headerScroll() {
 
 
 function videoAutoPlay(){
-    setTimeout(() => {
-        const videos = gsap.utils.toArray('.work-list video')
-        videos.forEach(function(video, i) {
-            ScrollTrigger.create({
-                trigger: video,
-                scroller: '',
-                start: '0 100%',
-                end: '100% 0%',
-                scroller: ".contents-wrap",
-                // markers: true,
-                onEnter: () => video.play(),  
-                onEnterBack: () => video.play(),
-                onLeave: () => video.pause(),
-                onLeaveBack: () => video.pause(),
-            });
-        })
-        
-    }, 500);
+    ScrollTrigger.matchMedia({
+        "(min-width:769px)": function () { // pc 모바일 작동
+            setTimeout(() => {
+                const videos = gsap.utils.toArray('.video video')
+                videos.forEach(function(video, i) {
+                    ScrollTrigger.create({
+                        trigger: video,
+                        scroller: '',
+                        start: '0 100%',
+                        end: '100% 0%',
+                        scroller: ".contents-wrap",
+                        // markers: true,
+                        onEnter: () => video.play(),  
+                        onEnterBack: () => video.play(),
+                        onLeave: () => video.pause(),
+                        onLeaveBack: () => video.pause(),
+                    });
+                })
+            }, 500);
+        },
+        "(max-width:768px)": function () { // 모바일 작동
+            // setTimeout(() => {
+            //     const videos = gsap.utils.toArray('.video video')
+            //     videos.forEach(function(video, i) {
+            //         ScrollTrigger.create({
+            //             trigger: video,
+            //             scroller: '',
+            //             start: '0 100%',
+            //             end: '100% 0%',
+            //             // scroller: ".contents-wrap",
+            //             markers: true,
+            //             onEnter: () => video.play(),  
+            //             onEnterBack: () => video.play(),
+            //             onLeave: () => video.pause(),
+            //             onLeaveBack: () => video.pause(),
+            //         });
+            //     })
+            // }, 100);
+        },
+    })
+    
         
   }
 
@@ -595,19 +660,36 @@ function init() {
 function commonTween() {
     const winW = $(window).width()
     if(winW > 768){
-        shuffle()
         var classes = document.getElementsByClassName('shuffleText');
             for (var i = 0; i < classes.length; i++) {
                 var shuffleText = new ShuffleText(classes[i], false, false, 8, 40, 0, i);
                 $(classes[i]).data('shuffleText', shuffleText);
             }
+           
         $(".thumb").each(function (i) {
+            
             var dd = $(this).find(" dd");
-            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 20, 0, 11+i, false);
-            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 20, 0, 11+i, true);
+            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 40, 0, 11+i);
+            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 40, 0, 11+i);
             $(this).on('mouseenter', () => {
-            shuffleText1.iteration(true);
-            setTimeout(() => shuffleText2.iteration(true), 1000/30);
+                shuffleText1.iteration(true);
+                setTimeout(() => shuffleText2.iteration(true), 1000/30);
+            });
+        });
+        $(".line .title").each(function (i) {
+            var dd = $(this).find("dt");
+            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 40, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                console.log('aaaa')
+                shuffleText.iteration(true);
+            });
+        });
+        $(".more a span").each(function (i) {
+            var dd = $(this)
+            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 40, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                console.log('aaaa')
+                shuffleText.iteration(true);
             });
         });
     } else {
@@ -764,151 +846,104 @@ function work(){
 
 
 /* 글자섞기 */
-function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index, useEvent = true) {
+function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, displayedSpeed, index) {
     this.element = element;
     this.onload = onload;
     this.index = delay === true ? index + 1 : 1;
-    this.texts = this.element.textContent;
-    this.startTexts = this.texts;
-    this.iterationNumber = this.texts.length;
+    this.iterationNumber = iterationNumber;
     this.iterationSpeed = iterationSpeed;
     this.displayedSpeed = displayedSpeed;
-
+    this.texts = this.element.textContent;
+    this.startTexts = this.texts;
     this.textsArr = [];
     this.textsNewArr = [];
     this.newText = '';
     this.isRunning = false;
-    this.renderCount = 0;
-
-    if(useEvent) this.setupEvents();
-}
-
-ShuffleText.prototype.setupEvents = function() {
+  
+    this.setupEvents();
+  }
+  
+  ShuffleText.prototype.setupEvents = function() {
     if (this.onload === true) {
-        this.iteration();
+      this.iteration();
     }
+    
     var that = this;
     this.element.addEventListener('mouseover', function() {
-        that.iteration(true);
+      that.iteration(true);
     }, false);
-};
-
-ShuffleText.prototype.createNewArr = function() {
+  };
+  
+  ShuffleText.prototype.createNewArr = function() {
     for (var i = 0; i < this.texts.length; i++) {
-        this.textsArr.push(this.texts[i]);
+      this.textsArr.push(this.texts[i]);
     }
-    this.textsNewArr = this.textsArr;
-};
-
-ShuffleText.prototype.createNewTexts = function() {
+    
+    while(this.textsArr.length > 0) {
+      var num = Math.floor(this.textsArr.length * Math.random());
+      this.textsNewArr.push(this.textsArr[num]);
+      this.textsArr.splice(num, 1);
+    }
+  };
+  
+  ShuffleText.prototype.createNewTexts = function() {
     for (var i = 0; i < this.textsNewArr.length; i++) {
-        var num = i + this.renderCount;
-        if(num >= this.textsNewArr.length) num = num - this.textsNewArr.length;
-        this.newText += this.textsNewArr[num];
+      this.newText += this.textsNewArr[i];
     }
+    
     this.element.textContent = this.newText;
-};
-
-ShuffleText.prototype.reset = function() {
+  };
+  
+  ShuffleText.prototype.reset = function() {
     this.newText = '';
     this.textsArr = [];
     this.textsNewArr = [];
-};
-
-ShuffleText.prototype.render = function() {
+  };
+  
+  ShuffleText.prototype.render = function() {
     this.createNewArr();
     this.createNewTexts();
     this.reset();
-};
-
-ShuffleText.prototype.iteration = function(ev) {
+  };
+  
+  ShuffleText.prototype.iteration = function(ev) {
     if (this.isRunning !== false) return;
     if (ev === true) this.index = 1;
-
+    
     this.isRunning = true;
-    this.renderCount = 0;
-
+    
     var that = this;
     for (var i = 0; i < this.iterationNumber; i++) {
-        (function(i) {
+      (function(i) {
         setTimeout(function() {
-            that.renderCount++;
-            that.render();
-            
-            if (i === that.iterationNumber - 1) {
+          that.render();
+          
+          if (i === that.iterationNumber - 1) {
             that.element.textContent = '';
             
             for (var j = 0; j < that.startTexts.length; j++) {
-                (function(j) {
+              (function(j) {
                 setTimeout(function() {
-                    that.element.textContent += that.startTexts[j];
-                    
-                    if (j === that.startTexts.length - 1) {
+                  that.element.textContent += that.startTexts[j];
+                  
+                  if (j === that.startTexts.length - 1) {
                     that.isRunning = false;
-                    }
+                  }
                 }, j * that.displayedSpeed);
-                })(j);
+              })(j);
             }
-            }
+          }
         }, i * that.index * that.iterationSpeed);
-        })(i);
+      })(i);
     }
-};
-
-
-(function() {
-    $(function () {
-        var classes = document.getElementsByClassName('shuffleText1');
-        for (var i = 0; i < classes.length; i++) {
-            var shuffleText = new ShuffleText(classes[i], false, false, 8, 50, 0, i);
-            $(classes[i]).data('shuffleText1', shuffleText);
-        }
-    });
-})();
-
-function shuffle(){
-    var velocity = 20;
-	var i = 0;
-	var shuffleElement = $('.shuffle');
-
-	$.each( shuffleElement, function(index, item) {
-		$(item).attr('data-text', $(item).text());
-	});
-
-	var shuffle = function(o) {
-		for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-		return o;
-	};
-
-	var shuffleText = function(element, originalText) {
-		var elementTextArray = [];
-		var randomText = [];
-
-		for ( i=0;i<originalText.length;i++) {
-			elementTextArray.push(originalText.charAt([i]));
-		};
-
-		var repeatShuffle = function(times, index) {
-			if ( index == times ) {
-				element.text(originalText);
-				return;
-			} 
-
-			setTimeout( function() {
-				randomText = shuffle(elementTextArray);
-				for (var i=0;i<index;i++) {
-					randomText[i] = originalText[i];	
-				}
-				randomText = randomText.join('');
-				element.text(randomText);
-				index++;
-				repeatShuffle(times, index);
-			}, velocity);	
-		}
-		repeatShuffle(element.text().length, 0);
-	}
-
-	shuffleElement.mouseenter(function() {
-		shuffleText($(this), $(this).data('text'));
-	});
-}
+  };
+  
+  
+  (function() {
+    window.addEventListener('load', function() {
+      var classes = document.getElementsByClassName('shuffleText-menu');
+      for (var i = 0; i < classes.length; i++) {
+        new ShuffleText(classes[i], false, false, 8, 50, 0, i);
+      }
+    }, false);
+  })();
