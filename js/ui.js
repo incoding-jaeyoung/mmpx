@@ -80,8 +80,8 @@ function pageTransitionIn(pageName) {
     return gsap
     .timeline({ delay: 0})
     .add('start')
-    .to(container, {duration: 1, translateY: '-100vh',ease:"power1.in"}, 'start')
-    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left', y: '-100vh',ease:"power1.in", height:'100vh',onComplete:function(){
+    .to(container, {duration: 1, translateY: '-100vh',ease:"power1.inOut"}, 'start')
+    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left', y: '-100vh',ease:"power1.inOut", height:'100vh',onComplete:function(){
         $('#header').removeClass('over')
         $('#header .bg').css({height:0})
         gsap.to(window, { duration:0.1, scrollTo : 1, delay:0});
@@ -108,12 +108,12 @@ function pageTransitionOut(container, pageName) {
       y: '-200vh',
       skewX: 0,
       transformOrigin: 'top left',
-      ease:"power1.out",
+      ease:"power1.inOut",
     }, 'start')
     .to(container.querySelector('.contents'), {
       duration:0.4,
       translateY: '0%',
-      ease: "power1.out",
+      ease: "power1.inOut",
       onComplete:function(){
         
       }
@@ -212,6 +212,7 @@ $(function() {
             async leave(data) {
                 $('.main-navigation li').removeClass('active')
                 $('.main-navigation li').eq(0).addClass('active')
+                $('.main-navigation li').eq(0).addClass('work')
                 const  pageName = data.next.namespace
                 await pageTransitionIn(pageName)
                 data.current.container.remove()
@@ -235,6 +236,7 @@ $(function() {
             },
             async once(data) {
                 $('.main-navigation li').eq(0).addClass('active')
+                $('.main-navigation li').eq(0).addClass('work')
                 await smoothScroll()
                 await commonTween()
                 await work()
@@ -377,7 +379,7 @@ function datagrid(){
     $('.work-list.all-item .grid-item').each(function(){
         const moreNum = $(this).find('.more a').length
         if(moreNum == 1){
-            $(this).find('.select').show();
+            $(this).find('.select span').show();
         }
         const itemNum = $(this).find('.slider').length
         if(itemNum == 0){
@@ -477,14 +479,14 @@ function headerScroll() {
                   onEnter:function(){
                     setTimeout(() => {
                         $(mainNavigation).removeClass('nav-hide').addClass('nav-default')
-                    }, 250);
+                    }, 150);
                     
                     $('.menu').removeClass('active')
                   },
                   onEnterBack:function(){
                     setTimeout(() => {
                         $(mainNavigation).removeClass('nav-hide').addClass('nav-default')
-                    }, 250);
+                    }, 150);
                     $('.menu').removeClass('active')
                   },
                   onLeave:function(){
@@ -505,11 +507,14 @@ function headerScroll() {
                 .timeline()
                 .to($('#header .bg'), {
                     delay:0,
-                    duration:0.2,
+                    duration:0.15,
                     height:'100%',
                     onStart:function(){
-                        $('#header .main-navigation').removeClass('nav-hide')
+                        setTimeout(() => {
+                            $('#header .main-navigation').removeClass('nav-hide')
+                        }, 150);
                         $('.menu').removeClass("active")
+                        
                     },
 
                 })
@@ -520,14 +525,20 @@ function headerScroll() {
                 }
                 gsap
                 .timeline()
-                .to($('#header .bg'), {
+                .set($('#header .bg'), {
                     delay:0,
-                    duration:0.2,
-                    height:'0%',
+                    duration:0,
                     onStart:function(){
-                        $('#header .main-navigation').addClass('nav-hide')
-                        $('.menu').addClass("active")
+                        setTimeout(() => {
+                            $('.menu').addClass("active")    
+                            $('#header .main-navigation').addClass('nav-hide')
+                        },150);
                     },
+                })
+                .to($('#header .bg'), {
+                    delay:0.15,
+                    duration:0.3,
+                    height:'0%',
                 })
             })
         },
@@ -660,31 +671,45 @@ function commonTween() {
     if(winW > 768){
         var classes = document.getElementsByClassName('shuffleText');
             for (var i = 0; i < classes.length; i++) {
-                var shuffleText = new ShuffleText(classes[i], false, false, 8, 40, 0, i);
+                var shuffleText = new ShuffleText(classes[i], false, false, 8, 60, 0, i);
                 $(classes[i]).data('shuffleText', shuffleText);
             }
            
         $(".thumb").each(function (i) {
             
             var dd = $(this).find(" dd");
-            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 40, 0, 11+i);
-            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 40, 0, 11+i);
+            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            var shuffleText2 = new ShuffleText(dd.eq(1)[0], false, false, 8, 60, 0, 11+i);
             $(this).on('mouseenter', () => {
                 shuffleText1.iteration(true);
                 setTimeout(() => shuffleText2.iteration(true), 1000/30);
             });
         });
+        $(".download li").each(function (i) {
+            var dd = $(this).find("a");
+            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                shuffleText1.iteration(true);
+            });
+        });
         $(".line .title").each(function (i) {
-            var dd = $(this).find("dt");
-            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 40, 0, 11+i);
+            var dt = $(this).find("dt");
+            var dd = $(this).find("dd");
+            var select = $(this).find(".select span");
+            var shuffleText1 = new ShuffleText(dt.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            var shuffleText2 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            var shuffleText3 = new ShuffleText(select.eq(0)[0], false, false, 8, 60, 0, 11+i);
+
             $(this).on('mouseenter', () => {
                 console.log('aaaa')
-                shuffleText.iteration(true);
+                shuffleText1.iteration(true);
+                shuffleText2.iteration(true);
+                shuffleText3.iteration(true);
             });
         });
         $(".more a span").each(function (i) {
             var dd = $(this)
-            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 40, 0, 11+i);
+            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
             $(this).on('mouseenter', () => {
                 console.log('aaaa')
                 shuffleText.iteration(true);
@@ -941,7 +966,7 @@ function ShuffleText(element, onload, delay, iterationNumber, iterationSpeed, di
     window.addEventListener('load', function() {
       var classes = document.getElementsByClassName('shuffleText-menu');
       for (var i = 0; i < classes.length; i++) {
-        new ShuffleText(classes[i], false, false, 8, 50, 0, i);
+        new ShuffleText(classes[i], false, false, 8, 60, 0, i);
       }
     }, false);
   })();
