@@ -503,6 +503,8 @@ function headerScroll() {
                 if($('#header .main-navigation').hasClass('nav-default')){
                     return false;
                 }
+                $('.menu').removeClass("active")
+                $('#header').css({"pointer-events":"all"})
                 gsap
                 .timeline()
                 .to($('#header .bg'), {
@@ -513,7 +515,6 @@ function headerScroll() {
                         setTimeout(() => {
                             $('#header .main-navigation').removeClass('nav-hide')
                         }, 150);
-                        $('.menu').removeClass("active")
                         
                     },
 
@@ -532,6 +533,7 @@ function headerScroll() {
                         setTimeout(() => {
                             $('.menu').addClass("active")    
                             $('#header .main-navigation').addClass('nav-hide')
+                            $('#header').css({"pointer-events":"none"})
                         },150);
                     },
                 })
