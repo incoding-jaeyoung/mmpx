@@ -477,12 +477,12 @@ a:hover{color:inherit;}
     #header nav.main-navigation ul a{color: #fff; position: relative; display: inline-flex; overflow: hidden; height:5.36rem; }
     #header nav.main-navigation ul li a:after{display: none;}
     #header nav.main-navigation ul a span{display:flex; transition: all 0.4s ease; overflow: hidden; position: absolute; font-size: 4.2rem;}
-    #header nav.main-navigation ul li{height:5.4rem; align-items:center; display: flex;}
-    #header nav.main-navigation ul li:nth-of-type(1) a {}
+    #header nav.main-navigation ul li{height:5.4rem; align-items:center; display: flex; margin-right: 0;}
+    #header nav.main-navigation ul li:nth-of-type(1) a {width: 11rem;}
     #header nav.main-navigation ul li:nth-of-type(1) a span{height: 0;}
     #header nav.main-navigation ul li:nth-of-type(2) a {width: 13rem;}
     #header nav.main-navigation ul li:nth-of-type(2) a span{height: 0px; bottom: 0; align-items: flex-end; }
-    #header nav.main-navigation ul li:nth-of-type(3) a {width: 16rem;}
+    #header nav.main-navigation ul li:nth-of-type(3) a {width: 15.6rem;}
     #header nav.main-navigation ul li:nth-of-type(3) a span{width: 0; right: 0; justify-content: flex-end;}
 
     #wrapper.contact-secton nav.main-navigation a{}
@@ -818,7 +818,7 @@ a:hover{color:inherit;}
   .work-image {display: flex; flex-direction: column; row-gap: 1.2rem;  width:100%;  overflow: hidden;}
   .work-image  > *:not(.large-text){width: 100%;}
   .work-image img{width: 100%;}
-  .work-image .colum{display: flex;  flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 0; row-gap: 0.2rem;}
+  .work-image .colum{display: flex;  flex-direction: column; justify-content: space-between; align-items: flex-start; gap: 0; row-gap: 1.2rem;}
   .work-image .colum p{height:auto; display: flex; width: 100%; object-position: 50% 50%;}
   .work-image .colum p img{object-fit:cover;}
   .work-image .colum .text{display: flex; font-size: 6rem; line-height: 7.6rem; letter-spacing: -0.06rem; padding: 8rem 6.5rem;}
