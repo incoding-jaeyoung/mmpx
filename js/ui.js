@@ -80,12 +80,12 @@ function pageTransitionIn(pageName) {
     return gsap
     .timeline({ delay: 0})
     .add('start')
-    .to(container, {duration: 1, translateY: '-100vh',ease:"power1.inOut"}, 'start')
-    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left', y: '-100vh',ease:"power1.inOut", height:'100vh',onComplete:function(){
+    .to(container, {duration: 1, translateY: '-100vh',ease:"power2.inOut"}, 'start')  // 아래판
+    .to(screenNum, {delay:0.2, duration:0.5, scaleY: 1, transformOrigin: 'bottom left', y: '-100vh',ease:"power2.in", height:'100vh',onComplete:function(){
         $('#header').removeClass('over')
         $('#header .bg').css({height:0})
         gsap.to(window, { duration:0.1, scrollTo : 1, delay:0});
-    }}, 'start')
+    }}, 'start') // 흰판 들어옴
 }
 // Function to add and remove the page transition screen
 function pageTransitionOut(container, pageName) {
@@ -104,20 +104,20 @@ function pageTransitionOut(container, pageName) {
       })
     // .to($('html,body'), { duration: 0, scrollTo:'0'})
     .to(screenNum, {
-      duration:0.4,
+      duration:0.65,
       y: '-200vh',
       skewX: 0,
       transformOrigin: 'top left',
-      ease:"power1.inOut",
-    }, 'start')
+      ease:"power2.out",
+    }, 'start') // 흰판 나감
     .to(container.querySelector('.contents'), {
-      duration:0.4,
+      duration:0.65,
       translateY: '0%',
-      ease: "power1.inOut",
+      ease: "power2.out",
       onComplete:function(){
         
       }
-    }, 'start')
+    }, 'start') // 본문 들어옴
     .to(screenNum, {
         duration: 0,
         y: '0',
@@ -499,7 +499,7 @@ function headerScroll() {
                   },
                 }
               });
-            $('#header .main-navigation').on('mouseover',function(){
+            $('.menu').on('click',function(){
                 if($('#header .main-navigation').hasClass('nav-default')){
                     return false;
                 }
@@ -692,6 +692,13 @@ function commonTween() {
             var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
             $(this).on('mouseenter', () => {
                 shuffleText1.iteration(true);
+            });
+        });
+        $(".button-group li").each(function (i) {
+            var dd = $(this).find("button");
+            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                shuffleText.iteration(true);
             });
         });
         $(".line .title").each(function (i) {

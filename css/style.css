@@ -560,8 +560,8 @@ a:hover{color:inherit;}
   .filter-list ul{display: flex; flex-wrap: wrap; flex-direction: column; transition: all 0.4s ease; transform: translateY(100%); width: 75%; height: 16.6rem;row-gap: 0.2rem;}
   .filter-list ul li{width: 33.33%;}
   .filter-list ul li button{font-size: 2rem; display: flex; align-items: center; position: relative; height: 2.6rem;}
-  .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover;  transition: all 0.4s ease; border-radius: 50%; background-color: #000;}
-  .filter-list ul li button:after{content: ""; width: 0rem; height: 0rem; background-size: cover;transition: all 0.4s ease; background-color: #fff; position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;}
+  .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover;  transition: all 0.15s ease; border-radius: 50%; background-color: #000;}
+  .filter-list ul li button:after{content: ""; width: 0rem; height: 0rem; background-size: cover;transition: all 0.15s ease; background-color: #fff; position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;}
   .filter-list ul li button.is-checked::before{display: flex; width: 1.8rem; height: 1.8rem; margin-right: 0.6rem;}
   .filter-list ul li button:hover::before{display: flex; width: 1.8rem; height: 1.8rem; margin-right: 0.6rem;}
   .filter-list ul li button.is-checked::after{width: 1.8rem; height: 0.2rem;}
