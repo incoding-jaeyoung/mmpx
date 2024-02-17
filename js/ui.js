@@ -694,6 +694,14 @@ function commonTween() {
                 shuffleText1.iteration(true);
             });
         });
+        $(".next-page h2 a").each(function (i) {
+            var dd = $(this).parent().parent().prev();
+            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                console.log('asdasdas')
+                shuffleText1.iteration(true);
+            });
+        });
         $(".line .title").each(function (i) {
             var dt = $(this).find("dt");
             var dd = $(this).find("dd");
