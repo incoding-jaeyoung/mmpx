@@ -367,10 +367,11 @@ a:hover{color:inherit;}
 #header.nav-default{}
 
 #header nav.main-navigation{display: flex; justify-content: space-between; height: 7.4rem;  font-size: 3.6rem; align-items: center; padding: 0 2rem 0 0; box-sizing: content-box; overflow: hidden; position: relative; z-index: 1120; pointer-events: all; margin-left: 2rem;}
-#header nav.main-navigation.active{pointer-events: none;}
+#header nav.main-navigation.active{}
+#header nav.main-navigation.nav-hide{pointer-events: none;}
 
-.menu{height: 7.4rem; display: flex; align-items: center; justify-content: center; transition: all 0.1s linear; overflow: hidden; opacity:1; position: relative; position: fixed; z-index:1110; mix-blend-mode: difference; left: 0rem; pointer-events: none;}
-.menu.active{opacity: 1; margin-left:0rem;}
+.menu{height: 7.4rem; display: flex; align-items: center; justify-content: center; transition: all 0.1s linear; overflow: hidden; opacity:1; position: relative; position: fixed; z-index:1110; mix-blend-mode: difference; left: 0rem; pointer-events: none; border: 1px solid #fff;}
+.menu.active{opacity: 1; margin-left:0rem; pointer-events: all;}
 .menu .navTrigger { }
 .menu .navTrigger i{transition: all 0.15s ease;}
 .menu .navTrigger i:nth-child(1){width: 0%; transition-delay: 0s;}
@@ -444,6 +445,7 @@ a:hover{color:inherit;}
     display: flex; align-items: flex-start;
     opacity:1;
     box-sizing: border-box;
+    border: 1px solid #f00;
   }
   .loading-screen img{width: 100%; transform: translateY(50vh);}
   .loading-screen.index{padding-right: 45rem;}
@@ -624,6 +626,7 @@ a:hover{color:inherit;}
   .work-list.all-item .line.active .open button{transform: translateY(2.1rem);}
   .work-list.all-item .line.active .slider{padding-top: 2rem;}
   .work-list.all-item .line.active .title dl dt{white-space: wrap;}
+  /* .work-list.all-item .line.active .title dl dd{max-height: 5.2rem;} */
   .work-list.all-item .title .open img{width: 2rem; height: auto;}
   .work-list.all-item .more{ display: flex; justify-content: flex-end; padding-right: 2rem; min-height: 2.2rem;}
   .work-list.all-item .more a{display: flex; align-items: center; font-size: 2rem; height: 4.6rem;  border-radius: 2.3rem; color: #000;}
@@ -671,8 +674,8 @@ a:hover{color:inherit;}
     .filter-list ul li{width:50%; margin-right: 0rem; height: auto;}
     .filter-list ul li.blink{display: none;}
     .filter-list ul li button{font-size: 1.5rem; display: flex; align-items: center; position: relative; height: 2rem;}
-    .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover;  transition: all 0.4s ease; border-radius: 50%; background-color: #000;}
-    .filter-list ul li button:after{content: ""; width: 0rem; height: 0rem; background-size: cover;transition: all 0.4s ease; background-color: #fff; position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;}
+    .filter-list ul li button:before{content: ""; width: 0rem; height: 0rem; background-size: cover; border-radius: 50%; background-color: #000;}
+    .filter-list ul li button:after{content: ""; width: 0rem; height: 0rem; background-size: cover;background-color: #fff; position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 10;}
     .filter-list ul li button.is-checked::before{display: flex; width: 1.2rem; height: 1.2rem; margin-right: 0.3rem;}
     .filter-list ul li button:hover::before{display: flex; width: 0rem; height: 0rem; margin-right: 0rem;}
     .filter-list ul li button.is-checked::before{display: flex; width: 1.2rem; height: 1.2rem; margin-right: 0.3rem;}
