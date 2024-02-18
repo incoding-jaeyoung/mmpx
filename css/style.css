@@ -21,7 +21,7 @@ body,html {font-size: 0.5208333333333334vw;}
 html{}
 html, body {color: #000; overflow: hidden; background-color: #fff;} /*  scroll-behavior: smooth; */
 
-body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease; opacity: 0;}
+body{font-size: 1.8rem; font-weight:500; overflow-x: hidden; transition: all 0.4s ease; opacity: 0;}
 body.load{opacity: 1;}
 html.fixed{}
 body.fixed{}
@@ -401,7 +401,7 @@ a:hover{color:inherit;}
 #header nav.main-navigation li.work a{pointer-events: all !important; }
 #header nav.main-navigation li.work a *{pointer-events: all !important;}
 #header nav.main-navigation ul li{}
-#header nav.main-navigation ul li:nth-of-type(1) a { width: 10rem;}
+#header nav.main-navigation ul li:nth-of-type(1) a { width: 9.5rem;}
 #header nav.main-navigation ul li:nth-of-type(1) a span{transform: translateY(0%); height:4.8rem;}
 #header nav.main-navigation ul li:nth-of-type(2) a {width: 11rem;  align-items: flex-end;}
 #header nav.main-navigation ul li:nth-of-type(2) a span{transform: translateY(0%); height:4.8rem; align-items: flex-end;}
@@ -484,7 +484,7 @@ a:hover{color:inherit;}
     #header nav.main-navigation ul li:nth-of-type(1) a span{height: 0;}
     #header nav.main-navigation ul li:nth-of-type(2) a {width: 13rem;}
     #header nav.main-navigation ul li:nth-of-type(2) a span{height: 0px; bottom: 0; align-items: flex-end; }
-    #header nav.main-navigation ul li:nth-of-type(3) a {width: 15.6rem;}
+    #header nav.main-navigation ul li:nth-of-type(3) a {width: 15.8rem;}
     #header nav.main-navigation ul li:nth-of-type(3) a span{width: 0; right: 0; justify-content: flex-end;}
 
     #wrapper.contact-secton nav.main-navigation a{}
