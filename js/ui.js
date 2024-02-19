@@ -77,8 +77,8 @@ function pageTransitionIn(pageName) {
     return gsap
     .timeline({ delay: 0})
     .add('start')
-    .to(container, {duration: 1, translateY: '-100vh',ease:"power2.inOut"}, 'start')  // 아래판
-    .to(screenNum, {delay:0.2, duration:0.5, scaleY: 1, transformOrigin: 'bottom left', y: '-100vh',ease:"power2.in", height:'100vh',onComplete:function(){
+    .to(container, {duration: 1, translateY: '-100vh',ease:"power2.in"}, 'start')  // 아래판
+    .to(screenNum, {delay:0.2, duration:0.6, scaleY: 1, transformOrigin: 'bottom left', y: '-100vh',ease:"power2.in", height:'100vh',onComplete:function(){
         $('#header').removeClass('over')
         $('#header .bg').css({height:0})
         gsap.to(window, { duration:0.1, scrollTo : 1, delay:0});
@@ -112,7 +112,7 @@ function pageTransitionOut(container, pageName) {
     }, 'start') // 흰판 나감
     .to(container.querySelector('.contents'), {
       duration:0.65,
-      translateY: '0%',
+      translateY: '0',
       ease: "power2.out",
       onComplete:function(){
         
@@ -481,14 +481,14 @@ function headerScroll() {
                   onEnter:function(){
                     setTimeout(() => {
                         $(mainNavigation).removeClass('nav-hide').addClass('nav-default')
-                    }, 150);
+                    },0);
                     
                     $('.menu').removeClass('active')
                   },
                   onEnterBack:function(){
                     setTimeout(() => {
                         $(mainNavigation).removeClass('nav-hide').addClass('nav-default')
-                    }, 150);
+                    }, 0);
                     $('.menu').removeClass('active')
                   },
                   onLeave:function(){
@@ -501,7 +501,7 @@ function headerScroll() {
                   },
                 }
               });
-            $('.menu').on('click',function(){
+            $('.menu').on('mouseenter',function(){
                 if($('#header .main-navigation').hasClass('nav-default')){
                     return false;
                 }
@@ -812,6 +812,14 @@ function commonTween() {
             var dd = $(this).find("a");
             var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
             $(this).on('mouseenter', () => {
+                shuffleText1.iteration(true);
+            });
+        });
+        $(".next-page h2 a").each(function (i) {
+            var dd = $(this).parent().parent().prev();
+            var shuffleText1 = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                console.log('asdasdas')
                 shuffleText1.iteration(true);
             });
         });
