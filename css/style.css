@@ -21,7 +21,7 @@ body,html {font-size: 0.5208333333333334vw;}
 html{}
 html, body {color: #000; overflow: hidden; background-color: #fff;} /*  scroll-behavior: smooth; */
 
-body{font-size: 1.8rem; font-weight:500; letter-spacing: -0.04rem; overflow-x: hidden; transition: all 0.4s ease; opacity: 0;}
+body{font-size: 1.8rem; font-weight:500; overflow-x: hidden; transition: all 0.4s ease; opacity: 0;}
 body.load{opacity: 1;}
 html.fixed{}
 body.fixed{}
@@ -355,9 +355,10 @@ a:hover{color:inherit;}
     .coming .com-foot{color: #666666; font-size: 11px; text-transform: uppercase; position:static; bottom: 20px; left: 0; width: 100%; text-align: center; margin-top: auto;}    
 }
 #header{position: fixed; z-index: 1100; width: 100%; top: 0px; transform: translateY(0);  opacity: 1; padding-bottom: 3.4rem; pointer-events: none;}
-.contents-wrap > h1{position: absolute; right: 1.3rem; z-index: 130; display: none; top: 0;}
-.contents-wrap > h1 a{opacity: 1; letter-spacing: -0.18rem; font-size: 3rem; height: 5.4rem; display: flex; align-items: center; }
+.contents-wrap > h1{position: absolute; right: 1.3rem; z-index: 130; display: none;}
+.contents-wrap > h1 a{opacity: 1; letter-spacing: -0.18rem; font-size: 3rem; height: 5.4rem; display: flex; align-items: center;}
 #header .bg{display: flex; position: absolute; background-color: #fff; width: 100%; height:0%; left: 0; top: 0; z-index: 0;} 
+#header.active .bg{border-bottom: 0.2rem solid #000; box-sizing: border-box;}
 /* #header.over{}
 #header.over a{color: #000 !important;} */
 
@@ -365,9 +366,10 @@ a:hover{color:inherit;}
 #header.nav-down {}
 #header.nav-up{}
 #header.nav-default{}
+#header .close{font-size: 3.6rem; position: absolute; left: 2rem; bottom: 1.2rem;}
 
 #header nav.main-navigation{display: flex; justify-content: space-between; height: 7.4rem;  font-size: 3.6rem; align-items: center; padding: 0 2rem 0 0; box-sizing: content-box; overflow: hidden; position: relative; z-index: 1120; pointer-events: all; margin-left: 2rem;}
-#header nav.main-navigation.active{pointer-events: none;}
+#header.active nav.main-navigation{pointer-events:all;}
 
 .menu{height: 7.4rem; display: flex; align-items: center; justify-content: center; transition: all 0.1s linear; overflow: hidden; opacity:1; position: relative; position: fixed; z-index:1110; mix-blend-mode: difference; left: 0rem; pointer-events: none;}
 .menu.active{opacity: 1; margin-left:0rem; pointer-events: all;}
@@ -394,11 +396,11 @@ a:hover{color:inherit;}
 #header nav.main-navigation ul li a{position: relative; display: flex; height:4.8rem; overflow: hidden;  mix-blend-mode: difference;}
 #header nav.main-navigation ul li a span{display:flex; transition: all 0.15s linear; overflow: hidden; position: absolute; height: 4.8rem;  line-height: 4.8rem;}
 #header nav.main-navigation ul li a:hover{opacity: 1;}
-#header nav.main-navigation li.active{pointer-events: none;}
-#header nav.main-navigation li.active *{pointer-events: none;}
+#header nav.main-navigation li.active{pointer-events: none; touch-action: none;}
+#header nav.main-navigation li.active *{pointer-events: none; touch-action: none;}
 #header nav.main-navigation li.active a{opacity:1 !important;}
-#header nav.main-navigation li.work a{pointer-events: all !important; }
-#header nav.main-navigation li.work a *{pointer-events: all !important;}
+#header nav.main-navigation li.work a{pointer-events: all; touch-action:auto}
+#header nav.main-navigation li.work a *{pointer-events: all; touch-action:auto}
 #header nav.main-navigation ul li{}
 #header nav.main-navigation ul li:nth-of-type(1) a { width: 10rem;}
 #header nav.main-navigation ul li:nth-of-type(1) a span{transform: translateY(0%); height:4.8rem;}
@@ -465,50 +467,56 @@ a:hover{color:inherit;}
     .contents{padding:9.5rem 1.2rem 0 1.2rem !important; }
     .contents-wrap{}
     .contents-wrap > h1 {display: block;}
-    #header {padding-bottom: 0rem; z-index: 10; }
+    #header {padding-bottom: 0rem; z-index: 10;}
     #header.m-menu{ }
     
     .navTrigger{transform: scale(0.8);}
+    /*
     .menu .navTrigger {align-items: center;}
     .menu .navTrigger i:nth-child(1){width: 100%; transition-delay: 0s;}
     .menu .navTrigger i:nth-child(2){width: 100%; transition-delay: 0s;}
     .menu .navTrigger i:nth-child(3){width: 100%; transition-delay: 0s;}
-    #header nav.main-navigation ul{background:linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,1) 100%);}
-    #header nav.main-navigation ul a{color: #fff; position: relative; display: inline-flex; overflow: hidden; height:5.36rem; }
+    */
+    #header nav.main-navigation ul{}
+    #header nav.main-navigation ul li a{position: relative; display: inline-flex; overflow: hidden; height:3.8rem;}
     #header nav.main-navigation ul li a:after{display: none;}
-    #header nav.main-navigation ul a span{display:flex; transition: all 0.4s ease; overflow: hidden; position: absolute; font-size: 4.2rem;}
-    #header nav.main-navigation ul li{height:5.4rem; align-items:center; display: flex; margin-right: 0;}
-    #header nav.main-navigation ul li:nth-of-type(1) a {width: 11rem;}
+    #header nav.main-navigation ul li a span{display:flex; overflow: hidden; position: absolute; font-size:3rem; line-height: 3.8rem;}
+    #header nav.main-navigation ul li{height:auto; align-items:center; display: flex; margin-right: 0;}
+    #header nav.main-navigation ul li:nth-of-type(1) a {width: 7.3rem;}
     #header nav.main-navigation ul li:nth-of-type(1) a span{height: 0;}
-    #header nav.main-navigation ul li:nth-of-type(2) a {width: 13rem;}
+    #header nav.main-navigation ul li:nth-of-type(2) a {width: 8.5rem;}
     #header nav.main-navigation ul li:nth-of-type(2) a span{height: 0px; bottom: 0; align-items: flex-end; }
-    #header nav.main-navigation ul li:nth-of-type(3) a {width: 15.6rem;}
+    #header nav.main-navigation ul li:nth-of-type(3) a {width: 11.3rem;}
     #header nav.main-navigation ul li:nth-of-type(3) a span{width: 0; right: 0; justify-content: flex-end;}
 
     #wrapper.contact-secton nav.main-navigation a{}
     #wrapper.contact-secton nav.main-navigation h1 a{}
 
-    #header nav.main-navigation{display: flex; justify-content:flex-end; height: 5.4rem;  padding: 0 1.2rem 0 0; box-sizing: content-box; margin-left: 0;}
-    .menu{width:5.4rem; height: 5.4rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s linear; overflow: hidden; margin-left: 0; opacity:1; position: relative; position: fixed; z-index:110; mix-blend-mode: difference; left:0rem; z-index: 1111; pointer-events: all;}
+    #header nav.main-navigation{display: flex; height:auto; align-items: flex-start;  padding: 0 1.2rem; box-sizing: content-box; margin-left: 0;}
+    .menu{width:5.4rem; height: 5.4rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s linear; overflow: hidden; margin-left: 0; opacity:1; position: relative; position: fixed; z-index:110; mix-blend-mode: difference; left:0rem; z-index: 1111;}
     .menu .navTrigger.active i{mix-blend-mode: normal;}
     /* #header nav.main-navigation .menu{margin-left: 0; opacity: 1; width:5.4rem; height: 5.4rem; position: relative; z-index: 20; }
     #header nav.main-navigation.nav-hide .menu{width:5.4rem; opacity: 1; margin-left: 0;} */
-    #header nav.main-navigation ul{position:fixed; left: 0; top: 0; right:0; height: 100vh; transition: all .6s ease; display: flex; flex-direction: column; opacity:0; margin-right: 0; padding: 1.2rem; padding-top: 12rem; pointer-events: none;}
+    /* #header nav.main-navigation ul{position:fixed; left: 0; top: 0; right:0; height: 100vh; transition: all .6s ease; display: flex; flex-direction: column; opacity:0; margin-right: 0; padding: 1.2rem; padding-top: 1rem; pointer-events: none;} */
+    #header nav.main-navigation ul{flex-direction: column; opacity:0; margin-right: 0; pointer-events: none; margin-top: 1rem;}
     
     #header nav.main-navigation h1 {display: none;}
     #header nav.main-navigation h1 a{opacity: 1; letter-spacing: -0.18rem; font-size: 3rem;  height: 5.4rem; display: flex; align-items: center;}
     #header nav.main-navigation h1 a span{align-items: center;}
     #header nav.main-navigation.nav-hide h1 a span{height: 100%;}
     #header.m-menu nav.main-navigation h1 {display: block; position: relative; z-index: 40;}
-    #header.m-menu nav.main-navigation h1 a{color: #fff;}
+    #header.m-menu nav.main-navigation h1 a{}
     #header.m-menu nav.main-navigation svg rect{fill:#fff}
     #header.m-menu nav.main-navigation a::after{background-color: #fff;}
     #header.m-menu{height: 100%; z-index: 1100;}
-    #header.m-menu a{pointer-events: all !important;}
-    #header.m-menu nav.main-navigation ul{ padding: 12rem 1.2rem 0 1.2rem; transform: translateY(0); opacity: 1; pointer-events: all;}
-    #header.m-menu nav.main-navigation ul li:nth-of-type(1) a span{transform: translateY(0%); height:5.36rem;}
-    #header.m-menu nav.main-navigation ul li:nth-of-type(2) a span{transform: translateY(0%); height:5.36rem;}
+    /* #header.m-menu a{pointer-events: all !important;} */
+    #header.m-menu nav.main-navigation ul{ opacity: 1; pointer-events: all;}
+    #header.m-menu nav.main-navigation ul li {}
+    #header.m-menu nav.main-navigation ul li a span{height: 3.8rem; align-items: center;}
+    #header.m-menu nav.main-navigation ul li:nth-of-type(1) a span{transform: translateY(0%);}
+    #header.m-menu nav.main-navigation ul li:nth-of-type(2) a span{transform: translateY(0%);}
     #header.m-menu nav.main-navigation ul li:nth-of-type(3) a span{transform: translateX(0%); width: 100%;}
+    #header .close {font-size: 3rem; left: 1.2rem; bottom: 1.2rem; color: #000 !important;}
     .footer{display: flex; flex-direction: column-reverse; justify-content: space-between; padding: 12rem 0 4rem 0; font-size: 1.8rem; margin-top: auto; row-gap: 2rem;}
     .footer ul{display: flex; gap: 1.4rem; justify-content: flex-end;}
   }
@@ -543,8 +551,8 @@ a:hover{color:inherit;}
   .project-type ul li p{white-space:nowrap;}
   .project-type ul li span{font-size: 1.8rem; vertical-align: top; display:inline-flex; justify-content: flex-end;}
   .project-type ul li:first-of-type span{margin-left: -0.8rem;}
-  .project-type ul li:first-of-type p{width: 29.8rem;}
-  .project-type ul li:last-of-type p{width: 18.8rem;}
+  .project-type ul li:first-of-type p{}
+  .project-type ul li:last-of-type p{}
   .project-type ul li.active a{opacity: 1;}
 
   .filter-block {display: flex; flex-direction: column;}
@@ -574,7 +582,7 @@ a:hover{color:inherit;}
   .work-list.selected {padding-bottom: 8.5rem;}
   .work-list.hide{height: 0 !important ; overflow: hidden;}
   .work-list dl.thumb dt{margin-bottom: 1.2rem;  overflow: hidden; position: relative;  display: flex;  align-items: center; justify-content: center;}
-  .work-list dl.thumb dd{font-size: 1.8rem; line-height: 2.6rem; height: 2.6rem;}
+  .work-list dl.thumb dd{font-size: 1.8rem; line-height: 2.4rem; height: 2.4rem;}
   .work-list dl.thumb dt a{display: flex; transform: scale(1.1); transform-origin: center bottom;}
   .work-list dl.thumb dt a{position: relative; overflow: hidden; width: 100%; height: 100%;}
   .work-list dl.thumb dt a > *{width: 100%; object-fit: cover;}
@@ -762,8 +770,12 @@ a:hover{color:inherit;}
 .work-preview h4{margin-top: 4rem;font-size: 2.2rem; line-height: 3.4rem; font-weight: 500; padding-bottom: 12rem;}
 .work-info{padding-right: 4rem; display: flex; justify-content: space-between; position: relative;}
 .work-info dl{width: 82rem;font-size: 2.4rem;}
-.work-info dl dt{ margin-bottom: 2rem;}
-.work-info dl dd{ line-height: 3.4rem;}
+.work-info dl.title dt{ margin-bottom: 2rem;}
+.work-info dl.title dd{ line-height: 3.4rem;}
+.work-info .award {margin-top: 8rem;}
+.work-info .award .image{width: 10rem; height: 10rem;}
+.work-info .award dl dt{padding-top: 2rem; font-size: 2.4rem; padding-bottom: 2rem;}
+.work-info .award dl dd{font-size: 1.8rem; line-height: 2.4rem; font-weight: 400;}
 .work-info ul{width: 82rem; font-size: 2.4rem; display: flex; flex-direction: column; row-gap: 4rem;}
 .work-info ul li{line-height: 3.4rem; display: flex; flex-direction: column; row-gap: 4rem;}
 .work-info ul li:nth-of-type(1){width: 82rem;}
@@ -800,10 +812,16 @@ a:hover{color:inherit;}
   .work-preview h4{margin-top:2rem;font-size: 1.8rem; line-height: 2.4rem; padding-bottom:6rem;}
   .work-info{display: flex; flex-direction: column; justify-content: space-between;  overflow: hidden; padding-bottom: 12rem; padding-top: 2rem; padding-right: 0;}
   .work-info.active{padding-bottom: 24rem;}
-  .work-info dl{width:auto;font-size: 2rem;}
-  .work-info dl dt{ margin-bottom: 1rem;}
-  .work-info dl dd{line-height: 2.6rem;}
-  .work-info ul{margin-top: 6rem; width: auto; font-size: 2rem; display: flex; flex-direction: column; row-gap: 4rem; max-height: 60rem;  position: relative;}
+  .work-info dl.title{width:auto;font-size: 2rem;}
+  .work-info dl.title dt{ margin-bottom: 1rem;}
+  .work-info dl.title dd{line-height: 2.6rem;}
+
+  .work-info .award {margin-top: 6rem;}
+  .work-info .award .image{width: 10rem; height: 10rem;}
+  .work-info .award dl dt{padding-top: 2rem; font-size: 2rem; padding-bottom: 1rem;}
+  .work-info .award dl dd{font-size: 1.6rem; line-height:normal; font-weight: 400;}
+
+  .work-info ul{margin-top: 12rem; width: auto; font-size: 2rem; display: flex; flex-direction: column; row-gap: 4rem; max-height: 60rem;  position: relative;}
   .work-info ul li p{line-height: 2.6rem;}
   .work-info.active ul{max-height: none;}
   .work-info:after{content: ""; display: flex; width: 100%; height:38.5rem; position: absolute; bottom: 0; left: 0; right:0; background: linear-gradient(180deg, rgba(255, 255, 255, 0.00) 0%, #FFF 50%);}

@@ -11,10 +11,7 @@ window.onload = function () {
         init()
         headerScroll()
         if(winW < 769){
-            $('.menu').on('click',function(){
-                $(this).find('.navTrigger').toggleClass('active')
-                $('#header').toggleClass('m-menu')
-            })
+            // $('.contents-wrap > h1').addClass('show')
         }
        
     });
@@ -73,7 +70,7 @@ const mainNavigation = document.querySelector('.main-navigation')
 function pageTransitionIn(pageName) {
     $('body').addClass('fixed')
     $('.main-navigation').addClass('active')
-    
+    headerClose()
     const container = document.querySelector('.contents')
     const screenNum = document.querySelector('.loading-screen')
     navClose()
@@ -85,6 +82,8 @@ function pageTransitionIn(pageName) {
         $('#header').removeClass('over')
         $('#header .bg').css({height:0})
         gsap.to(window, { duration:0.1, scrollTo : 1, delay:0});
+        $('.menu').show()
+        $('#header').removeClass('active')
     }}, 'start') // 흰판 들어옴
 }
 // Function to add and remove the page transition screen
@@ -100,6 +99,7 @@ function pageTransitionOut(container, pageName) {
         duration: 0,
         translateY: '100vh',
         onComplete:function(){
+            
         }
       })
     // .to($('html,body'), { duration: 0, scrollTo:'0'})
@@ -125,6 +125,7 @@ function pageTransitionOut(container, pageName) {
         onComplete:function(){
             $('.main-navigation').removeClass('active')
             $('body').removeClass('fixed')
+            // $('.contents-wrap > h1').show()
             
         }
     })
@@ -353,6 +354,7 @@ $(function() {
 
 function navClose(){
     $('#header').removeClass('m-menu')
+    $('#header .close').click();
     $('.navTrigger').removeClass('active')
 }
 
@@ -466,7 +468,7 @@ function datagrid(){
 }
 function headerScroll() {
     ScrollTrigger.matchMedia({
-        "(min-width:769px)": function () { // 모바일 작동
+        "(min-width:769px)": function () { // pc 작동
             gsap.to($('#header'), {
                 scrollTrigger: {
                     trigger:'.contents-wrap',
@@ -504,54 +506,173 @@ function headerScroll() {
                     return false;
                 }
                 $('.menu').removeClass("active")
-                $('#header').css({"pointer-events":"all"})
                 gsap
                 .timeline()
+                .add('start')
                 .to($('#header .bg'), {
                     delay:0,
-                    duration:0.15,
+                    duration:0.4,
                     height:'100%',
+                    ease:"power2.out",
                     onStart:function(){
                         setTimeout(() => {
                             $('#header .main-navigation').removeClass('nav-hide')
-                        }, 150);
+                            
+                            $('#header').css({"pointer-events":"all"})
+                            $('#header').addClass('active')
+                        }, 0);
                         
                     },
 
-                })
+                },'start')
+                .to($('#header'), {
+                    delay:0,
+                    duration:0.4,
+                    height:'50vh',
+                    ease:"power2.out",
+                },'start')
             })
-            $('#header').on('mouseleave',function(){
-                if($('#header .main-navigation').hasClass('nav-default')){
-                    return false;
-                }
+            $('#header .close').on('click',function(){
+                // if($('#header .main-navigation').hasClass('nav-default')){
+                //     return false;
+                // }
                 gsap
                 .timeline()
+                .add('start')
                 .set($('#header .bg'), {
                     delay:0,
                     duration:0,
                     onStart:function(){
                         setTimeout(() => {
-                            $('.menu').addClass("active")    
+                            
                             $('#header .main-navigation').addClass('nav-hide')
                             $('#header').css({"pointer-events":"none"})
-                        },150);
+                        },0);
                     },
                 })
                 .to($('#header .bg'), {
                     delay:0.15,
-                    duration:0.3,
+                    duration:0.4,
                     height:'0%',
-                })
+                    ease:"power2.in"
+                },'start')
+                .to($('#header'), {
+                    delay:0.15,
+                    duration:0.4,
+                    height:'auto',
+                    ease:"power2.in",
+                    onComplete:function(){
+                        $('#header').removeClass('active')
+                        $('.menu').addClass("active")    
+                    }
+                },'start')
             })
         },
-        "(max-width:768px)": function () { // pc 작동
-            
+        "(max-width:768px)": function () { // mobile 작동
+            $('.menu').addClass('active')
+            $('.menu').on('click',function(){
+                if($('#header .main-navigation').hasClass('nav-default')){
+                    return false;
+                }
+                $('.menu').removeClass("active")
+                gsap
+                .timeline()
+                .add('start')
+                .to($('#header .bg'), {
+                    delay:0,
+                    duration:0.4,
+                    height:'100%',
+                    ease:"power2.out",
+                    onStart:function(){
+                        setTimeout(() => {
+                            console.log('asdasdas')
+                            $('#header .main-navigation').removeClass('nav-hide')
+                            $('#header').addClass('m-menu')
+                            $('#header').css({"pointer-events":"all"})
+                            $('#header').addClass('active')
+                        }, 150);
+                        
+                    },
+
+                },'start')
+                .to($('#header'), {
+                    delay:0,
+                    duration:0.4,
+                    height:'50vh',
+                    ease:"power2.out",
+                },'start')
+            })
+            $('#header .close').on('click',function(){
+                if($('#header .main-navigation').hasClass('nav-default')){
+                    return false;
+                }
+                gsap
+                .timeline()
+                .add('start')
+                .set($('#header .bg'), {
+                    delay:0,
+                    duration:0,
+                    
+                })
+                .to($('#header .bg'), {
+                    delay:0,
+                    duration:0.4,
+                    height:'0%',
+                    ease:"power2.in",
+                    onStart:function(){
+                        setTimeout(() => {
+                            $('#header').removeClass('m-menu')
+                            
+                            // $('.menu').addClass("active")    
+                            // $('#header .main-navigation').addClass('nav-hide')
+                            // $('#header').css({"pointer-events":"none"})
+                            $('#header').removeClass('active')
+                        });
+                    },
+                    onComplete:function(){
+                        $('#header').removeClass('active')
+                        $('.menu').addClass("active")    
+                    }
+                },'start')
+                .to($('#header'), {
+                    delay:0.15,
+                    duration:0.4,
+                    height:'auto',
+                    ease:"power2.in"
+                },'start')
+            })
         },
     })
     
 }
 
-
+function headerClose(){
+   // if($('#header .main-navigation').hasClass('nav-default')){
+   //     return false;
+   // }
+   // gsap
+   // .timeline()
+   // .set($('#header .bg'), {
+   //     delay:0,
+   //     duration:0,
+   //     
+   // })
+   // .to($('#header .bg'), {
+   //     delay:0,
+   //     duration:0.3,
+   //     height:'0%',
+   //     onStart:function(){
+   //         setTimeout(() => {
+   //             $('#header').removeClass('m-menu')
+   //             $('.menu').show()
+   //             // $('.menu').addClass("active")    
+   //             // $('#header .main-navigation').addClass('nav-hide')
+   //             // $('#header').css({"pointer-events":"none"})
+   //             $('#header').removeClass('active')
+   //         });
+   //     },
+   // })
+}
 function videoAutoPlay(){
     ScrollTrigger.matchMedia({
         "(min-width:769px)": function () { // pc 모바일 작동
