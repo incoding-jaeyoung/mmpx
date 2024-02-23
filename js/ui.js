@@ -18,13 +18,12 @@ window.onload = function () {
 }
 var locoScroll = '';
 function smoothScroll(){
-    const winW = $(window).width()
-    console.log(winW)
+    
     locoScroll = new LocomotiveScroll({
         el: document.querySelector(".contents-wrap"),
         smooth: true,
-        lerp: 0.095,
-        duration: 0.1,
+        lerp: 0.075,
+        duration: 0.75,
         autoResize: true,
         touchMultiplier: 5,
         tablet: {
@@ -70,10 +69,11 @@ const mainNavigation = document.querySelector('.main-navigation')
 function pageTransitionIn(pageName) {
     $('body').addClass('fixed')
     $('.main-navigation').addClass('active')
+    
     headerClose()
     const container = document.querySelector('.contents')
     const screenNum = document.querySelector('.loading-screen')
-    navClose()
+    // navClose()
     return gsap
     .timeline({ delay: 0})
     .add('start')
@@ -84,6 +84,14 @@ function pageTransitionIn(pageName) {
         gsap.to(window, { duration:0.1, scrollTo : 1, delay:0});
         $('.menu').show()
         $('#header').removeClass('active')
+    },onStart:function(){
+        const winW = $(window).width()
+        if(winW > 768 ){
+            $('.menu').css({opacity:0})
+        } else{
+            // gsap.to($('.main-navigation h1'), { duration:0.3, opacity:0});
+        }
+        
     }}, 'start') // 흰판 들어옴
 }
 // Function to add and remove the page transition screen
@@ -98,9 +106,6 @@ function pageTransitionOut(container, pageName) {
     .set(container.querySelector('.contents'), {
         duration: 0,
         translateY: '100vh',
-        onComplete:function(){
-            
-        }
       })
     // .to($('html,body'), { duration: 0, scrollTo:'0'})
     .to(screenNum, {
@@ -126,6 +131,9 @@ function pageTransitionOut(container, pageName) {
             $('.main-navigation').removeClass('active')
             $('body').removeClass('fixed')
             // $('.contents-wrap > h1').show()
+            setTimeout(() => {
+                $('.menu').css({opacity:1})
+            }, 200);
             
         }
     })
@@ -188,15 +196,17 @@ $(function() {
                 $('html,body').animate({
                     scrollTop:0
                 },0)
+                
             },
             async enter(data) {
+                await datagrid()
                 const pageName = data.next.namespace
                 await pageTransitionOut(data.next.container, pageName)
                 await smoothScroll()
                 await headerScroll()
                 await commonTween()
                 await videoAutoPlay()
-                await datagrid()
+                
             },
             async afterEnter(data) {
                 ScrollTrigger.refresh();
@@ -501,10 +511,11 @@ function headerScroll() {
                   },
                 }
               });
-            $('.menu').on('mouseenter',function(){
+            $('.menu').on('click',function(){
                 if($('#header .main-navigation').hasClass('nav-default')){
                     return false;
                 }
+                
                 $('.menu').removeClass("active")
                 gsap
                 .timeline()
@@ -531,6 +542,41 @@ function headerScroll() {
                     height:'50vh',
                     ease:"power2.out",
                 },'start')
+                // .to($('.main-navigation h1'), { duration:0.3, opacity:1},'start')
+            })
+            $('#header a').on('click',function(){
+                // if($('#header .main-navigation').hasClass('nav-default')){
+                //     return false;
+                // }
+                gsap
+                .timeline()
+                .add('start')
+                .set($('#header .bg'), {
+                    delay:0,
+                    duration:0,
+                    onStart:function(){
+                        setTimeout(() => {
+                            // $('#header .main-navigation').addClass('nav-hide')
+                            $('#header').css({"pointer-events":"none"})
+                        },0);
+                    },
+                })
+                .to($('#header .bg'), {
+                    delay:0.15,
+                    duration:0.3,
+                    height:'0%',
+                    ease:"power2.in"
+                },'start')
+                .to($('#header'), {
+                    delay:0.15,
+                    duration:0.3,
+                    height:'auto',
+                    ease:"power2.in",
+                    onComplete:function(){
+                        $('#header').removeClass('active')
+                        $('.menu').addClass("active")    
+                    }
+                },'start')
             })
             $('#header .close').on('click',function(){
                 // if($('#header .main-navigation').hasClass('nav-default')){
@@ -544,7 +590,6 @@ function headerScroll() {
                     duration:0,
                     onStart:function(){
                         setTimeout(() => {
-                            
                             $('#header .main-navigation').addClass('nav-hide')
                             $('#header').css({"pointer-events":"none"})
                         },0);
@@ -552,13 +597,13 @@ function headerScroll() {
                 })
                 .to($('#header .bg'), {
                     delay:0.15,
-                    duration:0.4,
+                    duration:0.3,
                     height:'0%',
                     ease:"power2.in"
                 },'start')
                 .to($('#header'), {
                     delay:0.15,
-                    duration:0.4,
+                    duration:0.3,
                     height:'auto',
                     ease:"power2.in",
                     onComplete:function(){
@@ -585,7 +630,6 @@ function headerScroll() {
                     ease:"power2.out",
                     onStart:function(){
                         setTimeout(() => {
-                            console.log('asdasdas')
                             $('#header .main-navigation').removeClass('nav-hide')
                             $('#header').addClass('m-menu')
                             $('#header').css({"pointer-events":"all"})
@@ -612,33 +656,70 @@ function headerScroll() {
                 .set($('#header .bg'), {
                     delay:0,
                     duration:0,
-                    
-                })
-                .to($('#header .bg'), {
-                    delay:0,
-                    duration:0.4,
-                    height:'0%',
-                    ease:"power2.in",
                     onStart:function(){
                         setTimeout(() => {
                             $('#header').removeClass('m-menu')
-                            
-                            // $('.menu').addClass("active")    
-                            // $('#header .main-navigation').addClass('nav-hide')
-                            // $('#header').css({"pointer-events":"none"})
+                            $('#header .main-navigation').addClass('nav-hide')
                             $('#header').removeClass('active')
-                        });
+                            $('#header').css({"pointer-events":"none"})
+                            console.log('asdasd')
+                        },150);
                     },
+                })
+                .to($('#header .bg'), {
+                    delay:0.15,
+                    duration:0.3,
+                    height:'0%',
+                    ease:"power2.in",
+                    
+                },'start')
+                .to($('#header'), {
+                    delay:0.15,
+                    duration:0.3,
+                    height:'auto',
+                    ease:"power2.in",
                     onComplete:function(){
                         $('#header').removeClass('active')
                         $('.menu').addClass("active")    
                     }
                 },'start')
+            })
+            $('#header a').on('click',function(){
+                if($('#header .main-navigation').hasClass('nav-default')){
+                    return false;
+                }
+                gsap
+                .timeline()
+                .add('start')
+                .set($('#header .bg'), {
+                    delay:0,
+                    duration:0,
+                    onStart:function(){
+                        setTimeout(() => {
+                            $('#header').removeClass('m-menu')
+                            $('#header .main-navigation').addClass('nav-hide')
+                            $('#header').removeClass('active')
+                            $('#header').css({"pointer-events":"none"})
+                            console.log('asdasd')
+                        },150);
+                    },
+                })
+                .to($('#header .bg'), {
+                    delay:0.15,
+                    duration:0.3,
+                    height:'0%',
+                    ease:"power2.in",
+                    
+                },'start')
                 .to($('#header'), {
                     delay:0.15,
-                    duration:0.4,
+                    duration:0.3,
                     height:'auto',
-                    ease:"power2.in"
+                    ease:"power2.in",
+                    onComplete:function(){
+                        $('#header').removeClass('active')
+                        $('.menu').addClass("active")    
+                    }
                 },'start')
             })
         },
@@ -830,6 +911,21 @@ function commonTween() {
                 shuffleText.iteration(true);
             });
         });
+        $(".swiper-button-next").each(function (i) {
+            var dd = $(this);
+            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                shuffleText.iteration(true);
+            });
+        });
+        $(".swiper-button-prev").each(function (i) {
+            var dd = $(this);
+            var shuffleText = new ShuffleText(dd.eq(0)[0], false, false, 8, 60, 0, 11+i);
+            $(this).on('mouseenter', () => {
+                shuffleText.iteration(true);
+            });
+        });
+        
         $(".line .title").each(function (i) {
             var dt = $(this).find("dt");
             var dd = $(this).find("dd");
@@ -860,12 +956,32 @@ function commonTween() {
     ScrollTrigger.matchMedia({
         "(min-width:769px)": function () {
             
-            $('.work-list.selected').find('.grid-item').not(":eq(0)").not(":eq(0)").each(function (e) {
+            $('.work-list.selected').find('.grid-item').not(":eq(0)").not(":eq(0)").each(function (e) { //
                 let text = $(this).find('.thumb dt a')
                 const upmotion = gsap.timeline({
                     scrollTrigger: {
                         trigger: $(this),
-                        start: "90% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        scrub: true, //스크롤에 반응 (없으면 자동재생)
+                        // markers: true,
+                        scroller: ".contents-wrap",
+                        invalidateOnRefresh: true,
+                        toggleActions: "play complete none reverse",
+                    },
+                });
+                upmotion.to(text,1, {
+                    y:'10%',
+                    ease: "none",
+                })
+
+            })
+            $('.work-list.selected').find('.grid-item:eq(0),.grid-item:eq(1)').each(function (e) { //.not(":eq(0)").not(":eq(0)")
+                let text = $(this).find('.thumb dt a')
+                const upmotion = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: $(this),
+                        start: "90% 50%", // 앞 : 객체 , 뒤 : 페이지 전체
                         end: "90% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
                         // markers: true,
@@ -905,8 +1021,8 @@ function commonTween() {
                     duration:0.4,
                     scrollTrigger: {
                         trigger: $(this),
-                        start: "90% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        end: "90% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        start: "50% 100%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
                         // markers: true,
                         invalidateOnRefresh: true,
