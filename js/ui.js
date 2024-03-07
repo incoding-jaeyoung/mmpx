@@ -67,7 +67,7 @@ const mainNavigation = document.querySelector('.main-navigation')
 
 // Function to add and remove the page transition screen
 function pageTransitionIn(pageName) {
-    $('body').addClass('fixed')
+    // $('body').addClass('fixed')
     $('.main-navigation').addClass('active')
     
     headerClose()
@@ -129,7 +129,7 @@ function pageTransitionOut(container, pageName) {
         transformOrigin: 'top left',
         onComplete:function(){
             $('.main-navigation').removeClass('active')
-            $('body').removeClass('fixed')
+            // $('body').removeClass('fixed')
             // $('.contents-wrap > h1').show()
             setTimeout(() => {
                 $('.menu').css({opacity:1})
