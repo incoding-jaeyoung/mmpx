@@ -642,7 +642,7 @@ a:hover{color:inherit;}
   .work-list.all-item .title .select img{width: 2.2rem; height: auto; margin-left: 0.8rem; transition: all 0.2s ease;}
   .work-list.all-item .grid-item.active .title .select img{transform: rotateZ(180deg);}
   .slider .work-slider .swiper-wrapper{display: flex;}
-  .slider .work-slider .swiper-slide{max-width: 90rem; margin-right: 45rem; aspect-ratio: 3/2 !important;}
+  .slider .work-slider .swiper-slide{max-width: 90rem; margin-right: 45rem; aspect-ratio: 3/2 !important; display: flex;}
   .slider .work-slider .swiper-slide > * {width: 100%; object-fit: cover;}
   .slider .work-slider .swiper-slide span{}
   .slider .work-slider .work-type{font-size: 2rem; display: flex; height: 2.6rem; align-items: center; margin-top: 1rem;}
