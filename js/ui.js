@@ -22,7 +22,7 @@ function smoothScroll(){
     locoScroll = new LocomotiveScroll({
         el: document.querySelector(".contents-wrap"),
         smooth: true,
-        lerp: 0.075,
+        lerp: 0.1,
         duration: 0.75,
         autoResize: true,
         touchMultiplier: 5,
@@ -961,8 +961,8 @@ function commonTween() {
                 const upmotion = gsap.timeline({
                     scrollTrigger: {
                         trigger: $(this),
-                        start: "50% 90%", // 앞 : 객체 , 뒤 : 페이지 전체
-                        end: "50% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        start: "0% 100%", // 앞 : 객체 , 뒤 : 페이지 전체
+                        end: "100% 0%", // 앞 : 객체 , 뒤 : 페이지 전체
                         scrub: true, //스크롤에 반응 (없으면 자동재생)
                         // markers: true,
                         scroller: ".contents-wrap",
@@ -971,7 +971,7 @@ function commonTween() {
                     },
                 });
                 upmotion.to(text,1, {
-                    y:'10%',
+                    y:'12%',
                     ease: "none",
                 })
 
@@ -991,7 +991,7 @@ function commonTween() {
                     },
                 });
                 upmotion.to(text,1, {
-                    y:'10%',
+                    y:'12%',
                     ease: "none",
                 })
 
