@@ -1,0 +1,332 @@
+<?php
+//path include
+include_once "./_pdo47_path.php";
+include_once PDO47_PATH."/_pdo47_common.php";
+include_once PDO47_PATH."/_pdo47_database.php";
+include_once PDO47_PATH."/_pdo47_function.php";
+include_once PDO47_PATH."/_pdo47_session.php";
+
+//set
+$set = array();
+$set['title'] = (string) "프로젝트";
+$set['fname_arr'] = (array) explode(".", basename($_SERVER['PHP_SELF']));
+$set['id_name'] = (string) "goods_data_id";
+$set['now_url'] = substr(str_replace(basename($_SERVER['PHP_SELF']), "", $_SERVER['PHP_SELF']), 0, -1);
+$set['upload_path'] = PDO47_PATH_DATA."/shop";
+?>
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="Author" content="mmpx" />
+    <meta name="description" content="mmpx is a multidimensional creative studio specialised in the fields of design and visual arts.">
+    <meta name="keywords" content="브랜드 디자인, 미디어 아트, 웹 디자인, UI/UX 디자인, Brand Design, Media art, Web design, UI/UX design">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="" type="image/x-icon">
+	<!-- sns link -->
+	<meta name="og:site_name" content="mmpx" />
+	<meta name="og:title" content="mmpx - a multidimensional creative studio">
+	<meta name="og:description" content="mmpx is a multidimensional creative studio specialised in the fields of design and visual arts.">
+	<meta name="og:type" content="website"> 
+	<meta name="og:url" content="mmpx.kr">
+    <meta name="og:image" content="img/mmpx.png"> 
+    <meta name="format-detection" content="telephone=no">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <title>mmpx - a multidimensional creative studio</title> <!-- 채움 -->
+	<link rel="stylesheet" href="css/style.css" />
+</head>
+<!-- Google tag (gtag.js) -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5K5K3SK7DP"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-5K5K3SK7DP');
+</script>
+-->
+<body>
+	<div class="loading-container">
+		<div class="loading-screen"></div>
+	</div>
+
+
+  <!-- Better to wrap barba container as close as possible -->
+  <div id="wrapper" data-barba="wrapper" >
+
+	<button type="button" class="menu">
+		<span class="navTrigger"><i></i><i></i><i></i></span>
+	</button>
+	<header id="header">
+		<nav class="main-navigation nav-hide">
+			<ul>
+				<li><a href="index.html"><span><em class="shuffleText-menu">work</em>,</span></a></li>
+				<li><a href="about.html"><span><em class="shuffleText-menu">about</em>,</span></a></li>
+				<li><a href="contact.html"><span><em class="shuffleText-menu">contact</em></span></a></li>
+			</ul>
+			<h1><a href="index.html"><span><em class="shuffleText-menu">m&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;p&nbsp;x</em></span></a></h1>
+
+		</nav>
+		<div class="bg"><button type="button" class="close shuffleText-menu">close</button></div>
+	</header>
+    <!-- Only this section changes on link navigation -->
+    <section class="contents-wrap" data-barba="container" data-barba-namespace="index">
+		<h1><a href="index.html">m&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;p&nbsp;x</a></h1>
+		<article class="contents">
+			<div class="project-type top">
+				<ul>
+					<li class="selected active"><a href="javascript:void(0);"><p class="shuffleText">selected projects</p><em>,</em><span>00</span></a></li>
+					<li class="all"><a href="javascript:void(0);"><p class="shuffleText">all projects</p><span>00</span></a></li>
+				</ul>
+			</div>
+			<div class="work-wrap">
+				<div class="work-list selected">
+                    <?php
+                    $query = "
+                    SELECT goods_data_id, status, name, category, selected_image_pc
+                    FROM pdo_shop_project_data
+                    WHERE selected_image_pc <> '' OR status = '공란'
+                    ORDER BY sort ASC
+                    LIMIT 0, 5
+                    ";
+                    $data = data_query($query);
+                    while($row = data_assoc($data)):
+                    ?>
+                    <div class="grid-item">
+						<dl class="thumb">
+							<dt>
+                                <?php if(stristr($row['selected_image_pc'], '.mp4')):?>
+								<a href="./detail.html?goods_data_id=<?=$row['goods_data_id']?>">
+									<video poster="" loop="true" muted="true" width="100%" height="100%" autoplay="autoplay" playsinline>
+										<source src="<?=$set['upload_path']?>/<?=$row['selected_image_pc']?>" type="video/mp4" />
+									</video>
+								</a>
+                                <?php else:?>
+                                <a href="./detail.html?goods_data_id=<?=$row['goods_data_id']?>"><img src="<?=$set['upload_path']?>/<?=$row['selected_image_pc']?>" alt=""></a>
+                                <?php endif?>
+							</dt>
+							<dd class="title"><?=$row['name']?></dd>
+							<dd class="cate"><?=!empty($row['category']) ? $row['category'] : ""?></dd>
+						</dl>
+					</div>
+                    <?php endwhile?>
+
+                    <?php
+                    $query = "
+                    SELECT goods_data_id, status, name, category, selected_image_pc
+                    FROM pdo_shop_project_data
+                    WHERE selected_image_pc <> '' OR status = '공란'
+                    ORDER BY sort ASC
+                    LIMIT 5, 10000
+                    ";
+                    $data = data_query($query);
+                    while($row = data_assoc($data)):
+                    ?>
+                    <?php if(!empty($row['status']) && $row['status'] == "공란"):?>
+                    <div class="grid-item blank" style=""></div>
+                    <?php else:?>
+					<div class="grid-item">
+						<dl class="thumb">
+							<dt>
+                                <?php if(stristr($row['selected_image_pc'], '.mp4')):?>
+								<?php if(!empty($row['status']) && $row['status'] == "상세있음"):?><a href="./detail.html?goods_data_id=<?=$row['goods_data_id']?>"><?php endif?>
+									<video poster="" loop="true" muted="true" width="100%" height="100%" autoplay="autoplay" playsinline>
+										<source src="<?=$set['upload_path']?>/<?=$row['selected_image_pc']?>" type="video/mp4" />
+									</video>
+								<?php if(!empty($row['status']) && $row['status'] == "상세있음"):?></a><?php endif?>
+                                <?php else:?>
+                                <?php if(!empty($row['status']) && $row['status'] == "상세있음"):?><a href="./detail.html?goods_data_id=<?=$row['goods_data_id']?>"><?php endif?><img src="<?=$set['upload_path']?>/<?=$row['selected_image_pc']?>" alt=""><?php if(!empty($row['status']) && $row['status'] == "상세있음"):?></a><?php endif?>
+                                <?php endif?>
+							</dt>
+							<dd class="title"><?=$row['name']?></dd>
+							<dd class="cate"><?=!empty($row['category']) ? $row['category'] : ""?></dd>
+						</dl>
+					</div>
+                    <?php endif?>
+                    <?php endwhile?>
+				</div>
+			</div>
+			<div class="project-type bottom">
+				<ul>
+					<li class="selected"><a href="javascript:void(0);"><p class="shuffleText">selected projects</p><em>,</em><span>00</span></a></li>
+					<li class="all active"><a href="javascript:void(0);"><p class="shuffleText">all projects</p><span>00</span></a></li>
+				</ul>
+			</div>
+			<div class="filter-block">
+				<div class="title"><button type="button" data-filter="*"><img src="img/ico-plus.svg" alt=""><p><span class="shuffleText">Filters</span><span class="shuffleText">Close</span></p></button></div>
+				<div class="filter-list">
+					<ul class="button-group filters-button-group">
+                        <?php
+                        $query = "
+                        SELECT category_config_id, name
+                        FROM pdo_shop_category_config
+                        WHERE depth = 0
+                        ORDER BY sort ASC
+                        ";
+                        $cat_data = data_query($query);
+                        while($cat_row = data_assoc($cat_data)):
+                        ?>
+						<li><button type="button" data-filter=".category<?=$cat_row['category_config_id']?>"><?=$cat_row['name']?></button></li>
+                        <?php endwhile?>
+					</ul>
+				</div>
+			</div>
+			<div class="work-wrap">
+				<div class="work-list all-item">
+                    <?php
+                    $query = "
+                    SELECT goods_data_id, status, name, category
+                    FROM pdo_shop_project_data
+                    ORDER BY sort ASC
+                    ";
+                    $data = data_query($query);
+                    while($row = data_assoc($data)):
+                    ?>
+                    <?php if(!empty($row['status']) && $row['status'] == "상세있음"):?>
+                    <div class="grid-item <?=pdo47_get_filter_id($row['goods_data_id'])?>">
+						<div class="line">
+							<div class="title">
+								<dl>
+									<dt><?=$row['name']?></dt>
+									<dd><?=pdo47_get_filter_name($row['goods_data_id'])?></dd>
+								</dl>
+								<p class="select"><span>Selected</span></p>
+								<p class="open"><button type="button"><img src="img/ico-close-p.svg" alt=""> <img src="img/ico-open.svg" alt=""></button></p>
+							</div>
+							<div class="slider">
+								<div class="swiper work-slider">
+									<div class="swiper-wrapper">
+                                        <?php
+                                        $query = "
+                                        SELECT pc, mo
+                                        FROM pdo_shop_project_list
+                                        WHERE goods_data_id = ".$row['goods_data_id']."
+                                        ORDER BY sort ASC
+                                        ";
+                                        $list_data = data_query($query);
+                                        while($list_row = data_assoc($list_data)):
+                                        ?>
+                                        <?php if(stristr($list_row['pc'], '.mp4')):?>
+										<div class="swiper-slide">
+											<video poster="" loop="true" muted="true" width="100%" height="100%" autoplay="autoplay" playsinline>
+												<source src="<?=$set['upload_path']?>/<?=$list_row['pc']?>" type="video/mp4" />
+											</video>
+										</div>
+                                        <?php else:?>
+                                        <div class="swiper-slide"><img src="<?=$set['upload_path']?>/<?=$list_row['pc']?>" alt=""></div>
+                                        <?php endif?>
+                                        <?php endwhile?>
+									</div>
+									<div class="work-type">
+										<p class="type">Image</p>
+										<div class="swiper-pagination"></div>
+										<div class="control">
+											<div class="swiper-button-prev">Prev</div>
+											<div class="dash"></div>
+											<div class="swiper-button-next">Next</div>
+										</div>
+									</div>
+								</div>
+								<p class="more"><a href="./detail.html?goods_data_id=<?=$row['goods_data_id']?>"><span>Learn more</span> <img src="img/ico-arrow.svg" alt=""></a></p>
+							</div>
+
+						</div>
+					</div>
+                    <?php elseif(!empty($row['status']) && $row['status'] == "제목+카테고리만"):?>
+					<div class="grid-item <?=pdo47_get_filter_id($row['goods_data_id'])?>">
+						<div class="line">
+							<div class="title">
+								<dl>
+									<dt><?=$row['name']?></dt>
+									<dd><?=pdo47_get_filter_name($row['goods_data_id'])?></dd>
+								</dl>
+								<p class="select"><span>Selected</span></p>
+								<p class="open"><button type="button"><img src="img/ico-close-p.svg" alt=""> <img src="img/ico-open.svg" alt=""></button></p>
+							</div>
+						</div>
+					</div>
+                    <?php elseif(!empty($row['status']) && $row['status'] == "상세없음"):?>
+					<div class="grid-item <?=pdo47_get_filter_id($row['goods_data_id'])?>">
+						<div class="line">
+							<div class="title">
+								<dl>
+									<dt><?=$row['name']?></dt>
+									<dd><?=pdo47_get_filter_name($row['goods_data_id'])?></dd>
+								</dl>
+								<p class="select"><span>Selected</span></p>
+								<p class="open"><button type="button"><img src="img/ico-close-p.svg" alt=""> <img src="img/ico-open.svg" alt=""></button></p>
+							</div>
+							<div class="slider">
+								<div class="swiper work-slider">
+									<div class="swiper-wrapper">
+                                        <?php
+                                        $query = "
+                                        SELECT pc, mo
+                                        FROM pdo_shop_project_list
+                                        WHERE goods_data_id = ".$row['goods_data_id']."
+                                        ORDER BY sort ASC
+                                        ";
+                                        $list_data = data_query($query);
+                                        while($list_row = data_assoc($list_data)):
+                                        ?>
+                                        <?php if(stristr($list_row['pc'], '.mp4')):?>
+										<div class="swiper-slide">
+											<video poster="" loop="true" muted="true" width="100%" height="100%" autoplay="autoplay" playsinline>
+												<source src="<?=$set['upload_path']?>/<?=$list_row['pc']?>" type="video/mp4" />
+											</video>
+										</div>
+                                        <?php else:?>
+                                        <div class="swiper-slide"><img src="<?=$set['upload_path']?>/<?=$list_row['pc']?>" alt=""></div>
+                                        <?php endif?>
+                                        <?php endwhile?>
+									</div>
+									<div class="work-type">
+										<p class="type">Image</p>
+										<div class="swiper-pagination"></div>
+										<div class="control">
+											<div class="swiper-button-prev">Prev</div>
+											<div class="dash"></div>
+											<div class="swiper-button-next">Next</div>
+										</div>
+									</div>
+								</div>
+								<p class="more"></p><!-- a 태그 없을시 최소 높이값 설정 -->
+							</div>
+						</div>
+					</div>
+                    <?php endif?>
+                    <?php endwhile?>
+				</div>
+			</div>
+			<div class="work-thumb image"><img src="img/img-work.jpg" alt=""></div>
+			<footer class="footer">
+				<h1>© 2024 mmpx inc.</h1>
+				<ul>
+					<li><a class="shuffleText" href="http://www.naver.com">behance</a></li>
+					<li><a class="shuffleText" href="#">instagram</a></li>
+				</ul>
+			</footer>
+		</article>
+
+    </section>
+
+  </div>
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/barba.umd.js"></script>
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/gsap.min.js"></script>
+<script src="js/ScrollTrigger.min.js"></script>
+<script src="js/swiper-bundle.min.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/locomotive-scroll.min.js"></script>
+<script src="js/ScrollToPlugin3.min.js"></script>
+<script src="js/ui.js"></script>
+</html>

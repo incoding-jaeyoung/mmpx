@@ -1,0 +1,235 @@
+<?php
+//path include
+include_once "./_pdo47_path.php";
+include_once PDO47_PATH."/_pdo47_common.php";
+include_once PDO47_PATH."/_pdo47_database.php";
+include_once PDO47_PATH."/_pdo47_function.php";
+include_once PDO47_PATH."/_pdo47_session.php";
+
+//set
+$set = array();
+$set['title'] = (string) "프로젝트";
+$set['fname_arr'] = (array) explode(".", basename($_SERVER['PHP_SELF']));
+$set['id_name'] = (string) "goods_data_id";
+$set['now_url'] = substr(str_replace(basename($_SERVER['PHP_SELF']), "", $_SERVER['PHP_SELF']), 0, -1);
+$set['upload_path'] = PDO47_PATH_DATA."/shop";
+
+//var
+$_GET[$set['id_name']] = !empty($_GET[$set['id_name']]) ? (int) pdo47_get_int($_GET[$set['id_name']]) : 0;
+
+//row
+$row = array();
+$next = array();
+if(!empty($_GET[$set['id_name']]))
+{
+    $query = "
+    SELECT *
+    FROM pdo_shop_project_data
+    WHERE ".$set['id_name']." = ".$_GET[$set['id_name']]."
+    ";
+    $row = data_fetch($query);
+
+    $query = "
+    SELECT goods_data_id, name
+    FROM pdo_shop_project_data
+    WHERE status = '상세있음'
+        AND ".$set['id_name']." != ".$_GET[$set['id_name']]."
+        AND sort >= ".$row['sort']."
+    ORDER BY sort ASC
+    LIMIT 1
+    ";
+    $next = data_fetch($query);
+}
+?>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="mmpx" />
+    <meta name="description" content="mmpx is a multidimensional creative studio specialised in the fields of design and visual arts.">
+    <meta name="keywords" content="브랜드 디자인, 미디어 아트, 웹 디자인, UI/UX 디자인, Brand Design, Media art, Web design, UI/UX design">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="" type="image/x-icon">
+	<!-- sns link -->
+	<meta name="og:site_name" content="mmpx" />
+	<meta name="og:title" content="mmpx - a multidimensional creative studio">
+	<meta name="og:description" content="mmpx is a multidimensional creative studio specialised in the fields of design and visual arts.">
+	<meta name="og:type" content="website"> 
+	<meta name="og:url" content="mmpx.kr">
+    <meta name="og:image" content="img/mmpx.png"> 
+    <meta name="format-detection" content="telephone=no">
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="http://css3-mediaqueries-js.googlecode.com/svn/trunk/css3-mediaqueries.js"></script>
+    <![endif]-->
+    <title><?=!empty($row['name']) ? $row['name'] : ""?></title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<!-- Google tag (gtag.js) -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5K5K3SK7DP"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'G-5K5K3SK7DP');
+</script>
+-->
+<body>
+	<div class="loading-container">
+		<div class="loading-screen"></div>
+	</div>
+  <!-- Better to wrap barba container as close as possible -->
+  <div id="wrapper" data-barba="wrapper">
+
+	<button type="button" class="menu">
+		<span class="navTrigger"><i></i><i></i><i></i></span>
+	</button>
+	<header id="header">
+		<nav class="main-navigation nav-hide">
+			<ul>
+				<li><a href="index.html"><span><em class="shuffleText-menu">work</em>,</span></a></li>
+				<li><a href="about.html"><span><em class="shuffleText-menu">about</em>,</span></a></li>
+				<li><a href="contact.html"><span><em class="shuffleText-menu">contact</em></span></a></li>
+			</ul>
+			<h1><a href="index.html"><span><em class="shuffleText-menu">m&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;p&nbsp;x</em></span></a></h1>
+		</nav>
+		<div class="bg"><button type="button" class="close shuffleText-menu">close</button></div>
+	</header>
+    <!-- Only this section changes on link navigation -->
+    <section class="contents-wrap" data-barba="container" data-barba-namespace="detail">
+		<h1><a href="index.html">m&nbsp;&nbsp;m&nbsp;&nbsp;&nbsp;p&nbsp;x</a></h1>
+		<article class="contents">
+			<div class="work-contents">
+				<div class="work-header">
+					<h2><?=!empty($row['name']) ? pdo47_textarea($row['name']) : ""?></h2>
+                    <p>두번째 라인 텍스트</p>
+					<div class="preview-img image">
+                        <?php if(!empty($row['image1_pc']) && file_exists($set['upload_path']."/".$row['image1_pc'])):?>
+                            <?php if(stristr($row['image1_pc'], '.mp4')):?>
+                            <video poster="" loop="true" muted="true" width="100%" height="100%" autoplay="autoplay" controls playsinline>
+                                <source src="<?=$set['upload_path']?>/<?=$row['image1_pc']?>" type="video/mp4" />
+                            </video>
+                            <?php else:?>
+                            <img src="<?=$set['upload_path']?>/<?=$row['image1_pc']?>" alt="">
+                            <?php endif?>
+                        <?php endif?>
+                    </div>
+				</div>
+				<div class="work-preview">
+					<h3><?=!empty($row['title']) ? $row['title'] : ""?></h3>
+					<h4><?=!empty($row['contents']) ? pdo47_textarea($row['contents']) : ""?></h4>
+					<div class="work-info">
+						<div class="info-left">
+							<dl class="title">
+								<dt>What we did</dt>
+                                <?php
+                                $query = "
+                                SELECT t2.name
+                                FROM pdo_shop_category_data AS t1
+                                    LEFT JOIN pdo_shop_category_config AS t2 ON(t1.category_config_id = t2.category_config_id)
+                                WHERE t1.goods_data_id = ".$row['goods_data_id']."
+                                ";
+                                $cate_data = data_query($query);
+                                while($cate_row = data_assoc($cate_data)):
+                                ?>
+                                <dd><?=$cate_row['name']?></dd>
+                                <?php endwhile?>
+							</dl>
+							<div class="award">
+								<p class="image">
+                                    <?php if(!empty($row['award_image_pc']) && file_exists($set['upload_path']."/".$row['award_image_pc'])):?>
+                                        <img src="<?=$set['upload_path']?>/<?=$row['award_image_pc']?>">
+                                    <?php endif?>
+                                </p>
+								<dl>
+									<dt><?=!empty($row['award_title']) ? $row['award_title'] : ""?></dt>
+									<dd><?=!empty($row['award_text']) ? pdo47_textarea($row['award_text']) : ""?></dd>
+								</dl>
+							</div>
+						</div>
+						<ul>
+							<li>
+								<p>
+									<?=!empty($row['project_en']) ? pdo47_textarea($row['project_en']) : ""?>
+								</p>
+							</li>
+							<li>
+								<p>
+									<?=!empty($row['project_ko']) ? pdo47_textarea($row['project_ko']) : ""?>
+								</p>
+							</li>
+						</ul>
+						<p class="more"><button type="button"><span><img src="img/ico-more.svg" alt="">More info</span><span><img src="img/ico-more-close.svg" alt="">Close</span></button></p>
+					</div>
+				</div>
+				<div class="work-image up-slide-stagger">
+                    <?php
+                    $query = "
+                    SELECT *
+                    FROM pdo_shop_project_option
+                    WHERE goods_data_id = ".$_GET[$set['id_name']]."
+                    ORDER BY sort ASC
+                    ";
+                    $option_data = data_query($query);
+                    while($option_row = data_assoc($option_data)):
+                    ?>
+                    <?php if($option_row['types'] == 1):?>
+                        <?php if(!empty($option_row['pc']) && file_exists($set['upload_path']."/".$option_row['pc'])):?>
+                        <div class="image">
+                            <img src="<?=$set['upload_path']?>/<?=$option_row['pc']?>" alt="">
+                        </div>
+                        <?php endif?>
+                    <?php elseif($option_row['types'] == 2):?>
+                        <div class="colum">
+                            <?php if(!empty($option_row['pc']) && file_exists($set['upload_path']."/".$option_row['pc'])):?>
+                            <p><img src="<?=$set['upload_path']?>/<?=$option_row['pc']?>" alt=""></p>
+                            <?php endif?>
+                            <?php if(!empty($option_row['pc2']) && file_exists($set['upload_path']."/".$option_row['pc2'])):?>
+                            <p><img src="<?=$set['upload_path']?>/<?=$option_row['pc2']?>" alt=""></p>
+                            <?php endif?>
+                        </div>
+                    <?php elseif($option_row['types'] == 3):?>
+                        <?php if(!empty($option_row['pc']) && file_exists($set['upload_path']."/".$option_row['pc'])):?>
+                        <div class="video">
+                            <video poster="" loop="true" muted="true" width="100%" height="100%" autoplay="autoplay" controls playsinline>
+                                <source src="<?=$set['upload_path']?>/<?=$option_row['pc']?>" type="video/mp4" />
+                            </video>
+                        </div>
+                        <?php endif?>
+                    <?php elseif($option_row['types'] == 4):?>
+                        <p class="large-text"><?=!empty($option_row['pc']) ? pdo47_textarea($option_row['pc']) : ""?></p>
+                    <?php endif?>
+                    <?php endwhile?>
+				</div>
+            </div>
+
+            <?php if(!empty($next['goods_data_id'])):?>
+			<div class="next-page">
+				<p class="title">Next project</p>
+				<div class="work-header">
+					<h2><a href="./detail.html?goods_data_id=<?=$next['goods_data_id']?>"><?=!empty($next['name']) ? pdo47_textarea($next['name']) : ""?></a></h2>
+                    <p>두번째 라인 텍스트</p>
+					<!-- <p class="preview-img image"><img src="img/thumb/@img-work-thumb-01.png" alt=""></p> -->
+				</div>
+			</div>
+            <?php endif?>
+		</article>
+    </section>
+
+  </div>
+
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/barba.umd.js"></script>
+<script src="js/imagesloaded.pkgd.min.js"></script>
+<script src="js/gsap.min.js"></script>
+<script src="js/ScrollTrigger.min.js"></script>
+<script src="js/swiper-bundle.min.js"></script>
+<script src="js/isotope.pkgd.min.js"></script>
+<script src="js/locomotive-scroll.min.js"></script>
+<script src="js/ScrollToPlugin3.min.js"></script>
+<script src="js/ui.js"></script>
+</html>
